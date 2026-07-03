@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nick Holzherr — founder, GitLaw</title>
+<meta name="description" content="Nick Holzherr is a three-time founder: Whisk (acquired by Samsung), Air HR, and now GitLaw — the AI agent for contracts. Bio, press coverage, and podcast topics.">
+<meta property="og:title" content="Nick Holzherr — founder, GitLaw">
+<meta property="og:description" content="Three-time founder. Scaled Whisk to its Samsung acquisition, now building GitLaw — the AI agent for contracts.">
+<meta property="og:image" content="https://nickholzherr.com/img/nick-holzherr-1600.jpg">
+<meta property="og:url" content="https://nickholzherr.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316150f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23fbfaf7' text-anchor='middle'%3ENH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #16150f;
+  --ink-soft: rgba(22, 21, 15, 0.62);
+  --hairline: rgba(22, 21, 15, 0.16);
+  --brick: #a0522d;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --sans: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #16150f;
+    --ink: #ece9e1;
+    --ink-soft: rgba(236, 233, 225, 0.6);
+    --hairline: rgba(236, 233, 225, 0.18);
+    --brick: #c97a52;
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 340;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+a { color: inherit; text-decoration-color: var(--hairline); text-underline-offset: 0.2em; transition: color 0.15s, text-decoration-color 0.15s; }
+a:hover { color: var(--brick); text-decoration-color: var(--brick); }
+a:focus-visible { outline: 2px solid var(--brick); outline-offset: 3px; border-radius: 1px; }
+
+.label {
+  font-family: var(--sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ——— hero ——— */
+header { padding-top: clamp(2.5rem, 7vh, 5.5rem); }
+h1 {
+  font-size: clamp(3.25rem, 11.5vw, 8.5rem);
+  font-weight: 380;
+  font-variation-settings: "opsz" 72;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: clamp(1rem, 2.5vw, 2rem);
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1fr minmax(16rem, 26rem);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: end;
+  padding: clamp(1.75rem, 4vw, 3.5rem) 0 clamp(2.5rem, 6vw, 5rem);
+}
+.hero-text { padding-bottom: clamp(0.5rem, 2vw, 2rem); }
+.tagline {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-style: italic;
+  font-weight: 320;
+  line-height: 1.3;
+  text-wrap: balance;
+  margin: 1.25rem 0 2.25rem;
+}
+.tagline a { text-decoration-thickness: 1px; }
+nav { display: flex; gap: 1.75rem; }
+nav a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+nav a:hover { color: var(--brick); }
+.hero img { width: 100%; height: auto; display: block; }
+figcaption { font-family: var(--sans); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--ink-soft); margin-top: 0.6rem; }
+
+/* ——— sections ——— */
+section { border-top: 1px solid var(--ink); padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(2.75rem, 6vw, 5rem); }
+.cols { display: grid; grid-template-columns: minmax(8rem, 14rem) 1fr; gap: clamp(1.5rem, 4vw, 4rem); }
+.body-text { max-width: 38rem; }
+.body-text p + p { margin-top: 1.1em; }
+
+/* ——— press index ——— */
+.press-list { list-style: none; }
+.press-list li { border-bottom: 1px solid var(--hairline); }
+.press-list li:last-child { border-bottom: none; }
+.press-list a {
+  display: grid;
+  grid-template-columns: 4.5rem 13rem 1fr;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+  text-decoration: none;
+}
+.press-year { font-family: var(--sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; color: var(--ink-soft); }
+.press-outlet { font-size: 1.375rem; font-weight: 420; line-height: 1.2; }
+.press-title { font-style: italic; font-weight: 320; color: var(--ink-soft); line-height: 1.4; transition: color 0.15s; }
+.press-list a:hover .press-title { color: inherit; }
+
+/* ——— topics ——— */
+.topics { list-style: none; max-width: 42rem; }
+.topics li { padding: 1rem 0; border-bottom: 1px solid var(--hairline); }
+.topics li:last-child { border-bottom: none; }
+.topics strong { display: block; font-size: 1.375rem; font-weight: 420; line-height: 1.3; }
+.topics span { font-style: italic; font-weight: 320; color: var(--ink-soft); }
+
+/* ——— footer ——— */
+footer { border-top: 1px solid var(--ink); padding: 2rem 0 3.5rem; display: flex; justify-content: space-between; align-items: baseline; gap: 1.5rem; flex-wrap: wrap; }
+footer .links { display: flex; gap: 1.75rem; }
+footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+footer a:hover { color: var(--brick); }
+.colophon { font-family: var(--sans); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--ink-soft); }
+
+/* ——— load sequence ——— */
+@media (prefers-reduced-motion: no-preference) {
+  h1, .hero-text, .hero figure { opacity: 0; transform: translateY(14px); animation: rise 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) forwards; }
+  .hero-text { animation-delay: 0.12s; }
+  .hero figure { animation-delay: 0.22s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+}
+
+@media (max-width: 44rem) {
+  .hero { grid-template-columns: 1fr; align-items: start; }
+  .hero figure { order: -1; max-width: 22rem; }
+  .cols { grid-template-columns: 1fr; gap: 1.25rem; }
+  .press-list a { grid-template-columns: 3.5rem 1fr; grid-template-rows: auto auto; gap: 0.15rem 1rem; }
+  .press-year { grid-row: 1 / 3; }
+  .press-title { grid-column: 2; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Nick Holzherr</h1>
+  <div class="hero">
+    <div class="hero-text">
+      <p class="tagline">Three-time founder. Building <a href="https://git.law">GitLaw</a>&nbsp;— the AI&nbsp;agent for&nbsp;contracts.</p>
+      <nav aria-label="Sections">
+        <a href="#bio">Bio</a>
+        <a href="#press">Press</a>
+        <a href="#topics">Can talk about</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <figure>
+      <img src="img/nick-holzherr-800.jpg" srcset="img/nick-holzherr-800.jpg 800w, img/nick-holzherr-1600.jpg 1600w" sizes="(max-width: 44rem) 22rem, 26rem" alt="Nick Holzherr" width="800" height="1000" fetchpriority="high">
+      <figcaption>Nick Holzherr, founder of GitLaw</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section id="bio">
+  <div class="cols">
+    <p class="label">Bio</p>
+    <div class="body-text">
+      <p>Nick Holzherr is a three-time founder. He scaled Whisk, an AI-powered food platform, to 120 people across one of the earliest fully distributed global teams before its acquisition by Samsung in 2019, then led it as Samsung Food for six years. Before Whisk, he founded and sold Air&nbsp;HR.</p>
+      <p>His current venture, <a href="https://git.law">GitLaw</a>, is the AI agent for contracts&nbsp;— drafting, reviewing, and managing legal documents for growing businesses. He is also an angel investor in 20+ startups and holds an honorary doctorate from Aston&nbsp;University.</p>
+    </div>
+  </div>
+</section>
+
+<section id="press">
+  <div class="cols">
+    <p class="label">Featured in</p>
+    <ol class="press-list">
+      <!-- PRESS_ROWS -->
+    </ol>
+  </div>
+</section>
+
+<section id="topics">
+  <div class="cols">
+    <p class="label">Can talk about</p>
+    <ul class="topics">
+      <li><strong>AI agents that do real legal work</strong> <span>— what contracts teach you about making agents reliable enough to trust.</span></li>
+      <li><strong>Scaling a fully distributed team to 120 — before it was normal</strong> <span>— Whisk was one of the earliest globally remote companies.</span></li>
+      <li><strong>Selling to Samsung, then staying six years</strong> <span>— what actually happens to a startup inside a giant, from earn-out to running Samsung Food.</span></li>
+      <li><strong>AI in the kitchen</strong> <span>— recipes, personalisation and smart appliances, from Whisk to CES.</span></li>
+      <li><strong>Angel investing as an operator</strong> <span>— patterns from backing 20+ startups while running one.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="links">
+    <a href="https://www.linkedin.com/in/nickholzherr/">LinkedIn</a>
+    <a href="https://drive.google.com/drive/folders/1tLd22Qhz31ZJ0sBidIBj59jh8qR_TJ0j">Download headshots</a>
+  </div>
+  <p class="colophon">Nick Holzherr · nickholzherr.com</p>
+</footer>
+
+</div>
+</body>
+</html>
