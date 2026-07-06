@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The journey — Nick Holzherr</title>
+<meta name="description" content="Nick Holzherr's journey in images: from Switzerland to The Apprentice, Whisk, Samsung, and GitLaw.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316150f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23fbfaf7' text-anchor='middle'%3ENH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fbfaf7;
+  --ink: #16150f;
+  --ink-soft: rgba(22, 21, 15, 0.62);
+  --hairline: rgba(22, 21, 15, 0.16);
+  --brick: #a0522d;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --sans: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #16150f;
+    --ink: #ece9e1;
+    --ink-soft: rgba(236, 233, 225, 0.6);
+    --hairline: rgba(236, 233, 225, 0.18);
+    --brick: #c97a52;
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 340;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+a { color: inherit; text-decoration-color: var(--hairline); text-underline-offset: 0.2em; }
+a:hover { color: var(--brick); }
+a:focus-visible { outline: 2px solid var(--brick); outline-offset: 3px; }
+.label { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+
+header { padding: clamp(2rem, 5vh, 4rem) 0 clamp(1.5rem, 3vw, 2.5rem); }
+.back { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+h1 {
+  font-size: clamp(2.75rem, 8vw, 5.5rem);
+  font-weight: 380;
+  font-variation-settings: "opsz" 72;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 1rem 0 0.75rem;
+}
+.intro { font-size: clamp(1.25rem, 2.2vw, 1.5rem); font-style: italic; font-weight: 320; color: var(--ink-soft); max-width: 34rem; }
+
+.headshots { border-top: 1px solid var(--ink); padding: clamp(1.75rem, 4vw, 3rem) 0; }
+.headshots .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.25rem; }
+.headshots img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; display: block; }
+.headshots p.note { margin-top: 0.75rem; font-family: var(--sans); font-size: 0.6875rem; color: var(--ink-soft); letter-spacing: 0.06em; }
+
+.timeline { border-top: 1px solid var(--ink); padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 5rem); }
+.era { display: grid; grid-template-columns: minmax(6rem, 10rem) 1fr; gap: clamp(1.25rem, 3vw, 3rem); padding: clamp(1.5rem, 3vw, 2.5rem) 0; border-bottom: 1px solid var(--hairline); }
+.era:last-child { border-bottom: none; }
+.era-year {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 380;
+  line-height: 1.1;
+  font-variation-settings: "opsz" 40;
+}
+.era-year small { display: block; font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.4rem; }
+.era-body p { max-width: 36rem; margin-bottom: 1.1rem; }
+.era-imgs { display: flex; flex-wrap: wrap; gap: 1rem; }
+.era-imgs figure { flex: 1 1 16rem; max-width: 26rem; }
+.era-imgs figure.tall { flex-basis: 13rem; max-width: 18rem; }
+.era-imgs img { width: 100%; height: auto; display: block; }
+figcaption { font-family: var(--sans); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--ink-soft); margin-top: 0.5rem; line-height: 1.5; }
+.placeholder {
+  border: 1px dashed var(--hairline);
+  padding: 2.25rem 1.5rem;
+  max-width: 26rem;
+  font-style: italic;
+  font-weight: 320;
+  color: var(--ink-soft);
+}
+.placeholder .label { display: block; margin-bottom: 0.4rem; }
+
+footer { border-top: 1px solid var(--ink); padding: 2rem 0 3.5rem; display: flex; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+.colophon { font-family: var(--sans); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--ink-soft); }
+
+@media (max-width: 44rem) {
+  .era { grid-template-columns: 1fr; gap: 0.75rem; }
+  .headshots .row { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="back" href="/">← Nick Holzherr</a>
+  <h1>The journey</h1>
+  <p class="intro">From the Swiss Alps to The Apprentice, a decade of Whisk, six years inside Samsung — and now GitLaw.</p>
+</header>
+
+<section class="headshots">
+  <p class="label">Current headshots</p>
+  <div class="row">
+    <img src="img/nick-holzherr-800.jpg" alt="Nick Holzherr headshot, brick wall">
+    <img src="img/journey/headshot-b.jpg" alt="Nick Holzherr headshot, city square">
+    <img src="img/journey/headshot-c.jpg" alt="Nick Holzherr headshot, street">
+  </div>
+  <p class="note">Shot October 2025 · <a href="https://drive.google.com/drive/folders/1tLd22Qhz31ZJ0sBidIBj59jh8qR_TJ0j">download full-resolution</a></p>
+</section>
+
+<section class="timeline">
+
+  <div class="era">
+    <div class="era-year">1980s<small>Switzerland</small></div>
+    <div class="era-body">
+      <p>Born and raised in Switzerland — mountains, skiing, and a first taste of doing things properly.</p>
+      <div class="placeholder"><span class="label">Photo to come</span>Childhood in Switzerland — skiing in the Alps.</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2008<small>First business</small></div>
+    <div class="era-body">
+      <p>Co-Go — a coffee business and the first company, started while studying at Aston University in Birmingham.</p>
+      <div class="placeholder"><span class="label">Photo to come</span>Co-Go coffee — the first venture.</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2012<small>The Apprentice</small></div>
+    <div class="era-body">
+      <p>Finalist on BBC's The Apprentice with Lord Sugar — pitching what would become Whisk in front of eight million people, and landing on magazine front covers.</p>
+      <div class="placeholder"><span class="label">Photo to come</span>Lord Sugar, the boardroom, and the magazine covers.</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2012–19<small>Whisk</small></div>
+    <div class="era-body">
+      <p>Building Whisk from Birmingham's iCentrum into an AI food platform used by the world's biggest food brands — one of the earliest fully distributed teams, growing to 120 people worldwide.</p>
+      <div class="era-imgs">
+        <figure><img src="img/journey/whisk-early.jpg" alt="Nick at iCentrum, Birmingham, early Whisk years"><figcaption>Early Whisk years, iCentrum, Birmingham</figcaption></figure>
+        <figure class="tall"><img src="img/journey/couch-portrait.jpg" alt="Nick Holzherr portrait on a red sofa"><figcaption>Startup-sofa era</figcaption></figure>
+        <figure><img src="img/journey/adweek-2016.jpg" alt="Nick on stage at Advertising Week Europe 2016"><figcaption>Advertising Week Europe, London, 2016</figcaption></figure>
+        <figure><img src="img/journey/queen.jpg" alt="Nick Holzherr meeting Queen Elizabeth II at Buckingham Palace"><figcaption>Meeting Queen Elizabeth II at Buckingham Palace</figcaption></figure>
+        <figure><img src="img/journey/doctorate.jpg" alt="Nick receiving an honorary doctorate at Aston University"><figcaption>Honorary doctorate, Aston University</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2019<small>Acquisition</small></div>
+    <div class="era-body">
+      <p>Samsung acquires Whisk. The team joins Samsung's ecosystem, and the platform starts its journey toward every Samsung kitchen.</p>
+      <div class="era-imgs">
+        <figure><img src="img/journey/sks-2019.jpg" alt="Nick speaking at Smart Kitchen Summit 2019"><figcaption>Smart Kitchen Summit, Seattle, 2019</figcaption></figure>
+        <figure><img src="img/journey/samsung-talk.jpg" alt="Nick presenting at Samsung in Korea"><figcaption>Presenting at Samsung, Korea</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2019–25<small>Samsung Food</small></div>
+    <div class="era-body">
+      <p>Leading the platform inside Samsung for six years — relaunched globally as Samsung Food in 2023, on stage at Samsung Developer Conference, CES Innovation Award winner.</p>
+      <div class="era-imgs">
+        <figure><img src="img/journey/sdc-keynote.jpg" alt="Nick Holzherr's name on screen at Samsung Developer Conference keynote"><figcaption>Samsung Developer Conference keynote, San Francisco</figcaption></figure>
+        <figure><img src="img/journey/ces-2024.jpg" alt="Nick with the Samsung Family Hub fridge at CES 2024"><figcaption>CES 2024, Las Vegas — Samsung Food on Family Hub</figcaption></figure>
+        <figure><img src="img/journey/sks-2024.jpg" alt="Nick speaking at Smart Kitchen Summit 2024"><figcaption>Smart Kitchen Summit, 2024</figcaption></figure>
+        <figure><img src="img/journey/swiss-interview.jpg" alt="Nick being interviewed in front of Swiss mountains"><figcaption>Back in Switzerland — TV interview in the Alps, 2024</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2025–<small>GitLaw</small></div>
+    <div class="era-body">
+      <p>Venture three: <a href="https://git.law">GitLaw</a> — the AI agent for contracts. Drafting, reviewing, and managing legal documents for growing businesses.</p>
+      <div class="era-imgs">
+        <figure class="tall"><img src="img/journey/gitlaw-2025.jpg" alt="Nick Holzherr, founder of GitLaw"><figcaption>Founder, GitLaw — 2025</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  <a href="/">← Back to nickholzherr.com</a>
+  <p class="colophon">Nick Holzherr · the journey in images</p>
+</footer>
+
+</div>
+</body>
+</html>
