@@ -61,6 +61,12 @@ h1 {
 .headshots img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; display: block; }
 .headshots p.note { margin-top: 0.75rem; font-family: var(--sans); font-size: 0.6875rem; color: var(--ink-soft); letter-spacing: 0.06em; }
 
+.key-moments { border-top: 1px solid var(--ink); padding: clamp(1.75rem, 4vw, 3rem) 0; }
+.moments { list-style: none; margin-top: 1.25rem; max-width: 44rem; }
+.moments li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1.25rem; padding: 0.55rem 0; border-bottom: 1px solid var(--hairline); align-items: baseline; }
+.moments li:last-child { border-bottom: none; }
+.moments span { font-family: var(--sans); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: var(--ink-soft); }
+
 .timeline { border-top: 1px solid var(--ink); padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 5rem); }
 .era { display: grid; grid-template-columns: minmax(6rem, 10rem) 1fr; gap: clamp(1.25rem, 3vw, 3rem); padding: clamp(1.5rem, 3vw, 2.5rem) 0; border-bottom: 1px solid var(--hairline); }
 .era:last-child { border-bottom: none; }
@@ -116,6 +122,26 @@ footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; let
   <p class="note">Shot October 2025 · <a href="https://drive.google.com/drive/folders/1tLd22Qhz31ZJ0sBidIBj59jh8qR_TJ0j">download full-resolution</a></p>
 </section>
 
+<section class="key-moments">
+  <p class="label">Key moments</p>
+  <ul class="moments">
+    <li><span>1986</span>Born in Switzerland</li>
+    <li><span>2008</span>Co-Go — coffee kiosks at Aston University, the first business</li>
+    <li><span>2010</span>Air HR founded — HR tech for small businesses</li>
+    <li><span>2012</span>The Apprentice final on BBC One — pitches Whisk to Lord Sugar; £170k first round closes weeks later</li>
+    <li><span>2013–14</span>Whisk raises seed and strategic VC; first office and a company football team</li>
+    <li><span>2016</span>The hard year — restructure, back to a 10-person team, 100% focus on revenue</li>
+    <li><span>2017–19</span>Profitable growth as the B2B food platform behind the world's biggest food brands</li>
+    <li><span>2019</span>Three inbound acquisition offers — Samsung wins; team grows from 30 to 100+ in nine months</li>
+    <li><span>2020</span>COVID hits a company that was already remote-first; Google Play "Everyday Essentials" winner</li>
+    <li><span>2021</span>TikTok picks Whisk as its first recipe partner; Apple App of the Day in 160+ countries</li>
+    <li><span>2022</span>Upwork suspends operations in Russia — with roughly 60% of the team based there, a scramble to keep everyone; Air HR sold to a US group</li>
+    <li><span>2023</span>Whisk relaunches globally as Samsung Food</li>
+    <li><span>2024</span>CES Innovation Award; on the SDC keynote stage</li>
+    <li><span>2025</span>GitLaw founded — $3M pre-seed led by Jackson Square Ventures</li>
+  </ul>
+</section>
+
 <section class="timeline">
 
   <div class="era">
@@ -130,7 +156,19 @@ footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; let
     <div class="era-year">2008<small>First business</small></div>
     <div class="era-body">
       <p>Co-Go — a coffee business and the first company, started while studying at Aston University in Birmingham.</p>
-      <div class="placeholder"><span class="label">Photo to come</span>Co-Go coffee — the first venture.</div>
+      <div class="era-imgs">
+        <figure><img src="img/journey/cogo.jpg" alt="The Co-Go Coffee to Go kiosk"><figcaption>The Co-Go kiosk — coffee to go, Birmingham</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-year">2010<small>Air HR</small></div>
+    <div class="era-body">
+      <p>Air HR — HR software for small businesses, founded in Whisk's early days and run alongside it before its sale to a US group in 2022.</p>
+      <div class="era-imgs">
+        <figure><img src="img/journey/airhr-budapest.jpg" alt="Air HR team at their first offsite in Budapest"><figcaption>Air HR's first-ever offsite, Budapest</figcaption></figure>
+      </div>
     </div>
   </div>
 
@@ -138,7 +176,10 @@ footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; let
     <div class="era-year">2012<small>The Apprentice</small></div>
     <div class="era-body">
       <p>Finalist on BBC's The Apprentice with Lord Sugar — pitching what would become Whisk in front of eight million people, and landing on magazine front covers.</p>
-      <div class="placeholder"><span class="label">Photo to come</span>Lord Sugar, the boardroom, and the magazine covers.</div>
+      <div class="era-imgs">
+        <figure class="tall"><img src="img/journey/radio-times.jpg" alt="Framed Radio Times cover featuring The Apprentice"><figcaption>The Radio Times Apprentice cover — framed</figcaption></figure>
+        <figure class="tall"><img src="img/journey/bq-cover.jpg" alt="Nick on the cover of BQ Business Quarter magazine"><figcaption>On the cover of BQ — "The History Boy"</figcaption></figure>
+      </div>
     </div>
   </div>
 
@@ -147,11 +188,14 @@ footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; let
     <div class="era-body">
       <p>Building Whisk from Birmingham's iCentrum into an AI food platform used by the world's biggest food brands — one of the earliest fully distributed teams, growing to 120 people worldwide.</p>
       <div class="era-imgs">
+        <figure><img src="img/journey/whisk-team-2013.jpg" alt="The early Whisk team outside in Birmingham"><figcaption>The early Whisk team, Birmingham</figcaption></figure>
         <figure><img src="img/journey/whisk-early.jpg" alt="Nick at iCentrum, Birmingham, early Whisk years"><figcaption>Early Whisk years, iCentrum, Birmingham</figcaption></figure>
         <figure class="tall"><img src="img/journey/couch-portrait.jpg" alt="Nick Holzherr portrait on a red sofa"><figcaption>Startup-sofa era</figcaption></figure>
         <figure><img src="img/journey/adweek-2016.jpg" alt="Nick on stage at Advertising Week Europe 2016"><figcaption>Advertising Week Europe, London, 2016</figcaption></figure>
         <figure><img src="img/journey/queen.jpg" alt="Nick Holzherr meeting Queen Elizabeth II at Buckingham Palace"><figcaption>Meeting Queen Elizabeth II at Buckingham Palace</figcaption></figure>
         <figure><img src="img/journey/doctorate.jpg" alt="Nick receiving an honorary doctorate at Aston University"><figcaption>Honorary doctorate, Aston University</figcaption></figure>
+        <figure><img src="img/journey/whisk-madrid.jpg" alt="Whisk team dinner at an offsite in Madrid"><figcaption>Whisk offsite, Madrid</figcaption></figure>
+        <figure><img src="img/journey/whisk-lisbon.jpg" alt="Whisk team in purple shirts at the Lisbon offsite"><figcaption>Lisbon offsite — months before the Samsung acquisition</figcaption></figure>
       </div>
     </div>
   </div>
@@ -172,6 +216,8 @@ footer a { font-family: var(--sans); font-size: 0.6875rem; font-weight: 600; let
     <div class="era-body">
       <p>Leading the platform inside Samsung for six years — relaunched globally as Samsung Food in 2023, on stage at Samsung Developer Conference, CES Innovation Award winner.</p>
       <div class="era-imgs">
+        <figure><img src="img/journey/samsung-florence.jpg" alt="Whisk's first offsite as part of Samsung, Florence"><figcaption>First offsite inside Samsung — Florence</figcaption></figure>
+        <figure><img src="img/journey/team-dinner.jpg" alt="Whole-team dinner at a bowling alley"><figcaption>Team dinner at the bowling alley — everyone</figcaption></figure>
         <figure><img src="img/journey/sdc-keynote.jpg" alt="Nick Holzherr's name on screen at Samsung Developer Conference keynote"><figcaption>Samsung Developer Conference keynote, San Francisco</figcaption></figure>
         <figure><img src="img/journey/ces-2024.jpg" alt="Nick with the Samsung Family Hub fridge at CES 2024"><figcaption>CES 2024, Las Vegas — Samsung Food on Family Hub</figcaption></figure>
         <figure><img src="img/journey/sks-2024.jpg" alt="Nick speaking at Smart Kitchen Summit 2024"><figcaption>Smart Kitchen Summit, 2024</figcaption></figure>
