@@ -1,0 +1,61 @@
+name: Publish Maths Garden to /maths
+
+# Builds nick-prototypes/maths-garden with base /maths/ and commits the output into maths/ on main;
+# the legacy Pages build then serves it at https://nickholzherr.com/maths/.
+# Run after merging app changes: gh workflow run maths.yml -R Holzherr/nickholzherr.com
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: nick-prototypes ref to build
+        default: main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: maths
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this site
+        uses: actions/checkout@v4
+
+      - name: Checkout nick-prototypes
+        uses: actions/checkout@v4
+        with:
+          repository: Holzherr/nick-prototypes
+          ref: ${{ github.event.inputs.ref || 'main' }}
+          path: _src
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: _src/maths-garden/package-lock.json
+
+      # Storybook stays on the nick-prototypes preview so this repo doesn't grow by megabytes per publish.
+      - name: Test and build
+        working-directory: _src/maths-garden
+        env:
+          VITE_BASE: /maths/
+        run: |
+          npm ci
+          npm test
+          npm run build
+
+      - name: Replace maths/ and commit
+        run: |
+          SHA=$(git -C _src rev-parse --short HEAD)
+          rm -rf maths
+          cp -r _src/maths-garden/dist maths
+          rm -rf _src
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A maths
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "chore(maths): publish Maths Garden from nick-prototypes@$SHA"
+          git push
