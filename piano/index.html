@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Note-by-note practice guide for This Old Man - which key, which hand, which finger.">
+<meta name="theme-color" content="#17161F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#EDEAE1" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Piano">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317161F'/%3E%3Crect x='5' y='9' width='22' height='15' rx='2' fill='%23F3EEE2'/%3E%3Crect x='10' y='9' width='3' height='9' fill='%2317161F'/%3E%3Crect x='16' y='9' width='3' height='9' fill='%2317161F'/%3E%3Crect x='22' y='9' width='3' height='9' fill='%2317161F'/%3E%3C/svg%3E">
+<title>Tara at the Piano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;600;800;900&display=swap">
+
+<style>
+  :root {
+    --lid:      #17161F;
+    --lid-2:    #211F2B;
+    --lid-3:    #2C2938;
+    --ivory:    #F3EEE2;
+    --ivory-dim:#9A94A6;
+    --ebony:    #16151C;
+    --brass:    #C89B52;
+    --rh:       #F0A73C;
+    --lh:       #3FA48F;
+    --felt:     #B23B31;
+    --good:     #6FBF73;
+    --key-white:#F6F2E7;
+    --key-edge: #C9C2B2;
+    --shadow:   rgba(0,0,0,.45);
+    --step: clamp(10px, 1.4vw, 18px);
+  }
+  :root[data-theme="light"] {
+    --lid:      #EDEAE1;
+    --lid-2:    #F7F5EF;
+    --lid-3:    #E2DED2;
+    --ivory:    #211F2B;
+    --ivory-dim:#6B6578;
+    --brass:    #8A6520;
+    --rh:       #C47612;
+    --lh:       #1E7A68;
+    --felt:     #9C2E25;
+    --key-white:#FFFDF7;
+    --key-edge: #B9B2A2;
+    --shadow:   rgba(60,50,30,.18);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --lid:      #EDEAE1;
+      --lid-2:    #F7F5EF;
+      --lid-3:    #E2DED2;
+      --ivory:    #211F2B;
+      --ivory-dim:#6B6578;
+      --brass:    #8A6520;
+      --rh:       #C47612;
+      --lh:       #1E7A68;
+      --felt:     #9C2E25;
+      --key-white:#FFFDF7;
+      --key-edge: #B9B2A2;
+      --shadow:   rgba(60,50,30,.18);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--lid);
+    color: var(--ivory);
+    font-family: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-weight: 600;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(14px, 2.4vw, 30px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--step);
+  }
+
+  /* ---------- header ---------- */
+  .top { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 20px; }
+  .eyebrow {
+    font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--brass); font-weight: 800; margin: 0 0 4px;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700; font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+    margin: 0; line-height: 1; text-wrap: balance;
+  }
+  .src { color: var(--ivory-dim); font-size: .82rem; margin: 6px 0 0; font-weight: 600; }
+  .legend { display: flex; gap: 14px; margin-left: auto; align-items: center; }
+  .lg { display: flex; align-items: center; gap: 7px; font-size: .82rem; font-weight: 800; }
+  .dot { width: 13px; height: 13px; border-radius: 50%; }
+  .dot.r { background: var(--rh); } .dot.l { background: var(--lh); }
+
+  /* ---------- now panel ---------- */
+  .now {
+    background: var(--lid-2);
+    border: 1px solid color-mix(in srgb, var(--brass) 22%, transparent);
+    border-radius: 20px;
+    padding: clamp(14px, 2vw, 24px);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(14px, 2.6vw, 34px);
+    align-items: center;
+    box-shadow: 0 10px 34px -18px var(--shadow);
+  }
+  @media (max-width: 700px) {
+    .now { grid-template-columns: 1fr; }
+  }
+
+  /* both hands, always on screen */
+  .hands { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hand {
+    flex: 1 1 200px; max-width: 260px;
+    background: var(--lid-3);
+    border: 2px solid transparent;
+    border-radius: 16px; padding: 9px 6px 4px; text-align: center;
+    opacity: .42;
+    transition: opacity .18s, border-color .18s, background .18s;
+  }
+  .hand.active {
+    opacity: 1;
+    border-color: var(--c);
+    background: color-mix(in srgb, var(--c) 13%, var(--lid-3));
+  }
+  .hand.upnext { opacity: .78; border-color: color-mix(in srgb, var(--c) 45%, transparent); }
+  .hlabel {
+    font-size: .8rem; font-weight: 900; margin-bottom: 2px;
+    color: var(--ivory-dim);
+  }
+  .hand.active .hlabel { color: var(--c); }
+  .pill {
+    display: none; font-size: .56rem; letter-spacing: .1em; text-transform: uppercase;
+    background: var(--c); color: var(--lid); border-radius: 20px;
+    padding: 2px 7px; margin-left: 5px; vertical-align: 2px;
+  }
+  .hand.upnext .pill { display: inline-block; }
+  .fan { display: block; margin: 0 auto; width: 100%; height: auto; max-width: 210px; }
+  .fan circle { fill: none; stroke: color-mix(in srgb, var(--ivory-dim) 60%, transparent); stroke-width: 2.5; }
+  .fan text { font-family: "Nunito", sans-serif; text-anchor: middle; dominant-baseline: central; }
+  .fan text.num { font-weight: 800; font-size: 15px; fill: var(--ivory-dim); }
+  .fan text.ltr { font-weight: 900; font-size: 16px; fill: color-mix(in srgb, var(--brass) 70%, transparent); }
+  .hand.active .fan text.ltr { fill: var(--brass); }
+  .fan .on circle { fill: var(--c); stroke: var(--c); }
+  .fan .on text.num { fill: var(--lid); }
+  .fan .on text.ltr { fill: var(--c); }
+  .fan .nx circle { stroke: var(--c); stroke-dasharray: 5 4; }
+  .fingerword { font-size: .84rem; color: var(--ivory-dim); margin-top: 2px; font-weight: 700; min-height: 1.2em; }
+  .hand.active .fingerword { color: var(--c); font-weight: 800; }
+
+  .hold { min-width: 0; }
+  .say {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+    line-height: 1.25; margin: 0 0 14px; text-wrap: balance;
+  }
+  .word { color: var(--brass); font-weight: 800; }
+  .pips { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+  .pip { width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--ivory-dim); }
+  .pip.f { background: var(--hand-c); border-color: var(--hand-c); }
+  .pips .cnt { font-size: .78rem; color: var(--ivory-dim); margin-left: 6px; letter-spacing: .06em; text-transform: uppercase; font-weight: 800; }
+
+  /* ---------- keyboard ---------- */
+  .kbwrap { overflow-x: auto; padding-bottom: 4px; }
+  .kb {
+    position: relative;
+    display: grid;
+    height: clamp(150px, 26vw, 230px);
+    min-width: 620px;
+    background: var(--ebony);
+    padding: 10px 10px 12px;
+    border-radius: 14px;
+    box-shadow: inset 0 2px 0 color-mix(in srgb, var(--brass) 30%, transparent), 0 14px 34px -20px var(--shadow);
+  }
+  .wk {
+    position: relative; border: 0; padding: 0 0 12px;
+    background: var(--key-white);
+    border-radius: 0 0 8px 8px;
+    margin-right: 3px;
+    display: flex; align-items: flex-end; justify-content: center;
+    font: inherit; font-weight: 800; font-size: clamp(.8rem, 1.6vw, 1rem);
+    color: color-mix(in srgb, var(--ebony) 55%, var(--key-white));
+    cursor: pointer;
+    box-shadow: inset 0 -7px 0 -2px var(--key-edge);
+    transition: background .12s, transform .06s, box-shadow .12s;
+  }
+  .wk:last-child { margin-right: 0; }
+  .wk:active, .wk.press { transform: translateY(2px); background: #E9E2D0; }
+  .bk {
+    position: absolute; top: 10px; z-index: 3;
+    width: 4.2%; height: 58%;
+    border: 0; padding: 0;
+    background: linear-gradient(180deg, #3A3745, #15141A);
+    border-radius: 0 0 6px 6px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #0C0B10;
+    transform: translateX(-50%);
+    transition: transform .06s, background .12s;
+  }
+  .bk:active, .bk.press { background: linear-gradient(180deg, #4A4658, #22202A); }
+
+  .wk.target { background: var(--hand-c); color: var(--ebony); animation: pulse 1.5s ease-in-out infinite; }
+  .bk.target  { background: var(--hand-c); animation: pulse 1.5s ease-in-out infinite; }
+  .wk.hit, .bk.hit { background: var(--good) !important; animation: none; }
+  .wk.nextkey { box-shadow: inset 0 -7px 0 -2px var(--key-edge), inset 0 0 0 3px var(--next-c); }
+  .bk.nextkey { box-shadow: 0 3px 0 #0C0B10, inset 0 0 0 3px var(--next-c); }
+  @keyframes pulse {
+    0%, 100% { box-shadow: inset 0 -7px 0 -2px var(--key-edge), 0 0 0 0 color-mix(in srgb, var(--hand-c) 70%, transparent); }
+    50%      { box-shadow: inset 0 -7px 0 -2px var(--key-edge), 0 0 0 11px transparent; }
+  }
+  @media (prefers-reduced-motion: reduce) { .wk.target, .bk.target { animation: none; } }
+
+  .wk .lbl { pointer-events: none; }
+  .kb.nolabels .wk .lbl { opacity: 0; }
+  .wk .mc { position: absolute; bottom: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--brass); }
+  .kb.nolabels .wk .mc { opacity: 1; }
+
+  /* ---------- sheet music ---------- */
+  .score {
+    background: var(--lid-2);
+    border: 1px solid color-mix(in srgb, var(--brass) 18%, transparent);
+    border-radius: 18px; padding: 10px 12px 6px;
+    overflow-x: auto;
+  }
+  .score[hidden] { display: none; }
+  .score svg { display: block; width: 100%; min-width: 660px; height: auto; }
+
+  .stave, .barline { stroke: color-mix(in srgb, var(--ivory-dim) 50%, transparent); fill: none; }
+  .stave { stroke-width: 1.1; }
+  .barline { stroke-width: 1.4; }
+  .barline.end { stroke-width: 4; }
+  .brace { stroke: var(--brass); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .clef { fill: var(--ivory); font-size: 46px;
+    font-family: "Bravura Text", "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif; }
+  .meter { fill: var(--ivory); font-family: "Nunito", sans-serif; font-weight: 900; font-size: 21px; text-anchor: middle; }
+  .barnum { fill: var(--ivory-dim); font-family: "Nunito", sans-serif; font-weight: 800; font-size: 11px; }
+  .lyric { fill: var(--ivory-dim); font-family: "Nunito", sans-serif; font-weight: 700; font-size: 10.5px; text-anchor: middle; letter-spacing: -.01em; }
+
+  .sn { color: var(--lh); transition: opacity .15s; }
+  .sn.R { color: var(--rh); }
+  .sn .head { fill: currentColor; stroke: none; }
+  .sn.half .head { fill: none; stroke: currentColor; stroke-width: 3.4; }
+  .sn .stem, .sn .beam, .sn .ledger, .sn .flag { stroke: currentColor; fill: none; stroke-width: 2.2; }
+  .sn .beam { stroke-width: 4.6; }
+  .sn .ring { stroke: currentColor; stroke-width: 2.6; fill: none; opacity: 0; }
+  .sn .hit { fill: transparent; stroke: none; cursor: pointer; }
+  .sn.done { opacity: .38; }
+  .sn.cur { opacity: 1; }
+  .sn.cur .ring { opacity: 1; }
+  .sn.cur .lyric { fill: currentColor; }
+  .playhead { fill: var(--hand-c); opacity: .13; transition: x .18s, y .18s; }
+  @media (prefers-reduced-motion: reduce) { .playhead { transition: none; } }
+
+  /* ---------- strip ---------- */
+  .strip {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    background: var(--lid-2); padding: 12px; border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--brass) 14%, transparent);
+  }
+  .barlabel {
+    align-self: stretch; display: flex; align-items: center;
+    font-size: .64rem; letter-spacing: .1em; color: var(--ivory-dim);
+    font-weight: 800; padding: 0 6px 0 2px;
+  }
+  .chip {
+    border: 0; font: inherit; cursor: pointer;
+    background: var(--lid-3); color: var(--ivory-dim);
+    border-radius: 9px; padding: 6px 8px 5px;
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+    min-width: 44px; border-bottom: 3px solid transparent;
+    transition: background .12s, color .12s, transform .1s;
+  }
+  .chip .n { font-weight: 900; font-size: .95rem; }
+  .chip .w { font-size: .6rem; opacity: .85; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chip.rh { border-bottom-color: color-mix(in srgb, var(--rh) 55%, transparent); }
+  .chip.lh { border-bottom-color: color-mix(in srgb, var(--lh) 55%, transparent); }
+  .chip.done { color: var(--ivory); background: color-mix(in srgb, var(--good) 22%, var(--lid-3)); }
+  .chip.cur  { background: var(--hand-c); color: var(--ebony); transform: translateY(-2px); }
+  .chip:focus-visible, .wk:focus-visible, .bk:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid var(--brass); outline-offset: 2px;
+  }
+
+  /* ---------- transport ---------- */
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  button.ctl {
+    font: inherit; font-weight: 800; cursor: pointer;
+    background: var(--lid-2); color: var(--ivory);
+    border: 1px solid color-mix(in srgb, var(--brass) 26%, transparent);
+    border-radius: 12px; padding: 12px 18px; font-size: 1rem;
+    transition: background .12s, border-color .12s;
+  }
+  button.ctl:hover { background: var(--lid-3); }
+  button.ctl.big { font-size: 1.3rem; padding: 12px 26px; }
+  button.ctl.play { background: var(--felt); border-color: var(--felt); color: #FFF3EC; }
+  .spacer { flex: 1 1 20px; }
+  .tempo { display: flex; align-items: center; gap: 9px; font-size: .82rem; color: var(--ivory-dim); font-weight: 800; }
+  .tempo input { width: 118px; accent-color: var(--brass); }
+  .tempo b { color: var(--ivory); font-variant-numeric: tabular-nums; }
+  .toggles { display: flex; gap: 8px; }
+  button.tog {
+    font: inherit; font-size: .76rem; font-weight: 800; cursor: pointer;
+    background: transparent; color: var(--ivory-dim);
+    border: 1px solid color-mix(in srgb, var(--ivory-dim) 40%, transparent);
+    border-radius: 20px; padding: 7px 13px;
+  }
+  button.tog[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: var(--lid); }
+
+  .note-foot {
+    margin: 0;
+    font-size: .78rem; color: var(--ivory-dim); line-height: 1.6;
+    border-top: 1px solid color-mix(in srgb, var(--ivory-dim) 20%, transparent);
+    padding-top: 12px; font-weight: 600;
+  }
+  .note-foot b { color: var(--brass); font-weight: 800; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Page 43 &middot; Tara's piano book</p>
+      <h1>This Old Man</h1>
+      <p class="src">4/4 &middot; no sharps or flats &middot; the tune swaps between her hands &mdash; solid finger plays now, dashed finger is next</p>
+    </div>
+    <div class="legend">
+      <span class="lg"><span class="dot r"></span>Right hand</span>
+      <span class="lg"><span class="dot l"></span>Left hand</span>
+    </div>
+  </header>
+
+  <section class="now" id="now">
+    <div class="hands">
+      <div class="hand" id="handL" style="--c: var(--lh)">
+        <div class="hlabel">Left hand<span class="pill">next</span></div>
+        <svg class="fan" id="fanL" viewBox="0 0 210 100" aria-hidden="true"></svg>
+        <div class="fingerword" id="wordL"></div>
+      </div>
+      <div class="hand" id="handR" style="--c: var(--rh)">
+        <div class="hlabel">Right hand<span class="pill">next</span></div>
+        <svg class="fan" id="fanR" viewBox="0 0 210 100" aria-hidden="true"></svg>
+        <div class="fingerword" id="wordR"></div>
+      </div>
+    </div>
+    <div class="hold">
+      <p class="say" id="say">Start here.</p>
+      <div class="pips" id="pips"></div>
+    </div>
+  </section>
+
+  <div class="score" id="score"></div>
+
+  <div class="kbwrap">
+    <div class="kb" id="kb"></div>
+  </div>
+
+  <div class="strip" id="strip"></div>
+
+  <div class="bar">
+    <button class="ctl big" id="prev" title="Previous note (left arrow)">&#9664;</button>
+    <button class="ctl big" id="next" title="Next note (right arrow)">&#9654;</button>
+    <button class="ctl" id="hear">Hear this note</button>
+    <button class="ctl play" id="play" title="Play along (space)">Play along</button>
+    <button class="ctl" id="restart">Start again</button>
+    <div class="spacer"></div>
+    <label class="tempo">Speed <input type="range" id="bpm" min="40" max="120" step="2" value="76"><b id="bpmv">76</b></label>
+    <div class="toggles">
+      <button class="tog" id="tscore" aria-pressed="true">Sheet music</button>
+      <button class="tog" id="tlabels" aria-pressed="true">Letters on keys</button>
+      <button class="tog" id="tsound" aria-pressed="true">Sound</button>
+    </div>
+  </div>
+
+  <p class="note-foot">
+    <b>For Nick:</b> transcribed from the photo of page 43 &mdash; 30 notes, 8 bars. Fingering follows middle-C position
+    (right hand D&nbsp;=&nbsp;2, E&nbsp;=&nbsp;3; left hand C&nbsp;=&nbsp;1, B&nbsp;=&nbsp;2, A&nbsp;=&nbsp;3, G&nbsp;=&nbsp;4), which matches the two
+    fingerings the book actually prints &mdash; the <b>2</b> in bar 1 and the <b>4</b> at &ldquo;nack&rdquo;.
+    The staff above is drawn from that same data and broken into systems where the book breaks them
+    (bars 1&ndash;5, then 6&ndash;8), so you can hold it next to page 43 and compare note for note before Tara trusts it.
+  </p>
+
+</div>
+
+<script>
+"use strict";
+
+/* ---------------- the piece ---------------- */
+/* pitch = MIDI note number. onset/dur in beats, so the speed slider
+   never rewrites the score. hand: R | L. finger: 1..5 */
+const PIECE = {
+  title: "This Old Man",
+  tempoBpm: 76,
+  beatsPerBar: 4,
+  notes: [
+    { p:62, on: 0.0, d:1,   h:"R", f:2, w:"This"   },
+    { p:59, on: 1.0, d:1,   h:"L", f:2, w:"old"    },
+    { p:62, on: 2.0, d:2,   h:"R", f:2, w:"man,"   },
+
+    { p:62, on: 4.0, d:1,   h:"R", f:2, w:"he"     },
+    { p:59, on: 5.0, d:1,   h:"L", f:2, w:"played" },
+    { p:62, on: 6.0, d:2,   h:"R", f:2, w:"one,"   },
+
+    { p:64, on: 8.0, d:1,   h:"R", f:3, w:"He"     },
+    { p:62, on: 9.0, d:1,   h:"R", f:2, w:"played" },
+    { p:60, on:10.0, d:1,   h:"L", f:1, w:"nick"   },
+    { p:59, on:11.0, d:1,   h:"L", f:2, w:"nack"   },
+
+    { p:57, on:12.0, d:1,   h:"L", f:3, w:"on"     },
+    { p:59, on:13.0, d:1,   h:"L", f:2, w:"my"     },
+    { p:60, on:14.0, d:2,   h:"L", f:1, w:"drum,"  },
+
+    { p:62, on:16.0, d:1,   h:"R", f:2, w:"Nick"   },
+    { p:55, on:17.0, d:1,   h:"L", f:4, w:"nack"   },
+    { p:55, on:18.0, d:0.5, h:"L", f:4, w:"pad-"   },
+    { p:55, on:18.5, d:0.5, h:"L", f:4, w:"dy-"    },
+    { p:55, on:19.0, d:1,   h:"L", f:4, w:"wack,"  },
+
+    { p:55, on:20.0, d:0.5, h:"L", f:4, w:"give"   },
+    { p:57, on:20.5, d:0.5, h:"L", f:3, w:"a"      },
+    { p:59, on:21.0, d:0.5, h:"L", f:2, w:"dog"    },
+    { p:60, on:21.5, d:0.5, h:"L", f:1, w:"a"      },
+    { p:62, on:22.0, d:2,   h:"R", f:2, w:"bone,"  },
+
+    { p:62, on:24.0, d:1,   h:"R", f:2, w:"This"   },
+    { p:59, on:25.0, d:1,   h:"L", f:2, w:"old"    },
+    { p:59, on:26.0, d:1,   h:"L", f:2, w:"man"    },
+    { p:60, on:27.0, d:1,   h:"L", f:1, w:"came"   },
+
+    { p:59, on:28.0, d:1,   h:"L", f:2, w:"roll-"  },
+    { p:57, on:29.0, d:1,   h:"L", f:3, w:"ing"    },
+    { p:55, on:30.0, d:2,   h:"L", f:4, w:"home!"  }
+  ]
+};
+
+const LOW = 53, HIGH = 69;              /* F3 .. A4 */
+const NAMES  = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const WHITE  = [0,2,4,5,7,9,11];
+const FINGERS = { 1:"thumb", 2:"pointing finger", 3:"middle finger", 4:"ring finger", 5:"little finger" };
+
+const letterOf = p => NAMES[p % 12];
+const isWhite  = p => WHITE.includes(p % 12);
+const octaveOf = p => Math.floor(p / 12) - 1;
+
+function placeWord(p) {
+  if (p === 60) return "middle C";
+  return p > 60 ? "above middle C" : "below middle C";
+}
+
+/* ---------------- audio ---------------- */
+let ac = null, soundOn = true;
+function audio() {
+  if (!soundOn) return null;
+  if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+  if (ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(midi, dur, vel) {
+  const c = audio(); if (!c) return;
+  dur = dur || 1.1; vel = vel || 1;
+  const f = 440 * Math.pow(2, (midi - 69) / 12);
+  const t = c.currentTime;
+  const out = c.createGain();
+  out.connect(c.destination);
+  out.gain.setValueAtTime(0.0001, t);
+  out.gain.exponentialRampToValueAtTime(0.2 * vel, t + 0.012);
+  out.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  [[1, 1], [2, 0.30], [3, 0.11], [4, 0.05], [6, 0.02]].forEach(function (pair) {
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = pair[0] === 1 ? "triangle" : "sine";
+    o.frequency.value = f * pair[0];
+    g.gain.value = pair[1];
+    o.connect(g); g.connect(out);
+    o.start(t); o.stop(t + dur + 0.06);
+  });
+}
+function click(accent) {
+  const c = audio(); if (!c) return;
+  const t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+  o.frequency.value = accent ? 1500 : 1000;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(accent ? 0.1 : 0.05, t + 0.004);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+  o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + 0.09);
+}
+function chime() {
+  const c = audio(); if (!c) return;
+  [76, 83, 88].forEach(function (m, i) { setTimeout(function () { tone(m, 0.5, 0.45); }, i * 70); });
+}
+
+/* ---------------- keyboard ---------------- */
+const kb = document.getElementById("kb");
+const keyEls = {};
+(function buildKeyboard() {
+  const whites = [];
+  for (let p = LOW; p <= HIGH; p++) if (isWhite(p)) whites.push(p);
+  kb.style.gridTemplateColumns = "repeat(" + whites.length + ", 1fr)";
+
+  whites.forEach(function (p) {
+    const b = document.createElement("button");
+    b.className = "wk";
+    b.type = "button";
+    b.dataset.pitch = p;
+    b.setAttribute("aria-label", letterOf(p) + " " + octaveOf(p));
+    b.innerHTML = '<span class="lbl">' + letterOf(p) + "</span>" + (p === 60 ? '<span class="mc"></span>' : "");
+    kb.appendChild(b);
+    keyEls[p] = b;
+  });
+
+  for (let p = LOW; p <= HIGH; p++) {
+    if (isWhite(p)) continue;
+    const below = whites.filter(function (w) { return w < p; }).length;   /* whites to the left */
+    const b = document.createElement("button");
+    b.className = "bk";
+    b.type = "button";
+    b.dataset.pitch = p;
+    b.setAttribute("aria-label", letterOf(p) + " " + octaveOf(p));
+    b.style.left = "calc(10px + (100% - 20px) * " + (below / whites.length) + ")";
+    kb.appendChild(b);
+    keyEls[p] = b;
+  }
+
+  kb.addEventListener("click", function (e) {
+    const k = e.target.closest("[data-pitch]");
+    if (k) press(Number(k.dataset.pitch));
+  });
+})();
+
+/* ---------------- strip ---------------- */
+const strip = document.getElementById("strip");
+const chips = [];
+(function buildStrip() {
+  let bar = -1;
+  PIECE.notes.forEach(function (n, i) {
+    const b = Math.floor(n.on / PIECE.beatsPerBar);
+    if (b !== bar) {
+      bar = b;
+      const lab = document.createElement("span");
+      lab.className = "barlabel";
+      lab.textContent = b + 1;
+      strip.appendChild(lab);
+    }
+    const c = document.createElement("button");
+    c.type = "button";
+    c.className = "chip " + (n.h === "R" ? "rh" : "lh");
+    c.innerHTML = '<span class="n">' + letterOf(n.p) + '</span><span class="w">' + n.w + "</span>";
+    c.addEventListener("click", function () { stop(); goTo(i); });
+    strip.appendChild(c);
+    chips.push(c);
+  });
+})();
+
+/* ---------------- sheet music ----------------
+   Grand staff drawn straight from the score data. Systems are broken where the
+   book breaks them (bars 1-5, then 6-8) so the screen matches the page.
+   Note colour = the hand that plays it.                                        */
+const SCORE = (function () {
+  const SYS = [[0, 1, 2, 3, 4], [5, 6, 7]];
+  const W = 1000, PAD = 96, BARW = 178, SYSH = 200, TOP = 18;
+  const H = TOP + SYS.length * SYSH;
+  const DIA = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
+  const dia = function (p) { return Math.floor(p / 12) * 7 + DIA[p % 12]; };
+  /* E4 sits on the treble bottom line; A3 sits on the bass top line */
+  const yFor = function (p, hand, oy) {
+    return hand === "R" ? oy + 40 - (dia(p) - dia(64)) * 5
+                        : oy + 90 - (dia(p) - dia(57)) * 5;
+  };
+
+  const lay = PIECE.notes.map(function (n, i) {
+    const bar = Math.floor(n.on / PIECE.beatsPerBar);
+    const beat = n.on - bar * PIECE.beatsPerBar;
+    let s = 0, col = 0;
+    SYS.forEach(function (bars, si) {
+      const k = bars.indexOf(bar);
+      if (k >= 0) { s = si; col = k; }
+    });
+    const oy = TOP + s * SYSH;
+    return {
+      i: i, n: n, oy: oy, bar: bar,
+      x: PAD + col * BARW + 17 + (beat / PIECE.beatsPerBar) * (BARW - 32),
+      y: yFor(n.p, n.h, oy)
+    };
+  });
+
+  function svgLine(cls, x1, y1, x2, y2) {
+    return '<line class="' + cls + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
+  }
+
+  let s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="This Old Man, grand staff">';
+
+  /* staves, brace, clefs, time signature, barlines */
+  SYS.forEach(function (bars, si) {
+    const oy = TOP + si * SYSH;
+    const x1 = 14, x2 = PAD + bars.length * BARW;
+    for (let k = 0; k < 5; k++) {
+      s += svgLine("stave", x1, oy + k * 10, x2, oy + k * 10);
+      s += svgLine("stave", x1, oy + 90 + k * 10, x2, oy + 90 + k * 10);
+    }
+    s += '<path class="brace" d="M' + (x1 + 1) + " " + (oy + 2) + "q-7 65 0 128" + '"/>';
+    s += '<text class="clef" x="24" y="' + (oy + 32) + '">&#x1D11E;</text>';
+    s += '<text class="clef" x="24" y="' + (oy + 106) + '" style="font-size:38px">&#x1D122;</text>';
+    [oy, oy + 90].forEach(function (ty) {
+      s += '<text class="meter" x="74" y="' + (ty + 17) + '">4</text>';
+      s += '<text class="meter" x="74" y="' + (ty + 37) + '">4</text>';
+    });
+    bars.forEach(function (bar, k) {
+      const bx = PAD + k * BARW;
+      s += '<text class="barnum" x="' + (bx + 3) + '" y="' + (oy - 5) + '">' + (bar + 1) + "</text>";
+      s += svgLine("barline", bx, oy, bx, oy + 130);
+    });
+    const last = si === SYS.length - 1;
+    s += svgLine("barline" + (last ? " end" : ""), x2 - (last ? 2 : 0), oy, x2 - (last ? 2 : 0), oy + 130);
+    if (last) s += svgLine("barline", x2 - 8, oy, x2 - 8, oy + 130);
+  });
+
+  s += '<rect class="playhead" id="playhead" x="0" y="0" width="30" height="150" rx="7"/>';
+
+  /* notes */
+  const beamed = {};
+  lay.forEach(function (L, i) {
+    const nx = lay[i + 1];
+    if (L.n.d === 0.5 && !beamed[i] && nx && nx.n.d === 0.5 && nx.bar === L.bar && nx.n.h === L.n.h) {
+      beamed[i] = nx.i; beamed[nx.i] = -1;
+    }
+  });
+
+  lay.forEach(function (L) {
+    const up = L.n.h === "R";
+    const sx = L.x + (up ? 5.8 : -5.8);
+    const half = L.n.d >= 2;
+    let g = '<g class="sn ' + L.n.h + (half ? " half" : "") + '" id="sn' + L.i + '">';
+
+    /* ledger lines */
+    if (up) { for (let yy = L.oy + 50; yy <= L.y; yy += 10) g += svgLine("ledger", L.x - 10, yy, L.x + 10, yy); }
+    else    { for (let yy = L.oy + 80; yy >= L.y; yy -= 10) g += svgLine("ledger", L.x - 10, yy, L.x + 10, yy); }
+
+    /* stem, with beams flattened to the outer note of the pair */
+    let stemEnd = L.y + (up ? -32 : 32);
+    const partner = beamed[L.i];
+    if (partner > 0) {
+      const P = lay[partner];
+      stemEnd = up ? Math.min(L.y, P.y) - 32 : Math.max(L.y, P.y) + 32;
+      g += svgLine("beam", sx, stemEnd, P.x + (up ? 5.8 : -5.8), stemEnd);
+    } else if (beamed[L.i] === -1) {
+      const prev = lay[L.i - 1];
+      stemEnd = up ? Math.min(L.y, prev.y) - 32 : Math.max(L.y, prev.y) + 32;
+    } else if (L.n.d === 0.5) {
+      g += '<path class="flag" d="M' + sx + " " + stemEnd + "q9 6 8 17" + '"/>';
+    }
+    g += svgLine("stem", sx, L.y, sx, stemEnd);
+
+    g += '<ellipse class="head" cx="' + L.x + '" cy="' + L.y + '" rx="6.4" ry="4.9" transform="rotate(-18 ' + L.x + " " + L.y + ')"/>';
+    g += '<circle class="ring" cx="' + L.x + '" cy="' + L.y + '" r="12"/>';
+    /* hollow note heads have no fill, so give every note a real hit target */
+    g += '<circle class="hit" cx="' + L.x + '" cy="' + L.y + '" r="16"/>';
+    g += '<text class="lyric" x="' + L.x + '" y="' + (L.oy + 168) + '">' + L.n.w + "</text>";
+    s += g + "</g>";
+  });
+
+  document.getElementById("score").innerHTML = s + "</svg>";
+
+  const ph = document.getElementById("playhead");
+  const els = lay.map(function (L) { return document.getElementById("sn" + L.i); });
+  els.forEach(function (el, i) {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", function () { stop(); goTo(i); });
+  });
+
+  return {
+    update: function (cur, doneArr) {
+      els.forEach(function (el, i) {
+        el.classList.toggle("cur", i === cur);
+        el.classList.toggle("done", doneArr[i] && i !== cur);
+      });
+      const L = lay[cur];
+      ph.setAttribute("x", L.x - 15);
+      ph.setAttribute("y", L.oy - 8);
+    }
+  };
+})();
+
+/* ---------------- guidance ---------------- */
+function whiteDistance(a, b) {
+  const lo = Math.min(a, b), hi = Math.max(a, b);
+  let n = 0;
+  for (let p = lo + 1; p <= hi; p++) if (isWhite(p)) n++;
+  return (b > a ? 1 : -1) * n;
+}
+function guidance(i) {
+  const n = PIECE.notes[i], prev = i > 0 ? PIECE.notes[i - 1] : null;
+  const L = letterOf(n.p);
+  if (!prev) {
+    return "Put your <span class='word'>" + FINGERS[n.f] + "</span> on <span class='word'>" + L + "</span> and play it.";
+  }
+  if (prev.h !== n.h) {
+    return "Swap hands &mdash; now the <span class='word'>" + (n.h === "R" ? "right" : "left") +
+           "</span> hand plays <span class='word'>" + L + "</span>.";
+  }
+  if (prev.p === n.p) {
+    return "Same key again &mdash; stay on <span class='word'>" + L + "</span>.";
+  }
+  const d = whiteDistance(prev.p, n.p);
+  const dir = d > 0 ? "up" : "down";
+  const k = Math.abs(d);
+  return (k === 1 ? "One key " : k + " keys ") + dir + " to <span class='word'>" + L + "</span>.";
+}
+
+/* ---------------- state ---------------- */
+let idx = 0, done = new Array(PIECE.notes.length).fill(false);
+
+/* which finger plays which letter, per hand, in this piece */
+const FMAP = { R: {}, L: {} };
+PIECE.notes.forEach(function (n) { FMAP[n.h][n.f] = letterOf(n.p); });
+
+/* Thumbs face each other: right-hand 1 sits leftmost, left-hand 1 rightmost. */
+function drawHand(hand, active, next) {
+  const ys = [30, 12, 2, 12, 26];
+  let html = "";
+  for (let slot = 0; slot < 5; slot++) {
+    const fnum = hand === "R" ? slot + 1 : 5 - slot;
+    const cx = 25 + slot * 40, cy = 22 + ys[slot];
+    const cls = fnum === active ? "on" : (fnum === next ? "nx" : "");
+    const ltr = FMAP[hand][fnum];
+    html += '<g class="' + cls + '">' +
+            '<circle cx="' + cx + '" cy="' + cy + '" r="15"></circle>' +
+            '<text class="num" x="' + cx + '" y="' + cy + '">' + fnum + "</text>" +
+            (ltr ? '<text class="ltr" x="' + cx + '" y="' + (cy + 30) + '">' + ltr + "</text>" : "") +
+            "</g>";
+  }
+  document.getElementById("fan" + hand).innerHTML = html;
+}
+
+function render() {
+  const n = PIECE.notes[idx];
+  const nx = idx + 1 < PIECE.notes.length ? PIECE.notes[idx + 1] : null;
+  const col = n.h === "R" ? "var(--rh)" : "var(--lh)";
+  const root = document.documentElement.style;
+  root.setProperty("--hand-c", col);
+  root.setProperty("--next-c", nx ? (nx.h === "R" ? "var(--rh)" : "var(--lh)") : "transparent");
+
+  document.getElementById("say").innerHTML = guidance(idx);
+
+  /* both hands stay on screen: the playing one lights up, the one that takes
+     over next gets a dashed finger and a "next" flag */
+  ["L", "R"].forEach(function (h) {
+    const isNow  = n.h === h;
+    const isNext = !!nx && nx.h === h && !isNow;
+    drawHand(h, isNow ? n.f : null, isNext ? nx.f : null);
+    const el = document.getElementById("hand" + h);
+    el.classList.toggle("active", isNow);
+    el.classList.toggle("upnext", isNext);
+    document.getElementById("word" + h).textContent =
+      isNow ? FINGERS[n.f] : (isNext ? "gets ready" : "");
+  });
+
+  const beats = Math.max(1, Math.round(n.d * 2) / 2);
+  let pips = "";
+  for (let k = 0; k < Math.ceil(beats); k++) pips += '<span class="pip f"></span>';
+  pips += '<span class="cnt">' + (n.d < 1 ? "quick one" : n.d === 1 ? "1 count" : n.d + " counts") + "</span>";
+  document.getElementById("pips").innerHTML = pips;
+
+  Object.keys(keyEls).forEach(function (p) { keyEls[p].classList.remove("target", "nextkey"); });
+  if (keyEls[n.p]) keyEls[n.p].classList.add("target");
+  if (nx && nx.p !== n.p && keyEls[nx.p]) keyEls[nx.p].classList.add("nextkey");
+
+  SCORE.update(idx, done);
+
+  chips.forEach(function (c, i) {
+    c.classList.toggle("cur", i === idx);
+    c.classList.toggle("done", done[i] && i !== idx);
+  });
+  const cur = chips[idx];
+  if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
+
+function goTo(i) {
+  idx = Math.max(0, Math.min(PIECE.notes.length - 1, i));
+  render();
+}
+
+function flash(p, cls) {
+  const el = keyEls[p]; if (!el) return;
+  el.classList.add(cls);
+  setTimeout(function () { el.classList.remove(cls); }, 260);
+}
+
+function press(p) {
+  const n = PIECE.notes[idx];
+  tone(p, 1.0);
+  if (p === n.p) {
+    flash(p, "hit");
+    done[idx] = true;
+    if (idx === PIECE.notes.length - 1) { chime(); render(); }
+    else goTo(idx + 1);
+  } else {
+    flash(p, "press");
+    render();
+  }
+}
+
+/* ---------------- play along ---------------- */
+let timers = [], playing = false;
+function stop() {
+  playing = false;
+  timers.forEach(clearTimeout); timers = [];
+  document.getElementById("play").textContent = "Play along";
+}
+function playAlong() {
+  stop();
+  playing = true;
+  document.getElementById("play").textContent = "Stop";
+  const bpm = Number(document.getElementById("bpm").value);
+  const beat = 60000 / bpm;
+  const start = idx;
+  const t0 = PIECE.notes[start].on;
+
+  for (let c = 0; c < PIECE.beatsPerBar; c++) {
+    timers.push(setTimeout(function () { click(c === 0); }, c * beat));
+  }
+  const lead = PIECE.beatsPerBar * beat;
+
+  PIECE.notes.slice(start).forEach(function (n, k) {
+    timers.push(setTimeout(function () {
+      idx = start + k;
+      done[idx] = true;
+      render();
+      tone(n.p, Math.max(0.5, n.d * beat / 1000));
+      if (start + k === PIECE.notes.length - 1) {
+        timers.push(setTimeout(function () { stop(); chime(); }, n.d * beat + 200));
+      }
+    }, lead + (n.on - t0) * beat));
+  });
+}
+
+/* ---------------- controls ---------------- */
+document.getElementById("prev").addEventListener("click", function () { stop(); goTo(idx - 1); });
+document.getElementById("next").addEventListener("click", function () { stop(); goTo(idx + 1); });
+document.getElementById("hear").addEventListener("click", function () { tone(PIECE.notes[idx].p, 1.2); });
+document.getElementById("restart").addEventListener("click", function () {
+  stop(); done = new Array(PIECE.notes.length).fill(false); goTo(0);
+});
+document.getElementById("play").addEventListener("click", function () {
+  if (playing) stop(); else playAlong();
+});
+document.getElementById("bpm").addEventListener("input", function (e) {
+  document.getElementById("bpmv").textContent = e.target.value;
+  if (playing) playAlong();
+});
+const scoreEl = document.getElementById("score"), scoreTog = document.getElementById("tscore");
+function setScore(on) {
+  scoreEl.hidden = !on;
+  scoreTog.setAttribute("aria-pressed", String(on));
+  try { localStorage.setItem("tara.score", on ? "1" : "0"); } catch (err) { /* private window */ }
+}
+scoreTog.addEventListener("click", function () {
+  setScore(scoreEl.hidden);
+});
+try { if (localStorage.getItem("tara.score") === "0") setScore(false); } catch (err) { /* ignore */ }
+
+document.getElementById("tlabels").addEventListener("click", function (e) {
+  const on = e.currentTarget.getAttribute("aria-pressed") === "true";
+  e.currentTarget.setAttribute("aria-pressed", String(!on));
+  kb.classList.toggle("nolabels", on);
+});
+document.getElementById("tsound").addEventListener("click", function (e) {
+  const on = e.currentTarget.getAttribute("aria-pressed") === "true";
+  e.currentTarget.setAttribute("aria-pressed", String(!on));
+  soundOn = !on;
+  if (!soundOn) stop();
+});
+document.addEventListener("keydown", function (e) {
+  if (e.key === "ArrowRight") { stop(); goTo(idx + 1); }
+  else if (e.key === "ArrowLeft") { stop(); goTo(idx - 1); }
+  else if (e.key === " ") { e.preventDefault(); if (playing) stop(); else playAlong(); }
+});
+
+document.getElementById("bpm").value = PIECE.tempoBpm;
+document.getElementById("bpmv").textContent = PIECE.tempoBpm;
+render();
+</script>
+</body>
+</html>
