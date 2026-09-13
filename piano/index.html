@@ -154,8 +154,14 @@
   .fan .on text.num { fill: var(--lid); }
   .fan .on text.ltr { fill: var(--c); }
   .fan .nx circle { stroke: var(--c); stroke-dasharray: 5 4; }
+  .fan .unused circle { stroke-dasharray: 2 3; opacity: .55; }
+  .fan .unused text { opacity: .45; }
   .fingerword { font-size: .84rem; color: var(--ivory-dim); margin-top: 2px; font-weight: 700; min-height: 1.2em; }
   .hand.active .fingerword { color: var(--c); font-weight: 800; }
+  .anchor {
+    font-size: .68rem; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--ivory-dim); font-weight: 800; margin-top: 3px; opacity: .85;
+  }
 
   .hold { min-width: 0; }
   .say {
@@ -219,6 +225,20 @@
   }
   @media (prefers-reduced-motion: reduce) { .wk.target, .bk.target { animation: none; } }
 
+  /* where each finger sits before she starts */
+  .badges {
+    position: absolute; top: 7px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 2px; pointer-events: none;
+  }
+  .fbadge {
+    width: 18px; height: 18px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 10.5px; font-weight: 900; color: var(--ebony);
+    box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--key-white) 75%, transparent);
+  }
+  .fbadge.R { background: var(--rh); }
+  .fbadge.L { background: var(--lh); }
+
   .wk .lbl { pointer-events: none; }
   .kb.nolabels .wk .lbl { opacity: 0; }
   .wk .mc { position: absolute; bottom: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--brass); }
@@ -258,6 +278,10 @@
   .sn.cur { opacity: 1; }
   .sn.cur .ring { opacity: 1; }
   .sn.cur .lyric { fill: currentColor; }
+  .sn .nl { fill: var(--lid); font-family: "Nunito", sans-serif; font-weight: 900;
+            font-size: 8px; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .sn.half .nl { fill: currentColor; }
+  .score.noletters .nl { display: none; }
   .playhead { fill: var(--hand-c); opacity: .13; transition: x .18s, y .18s; }
   @media (prefers-reduced-motion: reduce) { .playhead { transition: none; } }
 
@@ -332,6 +356,7 @@
       <p class="eyebrow">Page 43 &middot; Tara's piano book</p>
       <h1>This Old Man</h1>
       <p class="src">4/4 &middot; no sharps or flats &middot; the tune swaps between her hands &mdash; solid finger plays now, dashed finger is next</p>
+      <p class="src">Both thumbs start on middle C. Curved fingers, like keeping Mouse warm under the bridge.</p>
     </div>
     <div class="legend">
       <span class="lg"><span class="dot r"></span>Right hand</span>
@@ -345,11 +370,13 @@
         <div class="hlabel">Left hand<span class="pill">next</span></div>
         <svg class="fan" id="fanL" viewBox="0 0 210 100" aria-hidden="true"></svg>
         <div class="fingerword" id="wordL"></div>
+        <div class="anchor" id="anchorL"></div>
       </div>
       <div class="hand" id="handR" style="--c: var(--rh)">
         <div class="hlabel">Right hand<span class="pill">next</span></div>
         <svg class="fan" id="fanR" viewBox="0 0 210 100" aria-hidden="true"></svg>
         <div class="fingerword" id="wordR"></div>
+        <div class="anchor" id="anchorR"></div>
       </div>
     </div>
     <div class="hold">
@@ -376,7 +403,7 @@
     <label class="tempo">Speed <input type="range" id="bpm" min="40" max="120" step="2" value="76"><b id="bpmv">76</b></label>
     <div class="toggles">
       <button class="tog" id="tscore" aria-pressed="true">Sheet music</button>
-      <button class="tog" id="tlabels" aria-pressed="true">Letters on keys</button>
+      <button class="tog" id="tlabels" aria-pressed="true">Letter names</button>
       <button class="tog" id="tsound" aria-pressed="true">Sound</button>
     </div>
   </div>
@@ -401,6 +428,9 @@ const PIECE = {
   title: "This Old Man",
   tempoBpm: 76,
   beatsPerBar: 4,
+  /* where the hands sit before a note is played: both thumbs on middle C,
+     right hand walking up the white keys, left hand walking down */
+  handPosition: { R: { thumb: 60 }, L: { thumb: 60 } },
   notes: [
     { p:62, on: 0.0, d:1,   h:"R", f:2, w:"This"   },
     { p:59, on: 1.0, d:1,   h:"L", f:2, w:"old"    },
@@ -450,6 +480,16 @@ const FINGERS = { 1:"thumb", 2:"pointing finger", 3:"middle finger", 4:"ring fin
 const letterOf = p => NAMES[p % 12];
 const isWhite  = p => WHITE.includes(p % 12);
 const octaveOf = p => Math.floor(p / 12) - 1;
+
+/* finger -> key for the hand's resting position, walking out from the thumb */
+function nextWhite(p, dir) { let q = p + dir; while (!isWhite(q)) q += dir; return q; }
+function positionMap(hand) {
+  const map = {};
+  let p = PIECE.handPosition[hand].thumb;
+  for (let f = 1; f <= 5; f++) { map[f] = p; p = nextWhite(p, hand === "R" ? 1 : -1); }
+  return map;
+}
+const POS = { R: positionMap("R"), L: positionMap("L") };
 
 function placeWord(p) {
   if (p === 60) return "middle C";
@@ -528,6 +568,31 @@ const keyEls = {};
     kb.appendChild(b);
     keyEls[p] = b;
   }
+
+  /* finger-number badges showing the starting hand position; both thumbs
+     land on middle C, so that key carries one badge from each hand */
+  const onKey = {};
+  ["L", "R"].forEach(function (h) {
+    Object.keys(POS[h]).forEach(function (f) {
+      const p = POS[h][f];
+      (onKey[p] = onKey[p] || []).push({ h: h, f: f });
+    });
+  });
+  Object.keys(onKey).forEach(function (p) {
+    const el = keyEls[p];
+    if (!el) return;
+    const wrap = document.createElement("span");
+    wrap.className = "badges";
+    onKey[p]
+      .sort(function (a, b) { return a.h === "L" ? -1 : 1; })
+      .forEach(function (b) {
+        const d = document.createElement("span");
+        d.className = "fbadge " + b.h;
+        d.textContent = b.f;
+        wrap.appendChild(d);
+      });
+    el.appendChild(wrap);
+  });
 
   kb.addEventListener("click", function (e) {
     const k = e.target.closest("[data-pitch]");
@@ -662,6 +727,8 @@ const SCORE = (function () {
     g += svgLine("stem", sx, L.y, sx, stemEnd);
 
     g += '<ellipse class="head" cx="' + L.x + '" cy="' + L.y + '" rx="6.4" ry="4.9" transform="rotate(-18 ' + L.x + " " + L.y + ')"/>';
+    /* letter name written into the note head - Louise does this by hand for recitals */
+    g += '<text class="nl" x="' + L.x + '" y="' + L.y + '">' + letterOf(L.n.p) + "</text>";
     g += '<circle class="ring" cx="' + L.x + '" cy="' + L.y + '" r="12"/>';
     /* hollow note heads have no fill, so give every note a real hit target */
     g += '<circle class="hit" cx="' + L.x + '" cy="' + L.y + '" r="16"/>';
@@ -741,11 +808,14 @@ function drawHand(hand, active, next) {
     const fnum = hand === "R" ? slot + 1 : 5 - slot;
     const cx = 25 + slot * 40, cy = 22 + ys[slot];
     const cls = fnum === active ? "on" : (fnum === next ? "nx" : "");
-    const ltr = FMAP[hand][fnum];
-    html += '<g class="' + cls + '">' +
+    /* every finger shows the key it rests on; the ones this piece never
+       uses are dimmed so the position still reads as a whole */
+    const ltr = letterOf(POS[hand][fnum]);
+    const unused = FMAP[hand][fnum] ? "" : " unused";
+    html += '<g class="' + cls + unused + '">' +
             '<circle cx="' + cx + '" cy="' + cy + '" r="15"></circle>' +
             '<text class="num" x="' + cx + '" y="' + cy + '">' + fnum + "</text>" +
-            (ltr ? '<text class="ltr" x="' + cx + '" y="' + (cy + 30) + '">' + ltr + "</text>" : "") +
+            '<text class="ltr" x="' + cx + '" y="' + (cy + 30) + '">' + ltr + "</text>" +
             "</g>";
   }
   document.getElementById("fan" + hand).innerHTML = html;
@@ -777,7 +847,7 @@ function render() {
   const beats = Math.max(1, Math.round(n.d * 2) / 2);
   let pips = "";
   for (let k = 0; k < Math.ceil(beats); k++) pips += '<span class="pip f"></span>';
-  pips += '<span class="cnt">' + (n.d < 1 ? "quick one" : n.d === 1 ? "1 count" : n.d + " counts") + "</span>";
+  pips += '<span class="cnt">' + (n.d < 1 ? "half a count" : n.d === 1 ? "1 count" : n.d + " counts") + "</span>";
   document.getElementById("pips").innerHTML = pips;
 
   Object.keys(keyEls).forEach(function (p) { keyEls[p].classList.remove("target", "nextkey"); });
@@ -879,10 +949,12 @@ scoreTog.addEventListener("click", function () {
 });
 try { if (localStorage.getItem("tara.score") === "0") setScore(false); } catch (err) { /* ignore */ }
 
+/* one switch for every letter name on screen: keys and note heads */
 document.getElementById("tlabels").addEventListener("click", function (e) {
   const on = e.currentTarget.getAttribute("aria-pressed") === "true";
   e.currentTarget.setAttribute("aria-pressed", String(!on));
   kb.classList.toggle("nolabels", on);
+  scoreEl.classList.toggle("noletters", on);
 });
 document.getElementById("tsound").addEventListener("click", function (e) {
   const on = e.currentTarget.getAttribute("aria-pressed") === "true";
@@ -894,6 +966,11 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "ArrowRight") { stop(); goTo(idx + 1); }
   else if (e.key === "ArrowLeft") { stop(); goTo(idx - 1); }
   else if (e.key === " ") { e.preventDefault(); if (playing) stop(); else playAlong(); }
+});
+
+["L", "R"].forEach(function (h) {
+  document.getElementById("anchor" + h).textContent =
+    "thumb on middle C";
 });
 
 document.getElementById("bpm").value = PIECE.tempoBpm;
