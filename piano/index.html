@@ -232,7 +232,8 @@
     overflow-x: auto;
   }
   .score[hidden] { display: none; }
-  .score svg { display: block; width: 100%; min-width: 660px; height: auto; }
+  .score { -webkit-overflow-scrolling: touch; }
+  .score svg { display: block; }
 
   .stave, .barline { stroke: color-mix(in srgb, var(--ivory-dim) 50%, transparent); fill: none; }
   .stave { stroke-width: 1.1; }
@@ -384,8 +385,8 @@
     <b>For Nick:</b> transcribed from the photo of page 43 &mdash; 30 notes, 8 bars. Fingering follows middle-C position
     (right hand D&nbsp;=&nbsp;2, E&nbsp;=&nbsp;3; left hand C&nbsp;=&nbsp;1, B&nbsp;=&nbsp;2, A&nbsp;=&nbsp;3, G&nbsp;=&nbsp;4), which matches the two
     fingerings the book actually prints &mdash; the <b>2</b> in bar 1 and the <b>4</b> at &ldquo;nack&rdquo;.
-    The staff above is drawn from that same data and broken into systems where the book breaks them
-    (bars 1&ndash;5, then 6&ndash;8), so you can hold it next to page 43 and compare note for note before Tara trusts it.
+    The staff above is drawn from that same data as one continuous line that scrolls to follow her, so you can
+    read straight through and compare it against page 43 before Tara trusts it.
   </p>
 
 </div>
@@ -563,8 +564,10 @@ const chips = [];
    book breaks them (bars 1-5, then 6-8) so the screen matches the page.
    Note colour = the hand that plays it.                                        */
 const SCORE = (function () {
-  const SYS = [[0, 1, 2, 3, 4], [5, 6, 7]];
-  const W = 1000, PAD = 96, BARW = 178, SYSH = 200, TOP = 18;
+  const BARS = Math.floor(PIECE.notes[PIECE.notes.length - 1].on / PIECE.beatsPerBar) + 1;
+  const SYS = [Array.from({ length: BARS }, function (_, i) { return i; })];
+  const PAD = 96, BARW = 190, SYSH = 196, TOP = 18, ZOOM = 1.1;
+  const W = PAD + SYS[0].length * BARW + 26;
   const H = TOP + SYS.length * SYSH;
   const DIA = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
   const dia = function (p) { return Math.floor(p / 12) * 7 + DIA[p % 12]; };
@@ -594,7 +597,8 @@ const SCORE = (function () {
     return '<line class="' + cls + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
   }
 
-  let s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="This Old Man, grand staff">';
+  let s = '<svg width="' + Math.round(W * ZOOM) + '" height="' + Math.round(H * ZOOM) +
+          '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="This Old Man, grand staff">';
 
   /* staves, brace, clefs, time signature, barlines */
   SYS.forEach(function (bars, si) {
@@ -674,6 +678,8 @@ const SCORE = (function () {
     el.addEventListener("click", function () { stop(); goTo(i); });
   });
 
+  const box = document.getElementById("score");
+
   return {
     update: function (cur, doneArr) {
       els.forEach(function (el, i) {
@@ -683,6 +689,13 @@ const SCORE = (function () {
       const L = lay[cur];
       ph.setAttribute("x", L.x - 15);
       ph.setAttribute("y", L.oy - 8);
+
+      /* keep the current note in view on the single scrolling line */
+      if (!box.hidden) {
+        const target = L.x * ZOOM - box.clientWidth / 2;
+        const max = box.scrollWidth - box.clientWidth;
+        box.scrollLeft = Math.max(0, Math.min(max, target));
+      }
     }
   };
 })();
@@ -859,6 +872,7 @@ function setScore(on) {
   scoreEl.hidden = !on;
   scoreTog.setAttribute("aria-pressed", String(on));
   try { localStorage.setItem("tara.score", on ? "1" : "0"); } catch (err) { /* private window */ }
+  if (on) render();   /* re-centre the line on the current note */
 }
 scoreTog.addEventListener("click", function () {
   setScore(scoreEl.hidden);
