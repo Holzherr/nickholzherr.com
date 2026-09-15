@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Sloth">
+  <!-- Sloth app icon: profile sloth head on the yellow tile. 1024 canvas, 824 px square,
+       185 px corner radius (macOS icon grid). The head and its 56 px ink outline are
+       cropped by the tile. Original artwork, hand-authored. -->
+  <defs>
+    <clipPath id="tile"><rect x="100" y="100" width="824" height="824" rx="185"/></clipPath>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="#FFD21F"/>
+  <g clip-path="url(#tile)">
+    <path fill="#FFFFFF" stroke="#1A140D" stroke-width="56" stroke-linejoin="round" d="M230 1000 C215 780 240 560 340 440 C430 330 580 290 700 350 C790 395 830 470 826 545 C822 610 790 650 730 668 C670 686 628 710 606 770 C590 814 596 910 610 1000 Z"/>
+    <path fill="#1A140D" d="M722 450 C660 424 558 452 478 522 C458 540 474 564 504 557 C590 540 670 514 724 492 C750 482 748 460 722 450 Z"/>
+    <circle cx="668" cy="470" r="15" fill="#FFFFFF"/>
+    <ellipse cx="740" cy="553" rx="32" ry="25" fill="#1A140D"/>
+    <path fill="none" stroke="#1A140D" stroke-width="24" stroke-linecap="round" d="M680 606 Q712 626 744 604"/>
+  </g>
+</svg>

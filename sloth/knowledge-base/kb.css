@@ -108,6 +108,20 @@ summary:focus-visible {
 .brand-sep { color: var(--text-2); }
 .brand-section { color: var(--text-2-strong); }
 
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.home-link {
+  white-space: nowrap;
+  font-size: 14px;
+  color: var(--text-2-strong);
+  text-decoration: none;
+}
+.home-link:hover { color: var(--text); text-decoration: underline; }
+
 .menu-button {
   display: none;
   font: inherit;
@@ -384,6 +398,12 @@ td:last-child, th:last-child { padding-right: 0; }
   .summary { font-size: 17px; }
   .pager { flex-direction: column; }
   .pager .spacer { display: none; }
+}
+
+@media (max-width: 420px) {
+  .site-header-row { padding-left: 16px; padding-right: 16px; }
+  .site-header-actions { gap: 12px; }
+  .brand-sep, .brand-section { display: none; }
 }
 
 @media print {
