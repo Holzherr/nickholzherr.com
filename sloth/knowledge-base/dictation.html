@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Voice dictation · Sloth knowledge base</title>
+<meta name="description" content="Hold or double-tap a key to dictate into any app, and teach Sloth your words.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html" aria-current="page">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Dictation</p>
+<h1>Voice dictation</h1>
+<p class="summary">Hold Right Option, speak, and let go: Sloth transcribes on your Mac and pastes the text where your cursor is. Double-tap the key to dictate hands-free.</p>
+
+<h2>Two ways to dictate</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Mode</th><th>How</th><th>Setting</th></tr></thead>
+  <tbody>
+    <tr><td>Push to talk</td><td>Hold <kbd>Right ⌥</kbd>, speak, release to transcribe.</td><td><span class="ui">Push to Talk</span>, on by default</td></tr>
+    <tr><td>Hands-free</td><td>Double-tap <kbd>Right ⌥</kbd> to start. Tap again to stop.</td><td><span class="ui">Hands-Free Mode</span>, on by default</td></tr>
+  </tbody>
+</table></div>
+<p>Press <kbd>Esc</kbd> while dictating to cancel.</p>
+<p>Change the key in <span class="ui">Settings › Shortcuts</span>. Push to talk takes a single modifier key: left or right Command, Option, Control or Shift, or Fn. You can also set how long you need to hold the key before recording starts.</p>
+
+<h2>Where the text goes</h2>
+<p>Sloth pastes the text into the app that has focus. It puts the text on the clipboard, sends Paste, then puts your previous clipboard contents back about half a second later.</p>
+<p>Past dictations are listed under <span class="ui">Dictations</span> in the main window (<kbd>⌘1</kbd>). The menu bar icon's <span class="ui">Recent Dictations</span> lets you copy one again. <span class="ui">Settings › General › Clear dictation history</span> removes them all.</p>
+
+<h2>Models</h2>
+<p>Dictation uses a speech model on your Mac by default (<span class="ui">Local</span>). If you add an OpenAI or OpenRouter key, you can choose that provider instead in <span class="ui">Settings › Dictation › Speech recognition</span>; your dictated audio is then sent to it.</p>
+
+<h2>Dictionary</h2>
+<p><span class="ui">Settings › Dictionary</span> holds words Sloth should get right: names, product terms, jargon. Each entry can have a replacement, so a word you say is written the way you want. You can import and export the dictionary as JSON.</p>
+<p><span class="ui">Dictionary suggestions</span> is off by default. When on, Sloth briefly reads the text in the focused app after you dictate, spots corrections you made, and suggests dictionary entries. It needs Accessibility.</p>
+
+<h2>Permissions dictation needs</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Permission</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>Microphone</td><td>Record your voice.</td></tr>
+    <tr><td>Input Monitoring</td><td>Notice when you press the dictation key in other apps.</td></tr>
+    <tr><td>Accessibility</td><td>Paste the text into other apps.</td></tr>
+  </tbody>
+</table></div>
+<p>Setup asks for each one. If dictation stops working, see <a href="permissions-troubleshooting.html">Permissions and troubleshooting</a>.</p>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="transcription.html"><span>Previous</span>Transcription and speaker labels</a><a class="next" href="notes-and-summaries.html"><span>Next</span>Notes and summaries</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

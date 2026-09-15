@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>What Sloth is · Sloth knowledge base</title>
+<meta name="description" content="A free Mac app for meeting notes and voice dictation, with no account and no meeting bot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html" aria-current="page">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Basics</p>
+<h1>What Sloth is</h1>
+<p class="summary">Sloth is a free Mac app that transcribes your meetings and turns your voice into text in any app. It has no account, no subscription and no meeting bot.</p>
+
+<h2>What it does</h2>
+<ul>
+  <li><strong>Meeting notes.</strong> Sloth records your Mac's microphone and the call audio, transcribes the meeting on your Mac, and writes notes from the transcript plus anything you typed during the call.</li>
+  <li><strong>Voice dictation.</strong> Hold a key, speak, let go. Sloth types the text into the app you're using.</li>
+  <li><strong>Files you own.</strong> Every meeting is also saved as plain Markdown in a folder on your Mac, so any editor, AI tool or sync service can read it.</li>
+</ul>
+
+<h2>What it costs</h2>
+<p>Nothing. There are no plans, note limits or history caps. Transcription runs on your Mac. For written summaries you pick a provider: your own Claude API key, your Claude subscription through Claude Code, a ChatGPT login, a local Ollama model, or Apple Intelligence on your Mac. Some of those providers have their own costs or usage limits; Sloth adds none.</p>
+
+<h2>What it doesn't do</h2>
+<ul>
+  <li><strong>No meeting bot.</strong> Nothing joins your call. Sloth listens to your Mac's audio, so it works with any call app.</li>
+  <li><strong>No account.</strong> You never sign up for Sloth.</li>
+  <li><strong>No telemetry and no update checks.</strong> Sloth sends no usage data and doesn't phone home for updates.</li>
+  <li><strong>No iCloud or iPhone sync.</strong> Your meetings stay in the folders on your Mac described in <a href="privacy.html">Privacy and your data</a>.</li>
+</ul>
+
+<h2>Mac only</h2>
+<p>Sloth is a native macOS app. There is no Windows, web or phone version.</p>
+
+<h2>Built on Muesli</h2>
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari, released under the MIT licence. Sloth keeps Muesli's dictation and transcription engine and adds its own meeting notes design, the Sloth folder of Markdown files, and the Claude Code summary option. Muesli's original licence and notice files ship with Sloth unchanged.</p>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><span class="spacer"></span><a class="next" href="meeting-capture.html"><span>Next</span>How meeting capture works</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

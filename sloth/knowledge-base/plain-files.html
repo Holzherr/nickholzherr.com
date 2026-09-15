@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Your notes are plain files · Sloth knowledge base</title>
+<meta name="description" content="The Sloth folder layout, frontmatter fields, opening files, changing folders, deletions and file safety.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html" aria-current="page">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Notes</p>
+<h1>Your notes are plain files</h1>
+<p class="summary">Sloth writes every meeting as two Markdown files in a folder on your Mac: one for the notes, one for the transcript. Any editor, AI tool or sync service can read them, and Sloth never touches a file that belongs to another meeting.</p>
+
+<h2>Where the folder is</h2>
+<p>By default the Sloth folder is <code>~/Documents/Sloth</code>. Manage it in <span class="ui">Settings › Meetings › Sloth folder</span>:</p>
+<ul>
+  <li><span class="ui">Save meeting notes to</span> turns the folder on or off. It's on by default.</li>
+  <li><span class="ui">Folder</span> shows the location, with buttons to choose a folder, go back to the default, and reveal it in Finder.</li>
+</ul>
+
+<h2>Layout</h2>
+<pre><code>Sloth/
+├── README.md
+├── notes/
+│   └── 2026-09-15 1000 Team Standup.md
+├── transcripts/
+│   └── 2026-09-15 1000 Team Standup.md
+└── .trash/
+    ├── notes/
+    └── transcripts/</code></pre>
+<ul>
+  <li><code>notes/</code> holds the note you see in the app: the summary plus your written notes.</li>
+  <li><code>transcripts/</code> holds the speaker-labelled transcript. Meetings with no transcript get no transcript file.</li>
+  <li>Files are named <code>yyyy-MM-dd HHmm &lt;title&gt;.md</code> from the meeting's local start time. If a name is taken, Sloth adds <code> (2)</code>, <code> (3)</code> and so on.</li>
+  <li><code>README.md</code> explains the folder. Sloth writes it once and never rewrites it, so it's yours to edit or delete.</li>
+</ul>
+<p>Sloth writes a meeting's files once it has finished processing, and rewrites them when the meeting changes in the app: a new summary, edited notes, a new title, or an edited transcript. Renaming a meeting renames its files.</p>
+
+<h2>Frontmatter</h2>
+<p>Both files start with YAML frontmatter:</p>
+<pre><code>---
+sloth_id: 42
+title: "Team Standup"
+date: "2026-09-15T10:00:00+01:00"
+duration_seconds: 1830
+attendees:
+  - "Ana Lopez"
+  - "Sam Patel"
+speakers:
+  - "You"
+  - "Speaker 1"
+source: mac
+summary_backend: claude_code
+updated_at: "2026-09-15T10:34:12+01:00"
+---</code></pre>
+<div class="table-wrap"><table>
+  <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>sloth_id</code></td><td>The meeting's id in the app.</td></tr>
+    <tr><td><code>title</code></td><td>The meeting title.</td></tr>
+    <tr><td><code>date</code></td><td>Start time, ISO 8601 with time zone offset.</td></tr>
+    <tr><td><code>duration_seconds</code></td><td>Recording length in whole seconds.</td></tr>
+    <tr><td><code>attendees</code></td><td>People attached to the meeting, from the calendar or added by hand.</td></tr>
+    <tr><td><code>speakers</code></td><td>Speaker labels found in the transcript.</td></tr>
+    <tr><td><code>source</code></td><td><code>mac</code> for a meeting recorded on this Mac, <code>import</code> for imported audio.</td></tr>
+    <tr><td><code>summary_backend</code></td><td>The provider that wrote the notes, such as <code>anthropic</code>, <code>claude_code</code>, <code>chatgpt</code>, <code>ollama</code> or <code>apple_intelligence</code>. <code>null</code> when there's no generated summary.</td></tr>
+    <tr><td><code>updated_at</code></td><td>When Sloth last changed the file.</td></tr>
+  </tbody>
+</table></div>
+
+<h2>Opening the files</h2>
+<p>A meeting's <span class="ui">…</span> menu (and right-clicking a meeting in the list) has:</p>
+<ul>
+  <li><span class="ui">Open Notes File</span> and <span class="ui">Open Transcript File</span>, which open the Markdown in your default app for <code>.md</code> files.</li>
+  <li><span class="ui">Show in Finder</span>, which selects the notes file, or the transcript, or the folder if neither exists.</li>
+</ul>
+<p>The note header also shows the file's path, such as <code>notes/2026-09-15 1000 Team Standup.md</code>. Click it to open the file; Option-click to show it in Finder.</p>
+<p>If an item is greyed out, hover for the reason, such as “File not written yet.” or “Notes folder is off — turn it on in Settings.” If you deleted a file outside Sloth, opening it from the menu writes it again.</p>
+
+<h2>Editing the files</h2>
+<p>You can edit these files. Your edits stay as long as the meeting doesn't change in the app. When it does change, Sloth keeps your edited copy next to the new file as <code>&lt;name&gt; (edited yyyy-MM-dd HHmm).md</code> and never touches that copy again.</p>
+
+<h2>Changing the folder</h2>
+<p>Changing the folder only affects notes written from then on. Files already written stay where they are. Opening or revealing an older meeting's file uses the copy in the old folder while it exists.</p>
+
+<h2>Deleting meetings</h2>
+<p>When you delete a meeting in Sloth, its files move to <code>.trash/notes/</code> and <code>.trash/transcripts/</code> inside the Sloth folder. <span class="ui">Clear meeting history</span> does the same for every meeting. Sloth doesn't empty <code>.trash</code>; delete those files yourself when you no longer want them.</p>
+
+<h2>File safety</h2>
+<div class="callout">
+  <p class="callout-title">A meeting never trashes, overwrites or moves another meeting's file.</p>
+  <p>Before Sloth replaces, renames or trashes a file, it checks the file belongs to that meeting: its <code>sloth_id</code> must match, or, if you removed the frontmatter, its contents must be what Sloth last wrote for that meeting. A file that belongs to another meeting, or that Sloth didn't write, is left alone, and Sloth picks a free name instead.</p>
+</div>
+<p>Other safeguards:</p>
+<ul>
+  <li>Every write goes to a temporary file in the same folder first, then replaces the target in one step, so a crash can't leave half a file.</li>
+  <li>Sloth won't write through a symbolic link or into a subfolder that points outside the Sloth folder.</li>
+  <li>Sloth only changes files it recorded writing. Its record of those files lives in <code>~/Library/Application Support/Sloth</code>, outside the folder. If that record gets damaged, Sloth keeps a copy of the damaged version before saving a new one.</li>
+</ul>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="notes-and-summaries.html"><span>Previous</span>Notes and summaries</a><a class="next" href="claude-code.html"><span>Next</span>Claude Code with your subscription</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

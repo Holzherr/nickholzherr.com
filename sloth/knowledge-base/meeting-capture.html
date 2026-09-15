@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>How meeting capture works · Sloth knowledge base</title>
+<meta name="description" content="How Sloth hears your calls without a bot, spots meetings, and what happens when you start and stop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html" aria-current="page">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Meetings</p>
+<h1>How meeting capture works</h1>
+<p class="summary">Sloth records your microphone and your Mac's system audio, so it hears both sides of any call without joining it. It reminds you before calendar meetings, spots calls as they start, and opens your notes when the meeting ends.</p>
+
+<h2>Two audio sources, no bot</h2>
+<p>During a meeting Sloth captures two streams at once:</p>
+<ul>
+  <li><strong>Your microphone</strong>, for what you say.</li>
+  <li><strong>System audio</strong>, for what everyone else says through your speakers or headphones.</li>
+</ul>
+<p>Because it listens on your Mac, it works with Zoom, Google Meet, Teams, Slack, FaceTime or any other call app. Nobody on the call sees a bot join. It's still your job to tell people you're taking notes where that's expected or required.</p>
+<p>You can choose the microphone in <span class="ui">Settings › Meetings › Transcription › Microphone</span>. The choice only affects Sloth.</p>
+
+<h2>How Sloth spots a meeting</h2>
+<h3>Calendar reminders</h3>
+<p>Sloth reads the calendars already connected to your Mac (including Google accounts added in macOS <span class="ui">System Settings › Internet Accounts</span>). For calendar meetings with a join link, it shows a reminder <strong>5 minutes and 1 minute before the start</strong> by default. Change this in <span class="ui">Settings › Meetings › Meeting notifications › Reminder timing</span>: at start time, 1, 3 or 5 minutes before, or 5 and 1 minutes before.</p>
+<p>Under <span class="ui">Calendars</span> in the same pane you can untick a calendar to hide its meetings and notifications.</p>
+
+<h3>Call detection</h3>
+<p>With <span class="ui">Auto-detected meetings</span> on, Sloth shows a pop-up when it sees a call start from browser, camera, microphone or app audio activity. You can mute detection for specific apps.</p>
+
+<h2>The meeting pop-up</h2>
+<p>The pop-up appears in the top-right corner of your screen.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Kind</th><th>Title</th><th>Subtitle</th><th>Look</th></tr></thead>
+  <tbody>
+    <tr><td>Calendar meeting</td><td>The meeting's title</td><td>“Starts in 5 min”, “Starts in 1 min” or “Starting now”</td><td>Solid yellow bar on the left</td></tr>
+    <tr><td>Detected call</td><td>“Meeting detected”</td><td>The app or meeting name</td><td>Dashed border</td></tr>
+  </tbody>
+</table></div>
+<p>Click <span class="ui">Take notes</span> to start transcribing and open that meeting's note in the main window. The join options (<span class="ui">Join &amp; Transcribe</span>, <span class="ui">Join Only</span>) sit in the button's menu. Hovering over the pop-up stops it from closing.</p>
+<p><span class="ui">Auto-record calendar meetings</span> in <span class="ui">Settings › Meetings › Recording</span> starts calendar meetings without asking. It's off by default.</p>
+
+<h2>Starting and stopping</h2>
+<p>You can start a meeting from:</p>
+<ul>
+  <li>the pop-up's <span class="ui">Take notes</span> button;</li>
+  <li><span class="ui">Start now</span> next to a meeting in <span class="ui">Coming up</span>, which appears within 5 minutes of the start;</li>
+  <li><span class="ui">New note</span> at the top right of the main window, or <kbd>⌘N</kbd>;</li>
+  <li>a global shortcut. <span class="ui">Meeting Recording</span> in <span class="ui">Settings › Shortcuts</span> toggles recording with <kbd>⌘⇧R</kbd>. It's off until you turn it on.</li>
+</ul>
+
+<h2>While you're recording</h2>
+<h3>Floating indicator</h3>
+<p>A small indicator sits on the right edge of your screen. Drag it anywhere; Sloth remembers the position.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>State</th><th>What you see</th></tr></thead>
+  <tbody>
+    <tr><td>Idle</td><td>A small, faint glass square. Hover to see your dictation shortcut.</td></tr>
+    <tr><td>Recording</td><td>A bright yellow pill with a live waveform and black controls.</td></tr>
+    <tr><td>Transcribing</td><td>The yellow pill reads “Transcribing…”, then shrinks back to idle.</td></tr>
+  </tbody>
+</table></div>
+<p>While a meeting records:</p>
+<ul>
+  <li>Click the control at the left of the pill to pause or resume.</li>
+  <li>Click elsewhere on the pill to stop.</li>
+  <li>Option-click or right-click to discard the recording. Sloth asks first.</li>
+  <li>Hover to see the recent transcript, if <span class="ui">Show transcript on hover</span> is on (it is by default).</li>
+</ul>
+
+<h3>Recording pill in the title bar</h3>
+<p>The main window shows a dark pill at the top centre with the meeting's title and yellow level bars. Click the title to open the note. Click <span class="ui">×</span> to stop recording.</p>
+
+<h3>Move notes beside the call</h3>
+<p>With <span class="ui">Move notes beside the call when a meeting starts</span> on (the default), Sloth moves the main window to the right-hand side of the screen your call is on, about 440 points wide and full height, so you can type notes next to the call. It skips this in full screen and won't move the window again once you reposition it during that meeting.</p>
+
+<h2>When the meeting ends</h2>
+<h3>Reminders to stop</h3>
+<ul>
+  <li><strong>Calendar end time.</strong> When a calendar meeting's scheduled time is over, a “Meeting ended” pop-up offers <span class="ui">Stop Transcribing</span>.</li>
+  <li><strong>Call audio gone.</strong> If the call's audio source disappears, “Meeting signal lost” appears. For meetings you started from a pop-up, a calendar join or auto-record, Sloth stops by itself if you don't respond within 30 seconds. Meetings you started by hand keep recording until you stop them.</li>
+</ul>
+
+<h3>After you stop</h3>
+<ol>
+  <li>Sloth finishes the transcript on your Mac and labels the speakers. See <a href="transcription.html">Transcription and speaker labels</a>.</li>
+  <li>Your summary provider writes the notes. See <a href="notes-and-summaries.html">Notes and summaries</a>.</li>
+  <li>The note opens in the main window, if <span class="ui">Open notes when a meeting ends</span> is on (the default). Sloth skips this while another meeting is recording or you're dictating, and shows a “Transcription complete” pop-up instead.</li>
+  <li>The notes and transcript are written to your Sloth folder. See <a href="plain-files.html">Your notes are plain files</a>.</li>
+</ol>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="what-is-sloth.html"><span>Previous</span>What Sloth is</a><a class="next" href="transcription.html"><span>Next</span>Transcription and speaker labels</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

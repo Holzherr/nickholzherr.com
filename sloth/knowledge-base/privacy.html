@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Privacy and your data · Sloth knowledge base</title>
+<meta name="description" content="What Sloth stores on your Mac, where, and what leaves it for each summary provider.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html" aria-current="page">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Privacy and help</p>
+<h1>Privacy and your data</h1>
+<p class="summary">Sloth has no account, no telemetry, no update checks and no iCloud sync. Audio and transcripts stay on your Mac; meeting content leaves only when you pick a hosted summary provider, a hosted dictation provider, or turn on a feature that uses one.</p>
+
+<h2>What Sloth doesn't do</h2>
+<ul>
+  <li><strong>No account.</strong> There's nothing to sign up for.</li>
+  <li><strong>No telemetry.</strong> Sloth is built without an analytics ID, and its analytics code does nothing.</li>
+  <li><strong>No update checks.</strong> Sloth has no automatic or manual update check.</li>
+  <li><strong>No iCloud or iPhone sync.</strong> Sync is switched off in Sloth, and its settings are hidden.</li>
+  <li><strong>No meeting bot.</strong> Nothing joins your calls.</li>
+</ul>
+
+<h2>What connects to the internet</h2>
+<ul>
+  <li><strong>Model downloads.</strong> Speech models download from Hugging Face or Muesli's model mirror when you first use them.</li>
+  <li><strong>Providers you choose.</strong> Summaries, and dictation if you choose a hosted provider, go to that provider. See the table below.</li>
+  <li><strong>Calendar.</strong> Sloth reads calendars through macOS. Your calendar accounts sync the way they always do; Sloth doesn't connect to Google Calendar itself.</li>
+</ul>
+
+<h2>Where your data lives</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>What</th><th>Where</th></tr></thead>
+  <tbody>
+    <tr><td>Meetings, transcripts, notes and dictation history</td><td><code>~/Library/Application Support/Sloth/muesli.db</code></td></tr>
+    <tr><td>Settings, API keys and sign-ins</td><td><code>config.json</code> and separate credential files in <code>~/Library/Application Support/Sloth</code>, readable only by your user account</td></tr>
+    <tr><td>Saved meeting recordings (off by default)</td><td><code>~/Library/Application Support/Sloth/meeting-recordings/</code></td></tr>
+    <tr><td>Notes and transcripts as Markdown</td><td>Your Sloth folder, <code>~/Documents/Sloth</code> by default</td></tr>
+    <tr><td>Audio during a recording</td><td>Temporary files on your Mac, cleaned up if left behind</td></tr>
+    <tr><td>Speech models</td><td><code>~/Library/Application Support/FluidAudio/Models</code>, <code>~/Documents/huggingface/models</code> (Whisper) and <code>~/.cache/muesli/models</code> (some others)</td></tr>
+  </tbody>
+</table></div>
+<p>Sloth never reads or writes Muesli's folders, so the two apps can sit side by side.</p>
+<p>If your Sloth folder is inside a synced location such as iCloud Drive or Dropbox, that service syncs your notes. Sloth doesn't.</p>
+
+<h2>What leaves your Mac, per summary provider</h2>
+<p>Every hosted provider receives the same meeting material: the title, transcript, your jottings, the template, earlier notes in the thread, and on-screen context if you turned on <span class="ui">Meeting context</span>.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Provider</th><th>Sent to</th></tr></thead>
+  <tbody>
+    <tr><td>Anthropic (Claude API key)</td><td>Anthropic, using your API key.</td></tr>
+    <tr><td>Claude Code (your subscription)</td><td>Anthropic, through Claude Code, with whatever Claude Code loads from the run folder. With lookups on, the services behind Claude's connectors too. See <a href="claude-code-security.html">How Sloth keeps Claude Code safe</a>.</td></tr>
+    <tr><td>ChatGPT</td><td>OpenAI, using your ChatGPT sign-in.</td></tr>
+    <tr><td>OpenAI, OpenRouter, Custom LLM</td><td>That service.</td></tr>
+    <tr><td>Ollama, LM Studio</td><td>The server at the address in Settings. By default that's on your Mac, so nothing leaves.</td></tr>
+    <tr><td>Apple Intelligence (on this Mac)</td><td>Nothing leaves your Mac.</td></tr>
+  </tbody>
+</table></div>
+<p>If a Claude Code run fails, the stand-in provider (Anthropic or Apple Intelligence) receives the same material.</p>
+
+<h2>Other features that can send text</h2>
+<ul>
+  <li><strong>Hosted dictation.</strong> Choosing OpenAI or OpenRouter in <span class="ui">Settings › Dictation › Speech recognition</span> sends your dictated audio there. The default, <span class="ui">Local</span>, doesn't.</li>
+  <li><strong>Dictation cleanup.</strong> If you turn on <span class="ui">AI transcript cleanup</span> and pick a hosted <span class="ui">Cleanup source</span>, dictated text goes to that provider.</li>
+</ul>
+
+<h2>Deleting your data</h2>
+<ul>
+  <li>Delete a meeting from its <span class="ui">…</span> menu. Its Markdown files move to <code>.trash</code> in your Sloth folder.</li>
+  <li><span class="ui">Settings › General › Clear meeting history</span> removes all meetings, notes, transcripts and saved recordings from Sloth. <span class="ui">Clear dictation history</span> does the same for dictations.</li>
+  <li>To remove everything, quit Sloth and delete <code>~/Library/Application Support/Sloth</code> and your Sloth folder.</li>
+</ul>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="claude-code-security.html"><span>Previous</span>How Sloth keeps Claude Code safe</a><a class="next" href="permissions-troubleshooting.html"><span>Next</span>Permissions and troubleshooting</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

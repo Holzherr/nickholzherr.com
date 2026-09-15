@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sloth knowledge base</title>
+<meta name="description" content="Help articles on how Sloth works: meeting capture, transcription, dictation, notes, Claude Code and privacy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html" aria-current="page">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<h1>Sloth knowledge base</h1>
+<p class="summary">How Sloth records meetings, transcribes them on your Mac, writes notes you own, and runs Claude Code safely. Pick an article below.</p>
+<div class="article-groups">
+<h2>Basics</h2><ul class="article-list">
+<li><a href="what-is-sloth.html"><strong>What Sloth is</strong><span>A free Mac app for meeting notes and voice dictation, with no account and no meeting bot.</span></a></li>
+</ul>
+<h2>Meetings</h2><ul class="article-list">
+<li><a href="meeting-capture.html"><strong>How meeting capture works</strong><span>How Sloth hears your calls without a bot, spots meetings, and what happens when you start and stop.</span></a></li>
+<li><a href="transcription.html"><strong>Transcription and speaker labels</strong><span>Which on-device models transcribe your meetings, how speakers get labelled, and where the audio goes.</span></a></li>
+</ul>
+<h2>Dictation</h2><ul class="article-list">
+<li><a href="dictation.html"><strong>Voice dictation</strong><span>Hold or double-tap a key to dictate into any app, and teach Sloth your words.</span></a></li>
+</ul>
+<h2>Notes</h2><ul class="article-list">
+<li><a href="notes-and-summaries.html"><strong>Notes and summaries</strong><span>Templates, your own jottings, the summary providers and what each one sends where.</span></a></li>
+<li><a href="plain-files.html"><strong>Your notes are plain files</strong><span>The Sloth folder layout, frontmatter fields, opening files, changing folders, deletions and file safety.</span></a></li>
+</ul>
+<h2>Claude Code</h2><ul class="article-list">
+<li><a href="claude-code.html"><strong>Claude Code with your subscription</strong><span>Write meeting notes with your Claude subscription through the Claude Code app on your Mac.</span></a></li>
+<li><a href="claude-code-security.html"><strong>How Sloth keeps Claude Code safe</strong><span>What could go wrong when Claude Code writes your notes, each defence Sloth uses, and the risks that remain.</span></a></li>
+</ul>
+<h2>Privacy and help</h2><ul class="article-list">
+<li><a href="privacy.html"><strong>Privacy and your data</strong><span>What Sloth stores on your Mac, where, and what leaves it for each summary provider.</span></a></li>
+<li><a href="permissions-troubleshooting.html"><strong>Permissions and troubleshooting</strong><span>The macOS permissions Sloth asks for, how to fix grants that don&#x27;t stick, and Claude Code errors.</span></a></li>
+<li><a href="keyboard-shortcuts.html"><strong>Keyboard shortcuts</strong><span>Global shortcuts for dictation and meetings, and the keys that work in Sloth&#x27;s window.</span></a></li>
+</ul>
+</div>
+</div></article>
+
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

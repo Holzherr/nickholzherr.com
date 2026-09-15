@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Claude Code with your subscription · Sloth knowledge base</title>
+<meta name="description" content="Write meeting notes with your Claude subscription through the Claude Code app on your Mac.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html" aria-current="page">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Claude Code</p>
+<h1>Claude Code with your subscription</h1>
+<p class="summary">If you have Claude Code installed and logged in, Sloth can write your meeting notes with it, so they use your Claude subscription instead of an API key. Claude Code runs from a folder you choose, which lets it use the context in that folder's CLAUDE.md and memory.</p>
+
+<h2>Set it up</h2>
+<ol>
+  <li>Install Claude Code and log in: run <code>claude</code> in Terminal once and follow the login steps.</li>
+  <li>In Sloth, open <span class="ui">Settings › Meetings › Meeting summaries</span> and set <span class="ui">Summary backend</span> to <span class="ui">Claude Code (your subscription)</span>.</li>
+  <li>Check <span class="ui">Status</span>. It reads “Found Claude Code &lt;version&gt; at &lt;path&gt;” when Sloth finds it.</li>
+  <li>Click <span class="ui">Test</span>. Sloth sends “Reply with OK” with no tools and shows “Worked: &lt;model&gt; in N.N s”, or the error.</li>
+  <li>Pick a <span class="ui">Model</span> and a <span class="ui">Run from folder</span>.</li>
+</ol>
+<p>Under the option Sloth shows: “Uses your Claude subscription and its usage limits. Transcripts are sent to Anthropic, as with an API key.”</p>
+
+<h2>How a run works</h2>
+<ol>
+  <li><strong>Sloth builds one prompt</strong> from its summary instructions, your template, the meeting date, and the meeting material: title, transcript, your jottings and any earlier notes. Each piece of meeting material is wrapped and marked as untrusted data.</li>
+  <li><strong>Sloth starts Claude Code</strong> as a separate program in print mode (<code>claude -p</code>), in your chosen folder. Sloth passes a fixed list of options directly, without a shell, and sends the prompt on standard input. Meeting text never becomes part of a command.</li>
+  <li><strong>Claude Code writes the notes</strong> and reports each step back to Sloth as structured output.</li>
+  <li><strong>Sloth checks the result</strong>: it confirms no tool outside the allowed set was used, removes a stray code fence, redacts anything that looks like a secret, and adds any notices.</li>
+  <li><strong>Sloth saves the notes</strong> to the meeting and your Sloth folder.</li>
+</ol>
+<p>Titles use the same route with lookups always off.</p>
+
+<h2>Model</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Choice</th><th>Passed to Claude Code as</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Fable</td><td><code>fable</code></td><td>The default.</td></tr>
+    <tr><td>Opus</td><td><code>opus</code></td><td></td></tr>
+    <tr><td>Sonnet</td><td><code>sonnet</code></td><td></td></tr>
+    <tr><td>Haiku</td><td><code>haiku</code></td><td>Not available while lookups are on.</td></tr>
+  </tbody>
+</table></div>
+<p>Each alias uses the latest model in that family. To pin an exact model, enter it in <span class="ui">Advanced › Custom model ID</span>, for example <code>claude-fable-5</code>. A custom ID overrides the menu.</p>
+
+<h2>Run from folder</h2>
+<p>Claude Code reads a folder's <code>CLAUDE.md</code> and memory when it starts there, alongside your personal Claude Code instructions. Running from a folder where you keep notes about your work, projects and colleagues gives Claude the background to spell names correctly, recognise projects and write sharper action items.</p>
+<ul>
+  <li>Click <span class="ui">Choose…</span> to pick the folder, or <span class="ui">Reset</span> to go back to the default (normally your home folder).</li>
+  <li>Sloth tells Claude to ignore workflow instructions in CLAUDE.md or memory about sessions, reading profile files, commits or pushes. They don't apply to writing notes.</li>
+  <li>Whatever Claude Code loads from that folder is sent to Anthropic with the prompt, as in any Claude Code session.</li>
+</ul>
+
+<h2>Let it look things up (read-only)</h2>
+<p>Off by default. With it off, Claude Code has no tools at all and answers from the prompt alone. With it on, it can use a short list of read-only tools from Claude's calendar, email, Notion and Slack connectors to add attendee and project context. It can never send, create, change or delete anything, and it can't read files on your Mac. Read <a href="claude-code-security.html">How Sloth keeps Claude Code safe</a> before turning this on.</p>
+
+<h2>What Sloth turns off</h2>
+<ul>
+  <li><strong>No saved session.</strong> Runs aren't saved as Claude Code sessions, so they don't show up in your Claude Code history.</li>
+  <li><strong>No hooks.</strong> Your Claude Code hooks, which can run commands, are disabled for these runs.</li>
+  <li><strong>No API key.</strong> Sloth doesn't pass API keys to Claude Code, so runs use your subscription login.</li>
+  <li><strong>No retries.</strong> A failed run isn't repeated, so it doesn't eat into your usage twice. Sloth uses a stand-in provider instead.</li>
+</ul>
+
+<h2>Time limits</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Run</th><th>Time limit</th><th>Steps</th></tr></thead>
+  <tbody>
+    <tr><td>Notes, lookups off</td><td>180 seconds</td><td>1</td></tr>
+    <tr><td>Notes, lookups on</td><td>300 seconds</td><td>Up to 8</td></tr>
+    <tr><td>Test button</td><td>90 seconds</td><td>1, no tools</td></tr>
+  </tbody>
+</table></div>
+<p>When a run hits its limit, Sloth stops Claude Code and anything it started. Choosing <span class="ui">Re-summarize</span> again, or deleting the meeting, cancels a run in progress.</p>
+
+<h2>If it fails</h2>
+<p>Sloth writes the notes with Anthropic if you've set a Claude API key, otherwise with Apple Intelligence if it's available, and puts a line at the top of the notes, such as:</p>
+<pre><code>&gt; Claude Code failed: Claude usage limit reached. Notes written with Anthropic.</code></pre>
+<p>If neither stand-in is available, the summary fails with Claude Code's error. For common errors, see <a href="permissions-troubleshooting.html#claude-code">Permissions and troubleshooting</a>.</p>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="plain-files.html"><span>Previous</span>Your notes are plain files</a><a class="next" href="claude-code-security.html"><span>Next</span>How Sloth keeps Claude Code safe</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Notes and summaries · Sloth knowledge base</title>
+<meta name="description" content="Templates, your own jottings, the summary providers and what each one sends where.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html" aria-current="page">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Notes</p>
+<h1>Notes and summaries</h1>
+<p class="summary">After a meeting, a summary provider of your choice turns the transcript and anything you typed into structured notes. You choose the provider in <span class="ui">Settings › Meetings › Meeting summaries › Summary backend</span>, and you can re-run any meeting with a different one.</p>
+
+<h2>What goes into the notes</h2>
+<ul>
+  <li><strong>The transcript</strong>, with speaker labels.</li>
+  <li><strong>Your jottings.</strong> Anything you type in the note during the meeting is treated as first-class context and kept word for word. If the summary doesn't already contain it, it appears under <strong>Written notes</strong>.</li>
+  <li><strong>A template</strong> that sets the sections.</li>
+  <li><strong>Earlier notes in the same thread</strong>, when the meeting is a follow-up, so open action items carry forward.</li>
+  <li><strong>On-screen context</strong>, only if you turn on <span class="ui">Settings › Meetings › Meeting context</span>.</li>
+</ul>
+<p>The provider also writes a short title for the meeting.</p>
+
+<h2>Templates</h2>
+<p>The default template, <strong>Auto</strong>, produces:</p>
+<ul>
+  <li>Meeting Summary</li>
+  <li>Key Discussion Points</li>
+  <li>Decisions Made</li>
+  <li>Action Items, as checkboxes with owners where mentioned</li>
+  <li>Notable Quotes</li>
+</ul>
+<p>Built-in alternatives are <strong>1 to 1</strong>, <strong>Customer: Discovery</strong>, <strong>Hiring</strong>, <strong>Stand-Up</strong> and <strong>Weekly Team Meeting</strong>. Set the default in <span class="ui">Settings › Meetings › Meeting notes › Default template</span>, or write your own with <span class="ui">Manage Templates…</span>.</p>
+
+<h2>Summary providers</h2>
+<p>New installs use Claude through an API key. The options you're most likely to want:</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Provider</th><th>What you need</th><th>Where the transcript and notes go</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Anthropic</strong> (Claude API key)</td><td>A Claude API key. Default model Claude Haiku 4.5.</td><td>Anthropic's API.</td></tr>
+    <tr><td><strong>Claude Code (your subscription)</strong></td><td>Claude Code installed and logged in.</td><td>Anthropic, through the Claude Code app on your Mac. See <a href="claude-code.html">Claude Code with your subscription</a>.</td></tr>
+    <tr><td><strong>ChatGPT</strong></td><td><span class="ui">Sign in with ChatGPT</span>.</td><td>OpenAI.</td></tr>
+    <tr><td><strong>Ollama</strong></td><td>Ollama running a model (default <code>qwen3.5</code>).</td><td>The Ollama server, <code>http://localhost:11434</code> on your Mac by default.</td></tr>
+    <tr><td><strong>Apple Intelligence (on this Mac)</strong></td><td>macOS 26 or later with Apple Intelligence turned on. No key or account.</td><td>Nowhere. Notes are written on your Mac.</td></tr>
+  </tbody>
+</table></div>
+<p>Sloth also supports OpenAI, OpenRouter, LM Studio and a custom endpoint. Each sends the meeting material to the service you configure.</p>
+<p>Apple Intelligence is free and private but writes shorter, simpler notes. Long meetings are summarised in parts and then merged.</p>
+
+<h2>When a provider can't run</h2>
+<h3>No Claude key</h3>
+<p>If Anthropic is selected without a key and Apple Intelligence is available, Sloth writes the notes with Apple Intelligence and shows <strong>Add a Claude key for better notes</strong> on the meeting. If Apple Intelligence isn't available either, the notes say the summary failed and explain both ways to fix it.</p>
+
+<h3>Claude Code fails</h3>
+<p>If a Claude Code run fails, Sloth writes the notes with Anthropic (when you've set a key) or else Apple Intelligence (when available), and puts a visible line at the top of the notes:</p>
+<pre><code>&gt; Claude Code failed: not logged in. Notes written with Apple Intelligence.</code></pre>
+<p>If no stand-in is available, the summary fails and says why. Sloth never swaps providers silently.</p>
+
+<h3>Other failures</h3>
+<p>For hosted providers, <span class="ui">Summary retries</span> under <span class="ui">Advanced</span> retries short-lived errors before saving failed notes. The file in your Sloth folder records the provider that wrote the notes, including a stand-in, in <code>summary_backend</code>.</p>
+
+<h2>Re-summarize</h2>
+<p>Open a meeting and use its <span class="ui">…</span> actions menu. <span class="ui">Re-summarize</span> offers:</p>
+<ul>
+  <li><span class="ui">Template:</span> pick a different template. The action then reads <span class="ui">Apply Template</span>.</li>
+  <li><span class="ui">Use Settings</span>, to re-run with your default provider.</li>
+  <li>Any other provider you've set up, with its models, for this one run. Your default doesn't change.</li>
+</ul>
+<p>Sloth keeps your jottings when it re-runs a summary.</p>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="dictation.html"><span>Previous</span>Voice dictation</a><a class="next" href="plain-files.html"><span>Next</span>Your notes are plain files</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

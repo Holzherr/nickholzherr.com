@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Permissions and troubleshooting · Sloth knowledge base</title>
+<meta name="description" content="The macOS permissions Sloth asks for, how to fix grants that don&#x27;t stick, and Claude Code errors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html" aria-current="page">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Privacy and help</p>
+<h1>Permissions and troubleshooting</h1>
+<p class="summary">Sloth needs a few macOS privacy permissions to hear meetings, catch your dictation key and paste text. Check them in <span class="ui">Settings › General › Permissions</span>, where each row shows <span class="ui">Granted</span> or a button to grant it.</p>
+
+<h2>Permissions</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Permission</th><th>Used for</th><th>Needed for</th></tr></thead>
+  <tbody>
+    <tr><td>Microphone</td><td>Recording your voice.</td><td>Dictation and meetings</td></tr>
+    <tr><td>System Audio</td><td>Capturing the other people on a call. In System Settings this sits under <span class="ui">Screen &amp; System Audio Recording</span>.</td><td>Meetings</td></tr>
+    <tr><td>Screen Recording</td><td>Reading on-screen text for <span class="ui">Meeting context</span>, if you turn it on.</td><td>Meeting context</td></tr>
+    <tr><td>Accessibility</td><td>Pasting dictated text into other apps, and dictionary suggestions.</td><td>Dictation</td></tr>
+    <tr><td>Input Monitoring</td><td>Noticing your dictation shortcut while you're in another app.</td><td>Dictation</td></tr>
+    <tr><td>Calendars</td><td>Reminders, <span class="ui">Coming up</span> and attendee names.</td><td>Calendar features</td></tr>
+    <tr><td>Contacts</td><td>Adding people from Contacts to a meeting.</td><td>Optional</td></tr>
+  </tbody>
+</table></div>
+<p>Setup walks you through the ones you need. To change one later, open <span class="ui">System Settings › Privacy &amp; Security</span>.</p>
+
+<h2>A permission is on, but Sloth doesn't see it</h2>
+<p>This mostly affects people who build Sloth themselves. macOS ties a permission to the exact build of an app. A locally built copy of Sloth is signed without a developer certificate, so each rebuild looks like a different app to macOS. The switch in System Settings still shows on, but it belongs to the old build.</p>
+<p>The fix is to remove Sloth's entry and add it again:</p>
+<ol>
+  <li>In <span class="ui">System Settings › Privacy &amp; Security</span>, open the permission (for example <span class="ui">Accessibility</span>).</li>
+  <li>Select Sloth and click <span class="ui">−</span> to remove it.</li>
+  <li>Add Sloth again and turn its switch on.</li>
+</ol>
+<p>During setup Sloth does this for you. If Accessibility or Input Monitoring still isn't detected after about 5 seconds, it shows “Still not detected? Remove Sloth from the list with −, then add it again” with a <span class="ui">Reset Sloth in the list</span> button. The button resets only Sloth's own entry for that permission, then reopens the settings pane so you can add Sloth again.</p>
+
+<h2>Common problems</h2>
+<h3>The dictation key does nothing</h3>
+<ul>
+  <li>Check <span class="ui">Input Monitoring</span> and <span class="ui">Accessibility</span> in <span class="ui">Settings › General › Permissions</span>.</li>
+  <li>Check <span class="ui">Push to Talk</span> is on in <span class="ui">Settings › Shortcuts</span>.</li>
+  <li>If two Sloth shortcuts use the same key, Sloth turns one off. Give each its own key.</li>
+</ul>
+
+<h3>The transcript only has my voice</h3>
+<p>Sloth can't hear the call. Grant <span class="ui">System Audio</span> in <span class="ui">Settings › General › Permissions</span>, then start a new meeting.</p>
+
+<h3>No calendar reminders</h3>
+<ul>
+  <li>Allow Sloth full Calendar access in <span class="ui">System Settings › Privacy &amp; Security › Calendars</span>.</li>
+  <li>Check <span class="ui">Scheduled meetings</span> is on in <span class="ui">Settings › Meetings › Meeting notifications</span>. Reminders only appear for meetings with a join link.</li>
+  <li>Check the meeting's calendar is ticked under <span class="ui">Calendars</span>.</li>
+</ul>
+
+<h3>Apple Intelligence can't write notes</h3>
+<p>Apple Intelligence summaries need macOS 26 or later, a Mac that supports Apple Intelligence, and Apple Intelligence turned on in <span class="ui">System Settings › Apple Intelligence &amp; Siri</span>. Right after you turn it on, macOS may still be downloading its model; try again later.</p>
+
+<h2 id="claude-code">Claude Code problems</h2>
+<h3>“Claude Code not found — install it or set the path”</h3>
+<p>Sloth looks for <code>claude</code> in this order:</p>
+<ol>
+  <li>the path in <span class="ui">Advanced › Claude Code path</span>, if you set one;</li>
+  <li><code>~/.local/bin/claude</code></li>
+  <li><code>/opt/homebrew/bin/claude</code></li>
+  <li><code>/usr/local/bin/claude</code></li>
+  <li><code>~/.claude/local/claude</code></li>
+  <li>wherever your login shell finds <code>claude</code> (Sloth waits up to 5 seconds).</li>
+</ol>
+<p>If it's installed somewhere else, run <code>command -v claude</code> in Terminal and paste the result into <span class="ui">Claude Code path</span>.</p>
+
+<h3>“Not logged in”</h3>
+<p>Run <code>claude</code> in Terminal, log in, then click <span class="ui">Test</span> again. If a stand-in provider wrote a meeting's notes in the meantime, they start with “Claude Code failed: not logged in”. Use <span class="ui">Re-summarize</span> once you're logged in.</p>
+<p>A connector that needs signing in again doesn't count as “not logged in”. Reconnect that connector in Claude.</p>
+
+<h3>“Claude usage limit reached”</h3>
+<p>Your Claude subscription hit its usage limit. Sloth wrote the notes with a stand-in provider. Run <span class="ui">Re-summarize</span> with Claude Code after your limit resets, or pick another provider from the <span class="ui">Re-summarize</span> menu.</p>
+
+<h3>“timed out after 180 s” or “stopped at the turn limit”</h3>
+<p>The run took too long or used all its steps. Runs with lookups get 300 seconds and 8 steps. Turn lookups off, or pick a faster model, and run <span class="ui">Re-summarize</span>.</p>
+
+<h3>Lookups were off for a meeting</h3>
+<ul>
+  <li>Haiku can't use lookups. The notes say so; pick Sonnet, Opus or Fable.</li>
+  <li>If Sloth finds Claude Code settings it can't check, it runs with lookups off and says so in the notes. See <a href="claude-code-security.html">How Sloth keeps Claude Code safe</a>.</li>
+</ul>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="privacy.html"><span>Previous</span>Privacy and your data</a><a class="next" href="keyboard-shortcuts.html"><span>Next</span>Keyboard shortcuts</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>

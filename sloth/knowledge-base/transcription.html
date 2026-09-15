@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Transcription and speaker labels · Sloth knowledge base</title>
+<meta name="description" content="Which on-device models transcribe your meetings, how speakers get labelled, and where the audio goes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="kb.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="site-header-row">
+<a class="brand" href="index.html"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="23" height="23" rx="6.5" fill="#FFD21F" stroke="#1A140D" stroke-width="2.5"/></svg><span class="brand-name">Sloth</span><span class="brand-sep">·</span><span class="brand-section">Knowledge base</span></a>
+<button class="menu-button" type="button" aria-controls="kb-nav" aria-expanded="false">Articles</button>
+</div>
+</header>
+<div class="layout">
+<nav class="kb-nav" id="kb-nav" aria-label="Knowledge base articles">
+<ul><li><a href="index.html">All articles</a></li></ul>
+<h2>Basics</h2><ul>
+<li><a href="what-is-sloth.html">What Sloth is</a></li>
+</ul>
+<h2>Meetings</h2><ul>
+<li><a href="meeting-capture.html">How meeting capture works</a></li>
+<li><a href="transcription.html" aria-current="page">Transcription and speaker labels</a></li>
+</ul>
+<h2>Dictation</h2><ul>
+<li><a href="dictation.html">Voice dictation</a></li>
+</ul>
+<h2>Notes</h2><ul>
+<li><a href="notes-and-summaries.html">Notes and summaries</a></li>
+<li><a href="plain-files.html">Your notes are plain files</a></li>
+</ul>
+<h2>Claude Code</h2><ul>
+<li><a href="claude-code.html">Claude Code with your subscription</a></li>
+<li><a href="claude-code-security.html">How Sloth keeps Claude Code safe</a></li>
+</ul>
+<h2>Privacy and help</h2><ul>
+<li><a href="privacy.html">Privacy and your data</a></li>
+<li><a href="permissions-troubleshooting.html">Permissions and troubleshooting</a></li>
+<li><a href="keyboard-shortcuts.html">Keyboard shortcuts</a></li>
+</ul>
+</nav>
+<main class="content" id="main">
+<article class="card"><div class="article">
+<p class="eyebrow">Meetings</p>
+<h1>Transcription and speaker labels</h1>
+<p class="summary">Sloth transcribes meetings with speech models that run on your Mac, so your audio is never uploaded for transcription. Your voice is labelled “You”; the other side is split into “Speaker 1”, “Speaker 2” and so on.</p>
+
+<h2>On-device models</h2>
+<p>Meeting transcription only offers models you've downloaded to your Mac. There is no cloud option for meetings.</p>
+<p>During setup Sloth downloads a recommended model, <strong>Parakeet Unified</strong> (English, about 565 MB), in the background and uses it for dictation and meetings. <span class="ui">Settings › Models</span> lists the others, including:</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Model</th><th>Size</th><th>Good for</th></tr></thead>
+  <tbody>
+    <tr><td>Parakeet Unified</td><td>~565 MB</td><td>English</td></tr>
+    <tr><td>Parakeet v3</td><td>~450 MB</td><td>25 languages</td></tr>
+    <tr><td>Whisper (Tiny, Small, Medium, Large Turbo)</td><td>~153 MB to ~1.5 GB</td><td>English-only or multilingual variants</td></tr>
+    <tr><td>Nemotron 3.5 Multilingual</td><td>~665 MB</td><td>Live text in more than 100 locales</td></tr>
+    <tr><td>Cohere Transcribe</td><td>~3.8 GB</td><td>Difficult accents and audio, 14 languages</td></tr>
+    <tr><td>Apple Speech</td><td>Managed by macOS</td><td>macOS 26; Apple's on-device model</td></tr>
+  </tbody>
+</table></div>
+<p>Pick the model for meetings in <span class="ui">Settings › Meetings › Transcription › Final transcript</span>. Models download the first time you choose them, from Hugging Face or Muesli's model mirror. After that they run offline.</p>
+
+<h2>Speaker labels</h2>
+<p>Sloth knows which audio came from your microphone and which came from the call, so labelling works without any voice training:</p>
+<ul>
+  <li>Everything from your microphone is labelled <strong>You</strong>.</li>
+  <li>After the meeting, Sloth separates the voices in the call audio and numbers them in the order they first speak: <strong>Speaker 1</strong>, <strong>Speaker 2</strong>, and so on.</li>
+  <li>If Sloth can't separate the voices, the call side is labelled <strong>Others</strong>.</li>
+</ul>
+<p>Each transcript line has a timestamp and a label, for example <code>[00:04:12] Speaker 2: Let's move the launch.</code></p>
+
+<h2>Live transcript</h2>
+<p>By default the transcript fills in as each stretch of speech is finished. For text as people talk, choose a model in <span class="ui">Settings › Meetings › Transcription › Live transcript model</span>. Depending on the model, it either adds a low-latency preview or produces both the live and the final transcript. Set it to <span class="ui">Off</span> to go back.</p>
+<p>Hover over the floating indicator during a meeting to read the recent transcript.</p>
+
+<h2>Where the audio goes</h2>
+<ul>
+  <li>While recording, audio is written to temporary files on your Mac. Leftover temporary audio is cleaned up the next time Sloth starts.</li>
+  <li>Sloth keeps a recording only if you ask it to. <span class="ui">Settings › Meetings › Recording › Save meeting recording</span> offers <span class="ui">Never</span> (the default), <span class="ui">Ask every time</span> and <span class="ui">Always</span>.</li>
+  <li>Saved recordings go to <code>~/Library/Application Support/Sloth/meeting-recordings/</code>, as M4A (smaller) or WAV (lossless). Choose in <span class="ui">Recording format</span>.</li>
+  <li>The transcript is stored in Sloth's database on your Mac. With the Sloth folder on (the default), it's also written to the <code>transcripts/</code> folder.</li>
+</ul>
+</div></article>
+<nav class="pager" aria-label="Previous and next article"><a class="prev" href="meeting-capture.html"><span>Previous</span>How meeting capture works</a><a class="next" href="dictation.html"><span>Next</span>Voice dictation</a></nav>
+</main>
+</div>
+<footer class="site-footer">
+<div class="site-footer-row">
+<p>Sloth is based on <a href="https://github.com/Muesli-HQ/muesli">Muesli</a> by Pranav Hari (MIT).</p>
+</div>
+</footer>
+<script>
+(function () {
+  var button = document.querySelector(".menu-button");
+  var menu = document.getElementById("kb-nav");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var open = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+</body>
+</html>
