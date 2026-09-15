@@ -105,7 +105,6 @@
 <h2>Inherited permission rules are denied</h2>
 <p>Before every run with lookups on, Sloth reads the allow rules Claude Code would apply:</p>
 <ul>
-  <li>managed settings installed on your Mac;</li>
   <li>your user settings;</li>
   <li>project and local settings in the run folder and each folder above it;</li>
   <li>older per-project tool lists in <code>~/.claude.json</code>.</li>
@@ -117,14 +116,17 @@
 </div>
 
 <h2>Fail closed when settings can't be checked</h2>
-<p>Claude Code can take permission rules from places Sloth can't read reliably: settings delivered by device management or from your organisation's server, a drop-in folder of managed settings, or environment variables that point Claude Code at other settings. Team and Enterprise plans can receive organisation-managed settings, so Sloth treats those plans, and any plan it can't confirm, the same way. If any such source could apply, a settings file can't be parsed, or a rule can't be mapped to an exact deny, Sloth runs with lookups off and adds a visible notice to the notes.</p>
+<p>Claude Code can take permission rules from places Sloth can't read reliably: an organisation-managed settings file on your Mac, settings delivered by device management or from your organisation's server, a drop-in folder of managed settings, or environment variables that point Claude Code at other settings. An organisation-managed settings file can also hold hooks that approve tools, and those hooks run even though Sloth turns hooks off. Team and Enterprise plans can receive organisation-managed settings, so Sloth treats those plans, and any plan it can't confirm, the same way.</p>
+<p>A settings file with the same key twice fails closed too. Sloth and Claude Code read such a file differently, so Sloth could check one set of rules while Claude Code applies another.</p>
+<p>If any such source could apply, a settings file can't be parsed or repeats a key, or a rule can't be mapped to an exact deny, Sloth runs with lookups off and adds a visible notice to the notes.</p>
 <p>When the run folder is a linked git worktree, Sloth also checks the local settings of the main checkout, which Claude Code applies too.</p>
 
 <h2>Environment allow-list; API keys never passed</h2>
-<p>Sloth builds Claude Code's environment from a short allow-list instead of passing its own environment through: your home folder, user name, path, shell, temporary folder, language and terminal settings, and proxy and certificate settings if you use them. API keys, and variables that change Claude Code's account, server, model routing or settings location, are never passed. The one Claude variable passed is a subscription login token, and only if you log in that way. Runs use your Claude subscription login.</p>
+<p>Sloth builds Claude Code's environment from a short allow-list instead of passing its own environment through: your home folder, user name, path, shell, temporary folder, language and terminal settings, and proxy and certificate settings if you use them. API keys, and variables that change Claude Code's account, server, model routing or settings location, are never passed. Runs use your Claude subscription login.</p>
+<p>Any API key or token in Sloth's environment or in a settings file's environment block, or an API key helper in your settings, turns lookups off. Claude Code could then use an account whose organisation settings Sloth can't check. The one Claude variable passed is a subscription login token, only with lookups off, and only if you log in that way.</p>
 
 <h2>Run stopped on an unapproved tool</h2>
-<p>Sloth reads Claude Code's output while it runs. If Claude Code tries to use any tool outside the allowed set, Sloth stops the run at once (asking it to quit, then forcing it after two seconds) and discards its output. The notes are then written by a stand-in provider, with a line at the top naming the tool. This is the last line of defence behind the allow-list and deny rules.</p>
+<p>Sloth reads Claude Code's output while it runs. If Claude Code tries to use any tool outside the allowed set, Sloth stops the run after that first attempt (asking it to quit, then forcing it after two seconds) and discards its output. A denied tool doesn't run. If a tool call got past the rules, it has already gone out by the time Sloth sees it: the stop prevents further steps, not that call. The notes are then written by a stand-in provider, with a line at the top naming the tool. This is the last line of defence behind the allow-list and deny rules.</p>
 
 <h2>Meeting material is marked as untrusted</h2>
 <p>The title, transcript, your jottings, earlier notes, on-screen context and template each go in their own clearly marked block. If the text itself contains something that looks like a block marker, Sloth breaks it up so data can't close its own block and pose as instructions. After the data, the prompt tells Claude:</p>
