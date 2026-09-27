@@ -1,0 +1,63 @@
+name: Publish Tara at the Piano to /piano
+
+# Builds nick-prototypes/piano with base /piano/ and commits the output into piano/ on main;
+# the legacy Pages build then serves it at https://nickholzherr.com/piano/.
+# Run after merging app changes: gh workflow run piano.yml -R Holzherr/nickholzherr.com
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: nick-prototypes ref to build
+        default: main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: piano
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this site
+        uses: actions/checkout@v4
+
+      - name: Checkout nick-prototypes
+        uses: actions/checkout@v4
+        with:
+          repository: Holzherr/nick-prototypes
+          ref: ${{ github.event.inputs.ref || 'main' }}
+          path: _src
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: _src/piano/package-lock.json
+
+      # Same Supabase project as Maths Garden (PN-008): piano_sessions lives there.
+      - name: Test and build
+        working-directory: _src/piano
+        env:
+          VITE_BASE: /piano/
+          VITE_SUPABASE_URL: ${{ vars.MATHS_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.MATHS_SUPABASE_ANON_KEY }}
+        run: |
+          npm ci
+          npm test
+          npm run build
+
+      - name: Replace piano/ and commit
+        run: |
+          SHA=$(git -C _src rev-parse --short HEAD)
+          rm -rf piano
+          cp -r _src/piano/dist piano
+          rm -rf _src
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A piano
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "chore(piano): publish Tara at the Piano from nick-prototypes@$SHA"
+          git push
