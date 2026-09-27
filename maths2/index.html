@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Maths Castle</title>
+  <meta name="description" content="A princess castle you fill by playing maths games. Test build of the next Maths Garden.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#c9e4ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Maths Castle">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/fredoka-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+
+<!-- top bar -->
+<div class="hud" id="hud" hidden>
+  <button class="round-btn" id="hud-home" aria-label="Back to the castle" hidden>🏰</button>
+  <div class="purse" id="purse" aria-live="polite"><span id="purse-coin"></span><span id="purse-n">0</span></div>
+  <div class="stars" id="stars-pill"><span id="star-ico"></span><span id="stars-n">0</span></div>
+  <div class="wish" id="wish" hidden></div>
+  <span class="spacer"></span>
+  <button class="round-btn" id="sound" aria-label="Sound on">🔊</button>
+  <button class="round-btn hold" id="grownups" aria-label="Grown-ups: press and hold">⚙️</button>
+</div>
+
+<!-- first run -->
+<section class="screen" id="s-gate" hidden>
+  <svg class="gate-castle" viewBox="0 0 200 170" aria-hidden="true">
+    <path d="M20 60 L45 10 L70 60Z" fill="#ff5d94"/><path d="M130 60 L155 10 L180 60Z" fill="#9168df"/><path d="M78 50 L100 8 L122 50Z" fill="#ff5d94"/>
+    <rect x="25" y="58" width="40" height="100" fill="#f7d9e7"/><rect x="135" y="58" width="40" height="100" fill="#f7d9e7"/>
+    <rect x="60" y="70" width="80" height="88" fill="#fff4f9"/><rect x="84" y="48" width="32" height="30" fill="#f7d9e7"/>
+    <path d="M86 158 V128 a14 14 0 0 1 28 0 V158Z" fill="#ffc94d"/>
+    <path d="M37 90 v-6 a8 8 0 0 1 16 0 v6Z M147 90 v-6 a8 8 0 0 1 16 0 v6Z" fill="#ffe08a"/>
+    <rect x="0" y="156" width="200" height="14" rx="7" fill="#8fd6a5"/>
+  </svg>
+  <h1>Maths Castle</h1>
+  <p>Play maths games, earn gold coins, and fill your castle with treasures and friends.</p>
+  <div class="name-field">
+    <label for="name-in">Whose castle is it?</label>
+    <input id="name-in" maxlength="16" autocomplete="off" value="Tara">
+  </div>
+  <button class="btn pink big" id="open-gates"><span class="em">🏰</span> Open the castle</button>
+</section>
+
+<!-- castle -->
+<section class="screen" id="s-castle" hidden>
+  <div class="castle-wrap" id="castle-wrap"></div>
+  <div class="nova" id="nova">
+    <button class="nova-btn" id="nova-btn" aria-label="Nova, tap to hear again"></button>
+    <div class="bubble" id="nova-say"></div>
+  </div>
+  <div class="actions">
+    <button class="btn pink big" id="go-play"><span class="em">✏️</span> Play maths</button>
+    <button class="btn gold big" id="go-shop"><span class="em">🛍️</span> Shop</button>
+  </div>
+</section>
+
+<!-- a room -->
+<section class="screen" id="s-room" hidden>
+  <div class="room-stage" id="room-stage"></div>
+  <div class="room-top">
+    <div class="room-title" id="room-title"></div>
+  </div>
+  <div class="room-bottom">
+    <button class="btn gold" id="room-shop"><span class="em">🛍️</span> Shop</button>
+  </div>
+</section>
+
+<!-- choose a game -->
+<section class="screen panel-screen" id="s-games" hidden>
+  <h2>Pick a game</h2>
+  <div class="game-grid" id="game-grid"></div>
+</section>
+
+<!-- a question -->
+<section class="screen" id="s-play" hidden>
+  <div class="progress" id="progress"></div>
+  <div class="q-text"><span id="q-text"></span><button class="round-btn" id="q-again" aria-label="Hear it again">🔈</button></div>
+  <div class="stagebox" id="q-stage"></div>
+  <div class="answers" id="answers"></div>
+</section>
+
+<!-- round finished -->
+<section class="screen" id="s-reward" hidden>
+  <h2 id="rw-title"></h2>
+  <p id="rw-sub"></p>
+  <div class="cushion" id="cushion"></div>
+  <div id="rw-star"></div>
+  <div class="row" id="rw-buttons" hidden>
+    <button class="btn pink" id="rw-again"><span class="em">✏️</span> Play again</button>
+    <button class="btn gold" id="rw-shop"><span class="em">🛍️</span> Shop</button>
+    <button class="btn" id="rw-home"><span class="em">🏰</span> Castle</button>
+  </div>
+</section>
+
+<!-- shop -->
+<section class="screen" id="s-shop" hidden>
+  <div class="awning"><h2><span>Castle Market</span></h2></div>
+  <div class="shop-body">
+    <div class="tabs" id="tabs" role="group" aria-label="Shop sections"></div>
+    <div class="shelf" id="shelf"></div>
+    <p class="shop-note" id="shop-note"></p>
+  </div>
+</section>
+
+<div id="modal-root"></div>
+<div class="turn" aria-live="polite"><span>📱</span><b>Turn me sideways!</b><p>The castle is wider than your screen.</p></div>
+</body>
+</html>
