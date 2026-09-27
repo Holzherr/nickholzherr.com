@@ -1,0 +1,66 @@
+{
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_64",
+  "speakers": {
+    "rosie": {
+      "label": "Princess Rosie (host)",
+      "description": "A warm, gentle young British woman in her early twenties playing a kind fairytale princess for four-year-olds. Soft, bright and smiling, clear and unhurried, light southern English accent. A friendly storyteller, never squeaky or shrill.",
+      "voice_id": "",
+      "settings": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.35, "use_speaker_boost": true, "speed": 0.95 }
+    },
+    "cat": {
+      "label": "Whiskers the cat",
+      "description": "A playful, slightly mischievous young British voice for a cartoon kitten. Light and quick, giggly, with a little purr in it. Cute but clear enough for a small child to follow.",
+      "voice_id": "",
+      "settings": { "stability": 0.4, "similarity_boost": 0.75, "style": 0.45, "use_speaker_boost": true, "speed": 1.0 }
+    },
+    "cook": {
+      "label": "Cook Crumble",
+      "description": "A jolly, round, warm middle-aged British woman who is the castle cook. Cosy northern English accent, chuckling, kind and a little flustered.",
+      "voice_id": "",
+      "settings": { "stability": 0.45, "similarity_boost": 0.75, "style": 0.4, "use_speaker_boost": true, "speed": 0.95 }
+    },
+    "owl": {
+      "label": "Hoot the owl",
+      "description": "An elderly, gentle, slightly pompous British man playing a wise old owl. Soft, slow and thoughtful, a little absent-minded, very friendly.",
+      "voice_id": "",
+      "settings": { "stability": 0.55, "similarity_boost": 0.75, "style": 0.3, "use_speaker_boost": true, "speed": 0.9 }
+    },
+    "dragon": {
+      "label": "Sparky the dragon",
+      "description": "A big, friendly baby dragon. Deep but soft and rumbly young male voice, slow, goofy and sweet, never scary.",
+      "voice_id": "",
+      "settings": { "stability": 0.45, "similarity_boost": 0.75, "style": 0.4, "use_speaker_boost": true, "speed": 0.9 }
+    },
+    "pony": {
+      "label": "Buttercup the pony",
+      "description": "A cheerful young girl's voice for a pony, bright and bouncy, with a soft West Country English accent.",
+      "voice_id": "",
+      "settings": { "stability": 0.45, "similarity_boost": 0.75, "style": 0.4, "use_speaker_boost": true, "speed": 1.0 }
+    },
+    "unicorn": {
+      "label": "Moonbeam the unicorn",
+      "description": "A dreamy, sparkly, slightly breathy young British woman's voice for a magical unicorn. Airy, soft and full of wonder.",
+      "voice_id": "",
+      "settings": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.4, "use_speaker_boost": true, "speed": 0.92 }
+    },
+    "frog": {
+      "label": "Prince Ribbit the frog",
+      "description": "A posh, slightly croaky young British man who is a frog prince. Polite, comic and a little pompous.",
+      "voice_id": "",
+      "settings": { "stability": 0.45, "similarity_boost": 0.75, "style": 0.45, "use_speaker_boost": true, "speed": 1.0 }
+    },
+    "fairy": {
+      "label": "Twinkle the fairy",
+      "description": "A tiny, quick, tinkling fairy. A very light and bright young British woman's voice, giggly and fast, but still clear.",
+      "voice_id": "",
+      "settings": { "stability": 0.4, "similarity_boost": 0.75, "style": 0.45, "use_speaker_boost": true, "speed": 1.05 }
+    },
+    "wizard": {
+      "label": "Wizard Wobble",
+      "description": "A kindly, bumbling old British wizard. Warm, slightly wobbly grandfatherly voice, funny and gentle.",
+      "voice_id": "",
+      "settings": { "stability": 0.45, "similarity_boost": 0.75, "style": 0.4, "use_speaker_boost": true, "speed": 0.92 }
+    }
+  }
+}

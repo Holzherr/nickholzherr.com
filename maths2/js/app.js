@@ -1,5 +1,7 @@
 import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js';
-import { castleSVG, roomSVG, coinSVG, starSVG, novaSVG } from './art.js';
+import { castleSVG, roomSVG, coinSVG, starSVG } from './art.js';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js';
+import * as clips from './voice.js';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -16,13 +18,6 @@ const friendById = Object.fromEntries(FRIENDS.map(f => [f.id, f]));
 const roomById = Object.fromEntries(ROOMS.map(r => [r.id, r]));
 const defOf = id => itemById[id] || friendById[id];
 
-const WORDS = {
-  '💎': ['jewel', 'jewels'], '🍓': ['strawberry', 'strawberries'], '🌸': ['flower', 'flowers'], '🧁': ['cupcake', 'cupcakes'],
-  '⭐': ['star', 'stars'], '🦋': ['butterfly', 'butterflies'], '🍎': ['apple', 'apples'], '🎀': ['bow', 'bows'], '🍰': ['cake', 'cakes'],
-  '🧶': ['ball of wool', 'balls of wool'], '🔥': ['flame', 'flames'], '🥕': ['carrot', 'carrots'], '🌈': ['rainbow', 'rainbows'],
-  '🪷': ['lily', 'lilies'], '✨': ['sparkle', 'sparkles'],
-};
-const word = (e, n) => (WORDS[e] || ['one', 'ones'])[n === 1 ? 0 : 1];
 
 // ---------- saved state ----------
 const KEY = 'maths-castle.v1';
@@ -45,11 +40,15 @@ const roomOpen = id => S.stars >= roomById[id].stars;
 
 // ---------- sound ----------
 let AC;
+function audio() {
+  if (!AC) { AC = new (window.AudioContext || window.webkitAudioContext)(); clips.useContext(AC); }
+  if (AC.state === 'suspended') AC.resume();
+  return AC;
+}
 function tone(freq, dur = .12, type = 'sine', vol = .14, when = 0) {
   if (!S.sound) return;
   try {
-    AC ||= new (window.AudioContext || window.webkitAudioContext)();
-    if (AC.state === 'suspended') AC.resume();
+    audio();
     const t = AC.currentTime + when, o = AC.createOscillator(), g = AC.createGain();
     o.type = type; o.frequency.setValueAtTime(freq, t);
     g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .01); g.gain.exponentialRampToValueAtTime(.001, t + dur);
@@ -76,6 +75,7 @@ try { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } catch {}
 function speak(text, { pitch = 1.1, rate = .95 } = {}) {
   if (!S.sound || !('speechSynthesis' in window)) return Promise.resolve();
   const plain = text.replace(/<[^>]+>/g, '');
+  clips.stop();
   return new Promise(res => {
     try {
       speechSynthesis.cancel();
@@ -88,6 +88,24 @@ function speak(text, { pitch = 1.1, rate = .95 } = {}) {
     } catch { res(); }
   });
 }
+
+// Say a line: recorded clips when every part has one, otherwise the device voice reads `text`.
+// parts: [speaker, key] pairs; falsy entries (e.g. a name with no clip) are skipped.
+function say(parts, text, opts) {
+  if (!S.sound) return Promise.resolve();
+  const list = (parts || []).filter(Boolean);
+  try { audio(); } catch {}
+  if (list.length && clips.clipCount() && !clips.canPlay(list)) console.warn('voice: no clip for', list.filter(([sp, k]) => !clips.has(sp, k)).map(x => x.join('/')).join(', '));
+  if (clips.canPlay(list)) {
+    try { speechSynthesis.cancel(); } catch {}
+    return clips.play(list).catch(() => speak(text, opts));
+  }
+  return speak(text, opts);
+}
+const H = key => [HOST, key];
+const nameClip = sp => { const k = `name_${slug(S.name)}`; return clips.has(sp, k) ? [sp, k] : null; };
+const num = (n, sp = HOST) => [sp, `n_${n}`];
+function stopVoice() { clips.stop(); try { speechSynthesis.cancel(); } catch {} }
 
 // ---------- screens ----------
 const SCREENS = ['s-gate', 's-castle', 's-room', 's-games', 's-play', 's-reward', 's-shop'];
@@ -154,15 +172,15 @@ function closeModal() { $('#modal-root').innerHTML = ''; }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ---------- Nova ----------
-let novaLine = '';
+let novaLine = '', novaParts = null;
 let novaTimer = 0;
-function nova(html) {
-  novaLine = html;
+function nova(html, parts) {
+  novaLine = html; novaParts = parts;
   const b = $('#nova-say');
   b.innerHTML = html; b.classList.remove('quiet');
   clearTimeout(novaTimer);
   const quiet = () => { novaTimer = setTimeout(() => b.classList.add('quiet'), 3500); };
-  return speak(html, { pitch: 1.15 }).then(quiet);
+  return say(parts, html, { pitch: 1.15 }).then(quiet);
 }
 
 // ---------- castle ----------
@@ -193,20 +211,20 @@ function castleHello() {
     S.seenRooms.push(r.id); save();
     $(`#castle-wrap .spot[data-room="${r.id}"]`)?.classList.add('fresh');
     sfx.fanfare(); confetti();
-    return nova(`The <b>${r.name}</b> is open! Tap it to look inside.`);
+    return nova(`The <b>${r.name}</b> is open! Tap it to look inside.`, [H(`room_open_${r.id}`)]);
   }
   const w = S.wish && defOf(S.wish);
-  if (w && S.coins >= w.price) return nova(`You have enough coins for the <b>${w.name}</b>! Let's go to the Shop.`);
+  if (w && S.coins >= w.price) return nova(`You have enough coins for the <b>${w.name}</b>! Let's go to the Shop.`, [H('enough_for'), H(`item_${w.id}`), H('go_shop')]);
   const buyable = [...ITEMS, ...FRIENDS].filter(d => d.price > 0 && !owned(d.id) && roomOpen(d.room) && d.price <= S.coins);
-  if (buyable.length) return nova(`You have <b>${S.coins}</b> coins. What will you buy?`);
-  if (w) return nova(`You're saving for the <b>${w.name}</b>. Play maths to earn <b>${w.price - S.coins}</b> more coins!`);
-  return nova(`Play maths to earn gold coins, ${esc(S.name)}!`);
+  if (buyable.length) return nova(`You have <b>${S.coins}</b> coins. What will you buy?`, [H(`have_coins_${S.coins}`), H('what_buy')]);
+  if (w) return nova(`You're saving for the <b>${w.name}</b>. Play maths to earn <b>${w.price - S.coins}</b> more coins!`, [H('saving_for'), H(`item_${w.id}`), H(`earn_more_${w.price - S.coins}`)]);
+  return nova(`Play maths to earn gold coins, ${esc(S.name)}!`, [H('play_earn_gold'), nameClip(HOST)]);
 }
 function tapRoom(id) {
   if (!roomOpen(id)) {
     const r = roomById[id], need = r.stars - S.stars;
     sfx.soft();
-    nova(`The <b>${r.name}</b> is locked. You need <b>${need}</b> more star${need > 1 ? 's' : ''}. Get better at a game to earn stars!`);
+    nova(`The <b>${r.name}</b> is locked. You need <b>${need}</b> more star${need > 1 ? 's' : ''}. Get better at a game to earn stars!`, [H(`room_locked_${id}`), H(`need_stars_${need}`), H('get_better')]);
     return;
   }
   openRoom(id);
@@ -239,9 +257,9 @@ function openRoom(id, arriving) {
     const h = document.createElement('div'); h.className = 'room-hint';
     h.innerHTML = `This room is empty.<br>Buy things for it in the Shop!`;
     st.appendChild(h);
-    speak(`The ${roomById[id].name} is empty. Buy things for it in the Shop!`, { pitch: 1.15 });
+    say([H(`room_empty_${id}`)], `The ${roomById[id].name} is empty. Buy things for it in the Shop!`, { pitch: 1.15 });
   } else if (!arriving) {
-    speak(`Welcome to the ${roomById[id].name}! You can move things around.`, { pitch: 1.15 });
+    say([H(`room_welcome_${id}`)], `Welcome to the ${roomById[id].name}! You can move things around.`, { pitch: 1.15 });
   }
 }
 function pieceEl(p, isNew) {
@@ -290,12 +308,12 @@ function sayPop(p, text) {
 function tapPiece(p, el) {
   const span = el.firstElementChild;
   span.animate?.([{ transform: 'rotate(0)' }, { transform: 'rotate(-10deg) scale(1.1)' }, { transform: 'rotate(8deg)' }, { transform: 'rotate(0)' }], { duration: 450 });
-  if (p.kind === 'item') { sfx.pop(); sayPop(p, p.def.name); speak(p.def.name); return; }
-  const f = p.def;
+  if (p.kind === 'item') { sfx.pop(); sayPop(p, p.def.name); say([H(`item_${p.id}`)], p.def.name); return; }
+  const f = p.def, sp = speakerOf(f);
   if (!p.taught || Math.random() < .45) return teach(f);
-  const lines = [`Hello ${S.name}!`, `I love the ${roomById[f.room].name}!`, `You're a great teacher, ${S.name}!`, `Shall we count something?`];
-  const line = pick(lines);
-  sayPop(p, line); speak(line, { pitch: f.pitch });
+  const hello = clips.has(sp, `hello_${slug(S.name)}`) ? `hello_${slug(S.name)}` : 'hello';
+  const [key, line] = pick([[hello, `Hello, ${S.name}!`], ['love_it_here', 'I love it here!'], ['great_teacher', "You're a great teacher!"], ['count_something', 'Shall we count something?']]);
+  sayPop(p, line); say([[sp, key]], line, { pitch: f.pitch });
 }
 function nextSpot(room) {
   const taken = roomPieces(room);
@@ -312,7 +330,7 @@ function openGames() {
       <span class="lvl" aria-label="Level ${S.levels[g.id]} of ${MAX_LEVEL}">${Array.from({ length: MAX_LEVEL }, (_, i) => starSVG(22).replace('<svg', `<svg class="${i < S.levels[g.id] ? 'on' : ''}"`)).join('')}</span>
     </button>`).join('');
   $$('.game-tile').forEach(b => b.onclick = () => startRound(b.dataset.g));
-  speak('Pick a game!', { pitch: 1.15 });
+  say([H('pick_game')], 'Pick a game!', { pitch: 1.15 });
 }
 
 let R = null;
@@ -332,26 +350,26 @@ function makeQ(game, lv) {
   if (game === 'count') {
     const [a, b] = [[1, 5], [3, 10], [6, 12]][lv - 1];
     const n = freshN(a, b), t = pick(THINGS);
-    return { game, n, t, ans: n, text: `How many ${word(t, 2)}?`, say: `How many ${word(t, 2)}? Count them!`, choices: choices(n, 1) };
+    return { game, n, t, ans: n, text: `How many ${word(t, 2)}?`, say: `How many ${word(t, 2)}? Count them!`, parts: [H(`q_count_${thingKey(t)}`)], choices: choices(n, 1) };
   }
   if (game === 'more') {
     const add = lv === 3 ? 2 : 1, [a, b] = [[1, 4], [3, 8], [2, 7]][lv - 1];
     const n = freshN(a, b), t = pick(GUESTS);
     const come = add === 1 ? 'One more comes' : 'Two more come';
-    return { game, n, add, t, ans: n + add, text: `${come}! How many now?`, say: `There are ${n} at the party. ${come}. How many now?`, choices: choices(n + add, 1) };
+    return { game, n, add, t, ans: n + add, text: `${come}! How many now?`, say: `There are ${n} at the party. ${come}. How many now?`, parts: [H(`party_${n}`), H(add === 1 ? 'one_more_comes' : 'two_more_come'), H('how_many_now')], choices: choices(n + add, 1) };
   }
   if (game === 'fewer') {
     const sub = lv === 3 ? 2 : 1, [a, b] = [[2, 5], [3, 9], [4, 10]][lv - 1];
     const n = freshN(a, b), t = pick(GUESTS);
     const go = sub === 1 ? 'One goes' : 'Two go';
-    return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, choices: choices(n - sub, 1) };
+    return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(sub === 1 ? 'one_goes_bed' : 'two_go_bed'), H('how_many_left')], choices: choices(n - sub, 1) };
   }
   const t = pick(['🍰', '🧁', '🍓', '🍎', '💎']);
   let a, b;
   if (lv === 1) { a = rnd(1, 3); b = a + rnd(3, 4); } else { a = rnd(2, 7); b = a + rnd(1, 2); }
   if (Math.random() < .5) [a, b] = [b, a];
   const ans = a > b ? 0 : 1;
-  return { game, a, b, t, ans, big: lv === 3 ? 1 - ans : null, text: 'Which plate has more?', say: `Which plate has more ${word(t, 2)}?` };
+  return { game, a, b, t, ans, big: lv === 3 ? 1 - ans : null, text: 'Which plate has more?', say: `Which plate has more ${word(t, 2)}?`, parts: [H(`q_compare_${thingKey(t)}`)] };
 }
 const objs = (e, n, cls = '') => Array.from({ length: n }, () => `<span class="o ${cls}">${e}</span>`).join('');
 
@@ -377,7 +395,7 @@ async function renderQ(q) {
     const size = i => q.big == null ? '' : q.big === i ? 'font-size:clamp(58px,10vw,88px)' : 'font-size:clamp(30px,5vw,42px)';
     st.innerHTML = `<div class="plates">${[q.a, q.b].map((n, i) => `<button class="plate" data-i="${i}" aria-label="Plate ${i + 1}"><div class="objs" style="${size(i)}">${objs(q.t, n)}</div></button>`).join('')}</div>`;
     $$('.plate').forEach(p => p.onclick = () => answer(+p.dataset.i, p));
-    speak(q.say);
+    say(q.parts, q.say);
     return;
   }
   st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
@@ -385,8 +403,8 @@ async function renderQ(q) {
     ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
     $$('.ans').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
   };
-  if (q.game === 'count') { showAnswers(); speak(q.say); return; }
-  speak(q.say);
+  if (q.game === 'count') { showAnswers(); say(q.parts, q.say); return; }
+  say(q.parts, q.say);
   await wait(q.game === 'more' ? 2300 : 2600);
   if (!alive()) return;
   const box = $('#objs');
@@ -400,14 +418,14 @@ async function renderQ(q) {
   }
   if (alive()) showAnswers();
 }
-async function countAlong(container, { skipOut = true, tag = true } = {}) {
+async function countAlong(container, { skipOut = true, tag = true, sp = HOST } = {}) {
   const items = [...container.querySelectorAll('.o')].filter(o => !(skipOut && o.classList.contains('out')));
   let t = null;
   if (tag) { t = document.createElement('div'); t.className = 'count-tag'; container.closest('.stagebox')?.appendChild(t); }
   for (let k = 0; k < items.length; k++) {
     items[k].classList.add('hl');
     if (t) t.textContent = k + 1;
-    speak(String(k + 1), { rate: 1.05 });
+    say([num(k + 1, sp)], String(k + 1), { rate: 1.05 });
     tone(500 + k * 40, .08, 'sine', .08);
     await wait(700);
   }
@@ -424,7 +442,8 @@ async function answer(v, el) {
     R.results[R.i] = R.tries === 0;
     renderProgress();
     sfx.good();
-    speak(pick(['Yes!', 'Well done!', "That's right!", 'Brilliant!', 'Super!']), { pitch: 1.2 });
+    const [pk, pt] = pick([['yes', 'Yes!'], ['well_done', 'Well done!'], ['thats_right', "That's right!"], ['brilliant', 'Brilliant!'], ['super', 'Super!']]);
+    say([H(pk)], pt, { pitch: 1.2 });
     await wait(1200);
     if (R?.q !== q) return;
     R.i++;
@@ -436,7 +455,7 @@ async function answer(v, el) {
   sfx.soft();
   if (R.tries > 1) return;
   R.locked = true;
-  await speak("Not quite. Let's count together.", { pitch: 1.15 });
+  await say([H('not_quite')], "Not quite. Let's count together.", { pitch: 1.15 });
   if (R?.q !== q) return;
   if (q.game === 'compare') {
     const plates = $$('.plate');
@@ -446,12 +465,12 @@ async function answer(v, el) {
     if (R?.q !== q) return;
     const [hi, lo] = na > nb ? [na, nb] : [nb, na];
     plates[q.ans].classList.add('right');
-    speak(`${hi} is more than ${lo}. Tap that plate.`);
+    say([H(`more_than_${hi}_${lo}`)], `${hi} is more than ${lo}. Tap that plate.`);
   } else {
     await countAlong($('#objs'));
     if (R?.q !== q) return;
     $(`.ans[data-v="${q.ans}"]`)?.classList.add('right');
-    speak(`It's ${q.ans}. Tap ${q.ans}.`);
+    say([H(`its_tap_${q.ans}`)], `It's ${q.ans}. Tap ${q.ans}.`);
   }
   R.locked = false;
 }
@@ -474,6 +493,7 @@ function endRound() {
 
 // ---------- reward ----------
 function showReward({ score, coins, levelUp, star, game }) {
+  clips.preload([1, 2, 3, 4, 5, 6, 7].map(n => num(n)));
   show('s-reward');
   $('#rw-buttons').hidden = true;
   $('#rw-star').innerHTML = '';
@@ -492,28 +512,31 @@ function showReward({ score, coins, levelUp, star, game }) {
     b.onclick = async () => {
       b.disabled = true; b.style.visibility = 'hidden';
       got++; S.coins++; S.earned++; save();
-      sfx.coin(); speak(String(got), { rate: 1.05 });
+      sfx.coin(); say([num(got)], String(got), { rate: 1.05 });
       await fly(b, $('#purse'), coinSVG(48));
       renderHud(); bumpPurse();
       if (--left === 0) afterCoins({ levelUp, star, game });
     };
     c.appendChild(b);
   }
-  speak(`${$('#rw-title').textContent} You earned ${coins} coins. Tap them to put them in your purse.`, { pitch: 1.15 });
+  const praise = score >= 4 ? 'amazing' : score >= 2 ? 'well_done_name' : 'good_trying';
+  say([H(praise), nameClip(HOST), H(`earned_${coins}`)], `${$('#rw-title').textContent} You earned ${coins} coins. Tap them to put them in your purse.`, { pitch: 1.15 });
 }
 async function afterCoins({ levelUp, star, game }) {
   await wait(500);
   let line = `You have ${S.coins} coins now.`;
+  let parts = [H(`have_coins_${S.coins}`)];
   if (star) {
     $('#rw-star').innerHTML = `<div class="big-star">${starSVG(110)}</div>`;
     sfx.fanfare(); confetti();
     const g = GAMES.find(x => x.id === game);
     line = levelUp ? `You got a star! ${g.name} goes up to level ${S.levels[game]}. ` + line : `A perfect round! You got a star! ` + line;
+    parts = levelUp ? [H('got_star'), H(`level_up_${game}`), ...parts] : [H('perfect_star'), ...parts];
     const opened = ROOMS.find(r => r.stars === S.stars);
-    if (opened) line += ` And a new room is open in your castle!`;
+    if (opened) { line += ` And a new room is open in your castle!`; parts.push(H('new_room_open')); }
   }
   $('#rw-sub').textContent = line;
-  speak(line, { pitch: 1.15 });
+  say(parts, line, { pitch: 1.15 });
   $('#rw-buttons').hidden = false;
 }
 
@@ -525,7 +548,7 @@ function openShop(tab, payId) {
   show('s-shop');
   renderShop();
   if (payId) openPay(payId);
-  else speak(`Welcome to the Castle Market! You have ${S.coins} coins.`, { pitch: 1.15 });
+  else say([H('welcome_market'), H(`have_coins_${S.coins}`)], `Welcome to the Castle Market! You have ${S.coins} coins.`, { pitch: 1.15 });
 }
 function renderShop() {
   const tabs = [...ROOMS.map(r => ({ id: r.id, name: r.name, open: roomOpen(r.id), stars: r.stars })), { id: 'friends', name: 'Friends', open: true }];
@@ -567,15 +590,16 @@ function openPay(id) {
       <div class="pay-msg" id="pay-msg"></div>
       <div class="row" id="pay-actions"></div>
     </div>`);
-  const msg = (html, sayIt = true) => { m.querySelector('#pay-msg').innerHTML = html; if (sayIt) speak(html, { pitch: 1.15 }); };
-  msg(`It costs <b>${price}</b> coins. Tap your purse to pay, one coin at a time.`);
+  const msg = (html, parts) => { m.querySelector('#pay-msg').innerHTML = html; if (parts !== false) say(parts, html, { pitch: 1.15 }); };
+  clips.preload(Array.from({ length: price }, (_, i) => num(i + 1)));
+  msg(`It costs <b>${price}</b> coins. Tap your purse to pay, one coin at a time.`, [H(`costs_${price}`)]);
   const slots = [...m.querySelectorAll('.slot')];
   const pileBtn = m.querySelector('#pile');
   const notEnough = () => {
     const need = price - S.coins;
     slots.slice(paid).forEach(s => s.classList.add('need'));
     pileBtn.disabled = true;
-    msg(`You have <b>${S.coins}</b>. It costs <b>${price}</b>. You need <b>${need}</b> more!`);
+    msg(`You have <b>${S.coins}</b>. It costs <b>${price}</b>. You need <b>${need}</b> more!`, [H(`have_coins_${S.coins}`), H(`short_${price}`), H(`need_more_${need}`)]);
     m.querySelector('#pay-actions').innerHTML = `<button class="btn gold" id="save-for">⭐ Save up for it</button><button class="btn pink" id="earn">✏️ Play maths</button>`;
     m.querySelector('#save-for').onclick = () => { S.wish = id; save(); closeModal(); toast(`Saving up for the ${d.name}`); openCastle(); };
     m.querySelector('#earn').onclick = () => { closeModal(); openGames(); };
@@ -587,7 +611,7 @@ function openPay(id) {
     paid++;
     m.querySelector('#pile-n').textContent = S.coins - paid;
     m.querySelector('#pile-coins').innerHTML = pile(S.coins - paid);
-    sfx.coin(); speak(String(paid), { rate: 1.1 });
+    sfx.coin(); say([num(paid)], String(paid), { rate: 1.1 });
     await fly(pileBtn, slot, coinSVG(44), 44);
     slot.classList.add('filled'); slot.innerHTML = coinSVG(40);
     if (paid === price) buy();
@@ -602,7 +626,7 @@ function openPay(id) {
     if (S.wish === id) S.wish = null;
     save(); renderHud(); bumpPurse();
     sfx.fanfare(); confetti(50);
-    msg(`It's yours! Let's put it in the <b>${roomById[d.room].name}</b>.`);
+    msg(`It's yours! Let's put it in the <b>${roomById[d.room].name}</b>.`, [H('its_yours'), H(`put_in_${d.room}`)]);
     await wait(2300);
     closeModal();
     openRoom(d.room, id);
@@ -625,39 +649,43 @@ async function teach(f) {
       <div class="stagebox" style="min-height:130px"><div class="objs" id="t-objs">${objs(f.thing, n)}</div></div>
       <div class="row" id="t-act"></div>
     </div>`);
-  const say = html => { m.querySelector('#t-say').innerHTML = html; return speak(html, { pitch: f.pitch }); };
+  const sp = speakerOf(f), F = key => [sp, key];
+  const hello = clips.has(sp, `hello_${slug(S.name)}`) ? F(`hello_${slug(S.name)}`) : F('hello');
+  const talk = (html, parts) => { m.querySelector('#t-say').innerHTML = html; return say(parts, html, { pitch: f.pitch }); };
   const act = html => { m.querySelector('#t-act').innerHTML = html; };
   const alive = () => m.isConnected;
   const finish = async (html, taughtNow) => {
     if (taughtNow) { rec.taught = true; save(); }
     act(`<button class="btn pink" id="t-bye">👋 Bye, ${f.name.split(' ').pop()}!</button>`);
     m.querySelector('#t-bye').onclick = () => { closeModal(); if (current === 's-room') openRoom(roomId); };
-    await say(html);
+    await talk(...html);
   };
   const countTogether = async () => {
-    await say(`Let's count together!`);
-    if (alive()) await countAlong(m.querySelector('#t-objs'), { tag: true });
+    await talk(`Let's count together!`, [F('count_together')]);
+    if (alive()) await countAlong(m.querySelector('#t-objs'), { tag: true, sp });
   };
 
-  await say(first ? `Hello ${esc(S.name)}! I'm ${f.name}. I'm still learning to count. Can you check for me?` : `Can you check my counting, ${esc(S.name)}?`);
+  await (first
+    ? talk(`Hello ${esc(S.name)}! I'm ${f.name}. I'm still learning to count. Can you check for me?`, [hello, F('intro')])
+    : talk(`Can you check my counting, ${esc(S.name)}?`, [F('check_again')]));
   if (!alive()) return;
   await wait(300);
-  say(`I think there are <b>${said}</b> ${word(f.thing, said)}. Am I right?`);
+  talk(`I think there ${said === 1 ? 'is' : 'are'} <b>${said}</b> ${word(f.thing, said)}. Am I right?`, [F(`think_${said}`)]);
   act(`<button class="btn green" id="t-yes">✓ Yes</button><button class="btn pink" id="t-no">✗ No</button>`);
   m.querySelector('#t-yes').onclick = async () => {
     act('');
-    if (!wrong) { sfx.good(); return finish(`Hooray! Thank you for checking, ${esc(S.name)}!`, true); }
+    if (!wrong) { sfx.good(); return finish([`Hooray! Thank you for checking, ${esc(S.name)}!`, [F('hooray')]], true); }
     await countTogether(); if (!alive()) return;
     S.missed++; save();
-    finish(`It's <b>${n}</b>! I said ${said}. ${f.quirk} We both learned something!`, true);
+    finish([`It's <b>${n}</b>! I said ${said}. ${f.quirk} We both learned something!`, [F(`its_${n}`), F(`i_said_${said}`), F('quirk'), F('both_learned')]], true);
   };
   m.querySelector('#t-no').onclick = async () => {
     act('');
     if (!wrong) {
       await countTogether(); if (!alive()) return;
-      return finish(`It's <b>${n}</b>. I was right this time! Good checking.`, true);
+      return finish([`It's <b>${n}</b>. I was right this time! Good checking.`, [F(`its_${n}`), F('right_this_time')]], true);
     }
-    say(`Oh! How many are there? Show me!`);
+    talk(`Oh! How many are there? Show me!`, [F('show_me')]);
     act(choices(n, 1).map(c => `<button class="ans" data-v="${c}">${c}</button>`).join(''));
     m.querySelectorAll('#t-act .ans').forEach(b => b.onclick = async () => {
       const v = +b.dataset.v;
@@ -665,12 +693,12 @@ async function teach(f) {
         b.classList.add('right'); sfx.good(); confetti(24);
         S.caught++; save();
         act('');
-        return finish(`<b>${n}</b>! ${f.quirk} Thank you for teaching me, ${esc(S.name)}!`, true);
+        return finish([`<b>${n}</b>! ${f.quirk} Thank you for teaching me, ${esc(S.name)}!`, [F(`its_${n}`), F('quirk'), F('thank_teach')]], true);
       }
       b.classList.add('wrong'); sfx.soft();
       act('');
       await countTogether(); if (!alive()) return;
-      finish(`It's <b>${n}</b>! Counting together helps us both.`, true);
+      finish([`It's <b>${n}</b>! Counting together helps us both.`, [F(`its_${n}`), F('counting_helps')]], true);
     });
   };
 }
@@ -689,6 +717,7 @@ function openParent() {
         <tr><td>Coins earned / spent</td><td></td><td>${S.earned} / ${S.spent}</td></tr>
         <tr><td>Stars</td><td></td><td>${S.stars}</td></tr>
         <tr><td>Friends' mistakes caught / missed</td><td></td><td>${S.caught} / ${S.missed}</td></tr>
+        <tr><td>Voice</td><td></td><td>${clips.clipCount() ? `${clips.clipCount()} recorded clips` : 'device voice'}</td></tr>
         <tr><td>Treasures and friends</td><td></td><td>${Object.keys(S.items).length + Object.keys(S.friends).length} of ${ITEMS.length + FRIENDS.length}</td></tr>
       </tbody></table>
       <p>Each round of 5 pays 4 coins, however it goes. A perfect round, or two good rounds in a row (4 out of 5), moves that game up a level and earns a star plus 3 bonus coins. Stars open new rooms. Friends she buys ask her to check their counting. Everything is saved on this device only.</p>
@@ -723,10 +752,11 @@ function openParent() {
 // ---------- wiring ----------
 $('#purse-coin').innerHTML = coinSVG(34);
 $('#star-ico').innerHTML = starSVG(30);
-$('#nova-btn').innerHTML = novaSVG(84);
-$('#nova-btn').onclick = () => { sfx.pop(); if (novaLine) nova(novaLine); };
-$('#hud-home').onclick = () => { R = null; window.speechSynthesis?.cancel(); openCastle(); };
-$('#sound').onclick = () => { S.sound = !S.sound; save(); renderHud(); if (!S.sound) try { speechSynthesis.cancel(); } catch {} };
+$('#nova-btn').innerHTML = '<span class="rosie" aria-hidden="true">👸</span>';
+$('#nova-btn').setAttribute('aria-label', 'Princess Rosie, tap to hear again');
+$('#nova-btn').onclick = () => { sfx.pop(); if (novaLine) nova(novaLine, novaParts); };
+$('#hud-home').onclick = () => { R = null; stopVoice(); openCastle(); };
+$('#sound').onclick = () => { S.sound = !S.sound; save(); renderHud(); if (!S.sound) stopVoice(); };
 $('#wish').onclick = () => { const d = S.wish && defOf(S.wish); if (d) openShop(friendById[d.id] ? 'friends' : d.room, d.id); };
 $('#go-play').onclick = openGames;
 $('#go-shop').onclick = () => openShop();
@@ -734,7 +764,7 @@ $('#room-shop').onclick = () => openShop(roomId);
 $('#rw-again').onclick = () => startRound(S.rounds.at(-1)?.g || 'count');
 $('#rw-shop').onclick = () => openShop();
 $('#rw-home').onclick = openCastle;
-$('#q-again').onclick = () => R?.q && speak(R.q.say);
+$('#q-again').onclick = () => R?.q && say(R.q.parts, R.q.say);
 
 $('#open-gates').onclick = () => {
   S.name = $('#name-in').value.trim() || 'Tara';
@@ -744,7 +774,8 @@ $('#open-gates').onclick = () => {
   save();
   tone(1, .01, 'sine', 0);
   openCastle();
-  nova(`Welcome to your castle, ${esc(S.name)}! Princess Rosie lives in the Throne Room. Here are <b>3</b> gold coins to start. Play maths to earn more, then visit the Shop!`);
+  nova(`Welcome to your castle, ${esc(S.name)}! I'm Princess Rosie. Here are <b>3</b> gold coins to start. Play maths to earn more, then visit the Shop!`,
+    [H('welcome_castle'), nameClip(HOST), H('intro_rosie')]);
   bumpPurse();
 };
 
@@ -753,7 +784,8 @@ let greeted = false;
 addEventListener('pointerdown', () => {
   if (greeted) return; greeted = true;
   tone(1, .01, 'sine', 0);
-  if (current === 's-castle' && novaLine) setTimeout(() => speak(novaLine, { pitch: 1.15 }), 50);
+  try { audio(); } catch {}
+  if (current === 's-castle' && novaLine) setTimeout(() => say(novaParts, novaLine, { pitch: 1.15 }), 50);
 }, { capture: true });
 
 function boot() {
