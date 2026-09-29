@@ -2,3 +2,4 @@ User-agent: *
 Disallow: /tara/
 Disallow: /taravideos/
 Disallow: /sloth/
+Disallow: /travel/
