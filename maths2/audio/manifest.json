@@ -1,5 +1,5 @@
 {
-  "v": 1790959226673,
+  "v": 1790959657281,
   "clips": {
     "rosie": {
       "n_1": "dc3514936f",
@@ -455,7 +455,32 @@
       "level_up_sums": "7dcc3c1f64",
       "level_up_peek": "2703560d0a",
       "level_up_missing": "544c503ca2",
-      "level_up_next": "b6b58ad569"
+      "level_up_next": "b6b58ad569",
+      "item_trophy": "d3bf4fdcc0",
+      "item_violin": "3f7de50f95",
+      "item_bell": "8468d236d2",
+      "item_key": "c9203bcea1",
+      "item_pan": "85fba65c15",
+      "item_pot": "759f3a9f5f",
+      "item_plates": "3dcfefbbb6",
+      "item_honey": "082ba1c953",
+      "item_broom": "f0d55c3415",
+      "item_dolls": "94c92030a5",
+      "item_dress": "c5bc122d12",
+      "item_shoes": "9ea0dbd1f6",
+      "item_suitcase": "4eba6722ca",
+      "item_fan": "718365246e",
+      "item_carousel": "b0c856cf26",
+      "item_logs": "948aa38038",
+      "item_slide": "3dfefdce7b",
+      "item_tent": "1946faa6ce",
+      "item_wheel": "8b2463cbbe",
+      "item_lantern": "9bb15c0b5b",
+      "item_disco": "0c42d7b4a1",
+      "item_map": "2ecf2bb903",
+      "item_hourglass": "d7d690ed4d",
+      "item_scroll": "fd44348e1c",
+      "item_compass": "f12527772f"
     },
     "cat": {
       "n_1": "65f93aaf51",

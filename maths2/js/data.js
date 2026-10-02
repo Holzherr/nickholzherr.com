@@ -22,6 +22,10 @@ export const ITEMS = [
   { id: 'sofa',     room: 'throne',  e: '🛋️', name: 'Royal sofa',  price: 8 },
   { id: 'clock',    room: 'throne',  e: '🕰️', name: 'Grand clock', price: 7 },
   { id: 'piano',    room: 'throne',  e: '🎹', name: 'Piano',       price: 10 },
+  { id: 'trophy', room: 'throne', e: '🏆', name: 'Golden trophy', price: 8 },
+  { id: 'violin', room: 'throne', e: '🎻', name: 'Violin', price: 6 },
+  { id: 'bell', room: 'throne', e: '🔔', name: 'Castle bell', price: 4 },
+  { id: 'key', room: 'throne', e: '🗝️', name: 'Golden key', price: 5 },
   // kitchen
   { id: 'cake',     room: 'kitchen', e: '🍉', name: 'Watermelon',  price: 4 },
   { id: 'cupcake',  room: 'kitchen', e: '🍇', name: 'Grapes',      price: 2 },
@@ -32,6 +36,11 @@ export const ITEMS = [
   { id: 'cupboard', room: 'kitchen', e: '🗄️', name: 'Cupboard',    price: 8 },
   { id: 'basket',   room: 'kitchen', e: '🧺', name: 'Fruit basket', price: 4 },
   { id: 'plant',    room: 'kitchen', e: '🪴', name: 'Pot plant',   price: 4 },
+  { id: 'pan', room: 'kitchen', e: '🍳', name: 'Frying pan', price: 4 },
+  { id: 'pot', room: 'kitchen', e: '🫕', name: 'Cooking pot', price: 5 },
+  { id: 'plates', room: 'kitchen', e: '🍽️', name: 'Dinner plates', price: 4 },
+  { id: 'honey', room: 'kitchen', e: '🍯', name: 'Honey pot', price: 3 },
+  { id: 'broom', room: 'kitchen', e: '🧹', name: 'Broom', price: 3 },
   // bedroom
   { id: 'bed',      room: 'bedroom', e: '🛏️', name: 'Bed',         price: 6 },
   { id: 'teddy',    room: 'bedroom', e: '🧸', name: 'Teddy',       price: 3 },
@@ -42,12 +51,19 @@ export const ITEMS = [
   { id: 'wardrobe', room: 'bedroom', e: '🚪', name: 'Wardrobe',    price: 8 },
   { id: 'chest',    room: 'bedroom', e: '🧰', name: 'Treasure chest', price: 9 },
   { id: 'bath',     room: 'bedroom', e: '🛁', name: 'Bubble bath', price: 7 },
+  { id: 'dolls', room: 'bedroom', e: '🪆', name: 'Dolls', price: 5 },
+  { id: 'dress', room: 'bedroom', e: '👗', name: 'Party dress', price: 6 },
+  { id: 'shoes', room: 'bedroom', e: '👠', name: 'Sparkly shoes', price: 5 },
+  { id: 'suitcase', room: 'bedroom', e: '🧳', name: 'Suitcase', price: 6 },
+  { id: 'fan', room: 'bedroom', e: '🪭', name: 'Fan', price: 4 },
   // stables
   { id: 'carrots',  room: 'stables', e: '🥕', name: 'Carrots',     price: 2 },
   { id: 'apples',   room: 'stables', e: '🍎', name: 'Apples',      price: 2 },
   { id: 'hay',      room: 'stables', e: '🌾', name: 'Hay',         price: 3 },
   { id: 'bucket',   room: 'stables', e: '🪣', name: 'Bucket',      price: 3 },
   { id: 'rosette',  room: 'stables', e: '🏵️', name: 'Prize rosette', price: 7 },
+  { id: 'carousel', room: 'stables', e: '🎠', name: 'Carousel horse', price: 10 },
+  { id: 'logs', room: 'stables', e: '🪵', name: 'Logs', price: 3 },
   // garden
   { id: 'tulips',   room: 'garden',  e: '🌷', name: 'Tulips',      price: 2 },
   { id: 'sunflower',room: 'garden',  e: '🌻', name: 'Sunflower',   price: 3 },
@@ -56,11 +72,20 @@ export const ITEMS = [
   { id: 'fountain', room: 'garden',  e: '⛲', name: 'Fountain',    price: 9 },
   { id: 'tree',     room: 'garden',  e: '🌳', name: 'Tree',        price: 5 },
   { id: 'bench',    room: 'garden',  e: '🪑', name: 'Garden bench', price: 6 },
+  { id: 'slide', room: 'garden', e: '🛝', name: 'Slide', price: 9 },
+  { id: 'tent', room: 'garden', e: '⛺', name: 'Tent', price: 8 },
+  { id: 'wheel', room: 'garden', e: '🎡', name: 'Big wheel', price: 12 },
+  { id: 'lantern', room: 'garden', e: '🏮', name: 'Lantern', price: 4 },
   // star tower
   { id: 'telescope',room: 'tower',   e: '🔭', name: 'Telescope',   price: 8 },
   { id: 'globe',    room: 'tower',   e: '🪐', name: 'Planet',      price: 6 },
   { id: 'crystal',  room: 'tower',   e: '🔮', name: 'Crystal ball', price: 7 },
   { id: 'comet',    room: 'tower',   e: '☄️', name: 'Comet',       price: 5 },
+  { id: 'disco', room: 'tower', e: '🪩', name: 'Disco ball', price: 8 },
+  { id: 'map', room: 'tower', e: '🗺️', name: 'Treasure map', price: 5 },
+  { id: 'hourglass', room: 'tower', e: '⏳', name: 'Hourglass', price: 5 },
+  { id: 'scroll', room: 'tower', e: '📜', name: 'Magic scroll', price: 4 },
+  { id: 'compass', room: 'tower', e: '🧭', name: 'Compass', price: 4 },
 ];
 
 // Friends arrive needing to be taught. `thing` is what they try (and fail) to count.
