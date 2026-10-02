@@ -846,6 +846,7 @@ function openParent() {
         <button class="btn" id="p-coins">+10 coins (testing)</button>
         <button class="btn" id="p-star">+1 star (testing)</button>
         <button class="btn" id="p-demos">Show how to play again</button>
+        <button class="btn" id="p-carry">Move progress to another tab</button>
         <button class="btn pink" id="p-reset">Start again</button>
       </div>
     </div>`);
@@ -856,6 +857,11 @@ function openParent() {
     S.levels[g] = Math.min(MAX_LEVEL, Math.max(1, S.levels[g] + +b.dataset.d)); S.good[g] = 0; save();
     openParent();
   });
+  m.querySelector('#p-carry').onclick = async () => {
+    const link = `${location.origin}${location.pathname}#carry=${encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(S)))))}`;
+    try { await navigator.clipboard.writeText(link); toast('Link copied: paste it into a normal Safari tab'); }
+    catch { m.querySelector('#p-carry').insertAdjacentHTML('afterend', `<input readonly value="${esc(link)}" onfocus="this.select()" style="width:100%">`); }
+  };
   m.querySelector('#p-demos').onclick = () => { S.shown = {}; save(); toast('Rosie will show each game again'); };
   m.querySelector('#p-star').onclick = () => { S.stars++; save(); renderHud(); toast(`Stars: ${S.stars}`); };
   const reset = m.querySelector('#p-reset');
@@ -916,7 +922,14 @@ addEventListener('pointerdown', () => {
   if (current === 's-castle' && novaLine) setTimeout(() => say(novaParts, novaLine, { pitch: 1.15 }), 50);
 }, { capture: true });
 
+// A progress link from "Move progress to another tab" (e.g. out of a Private tab) replaces this tab's progress.
+function takeCarried() {
+  if (!location.hash.startsWith('#carry=')) return;
+  try { S = { ...fresh(), ...JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(location.hash.slice(7)))))) }; save(); } catch {}
+  history.replaceState(null, '', location.pathname + location.search);
+}
 function boot() {
+  takeCarried();
   syncGarden();
   if (!S.started) { show('s-gate'); $('#name-in').value = S.name; return; }
   openCastle();
