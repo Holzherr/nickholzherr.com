@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002g';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002g';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002g';
-import * as clips from './voice.js?v=1002g';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002h';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002h';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002h';
+import * as clips from './voice.js?v=1002h';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -24,8 +24,8 @@ const KEY = 'maths-castle.v1';
 const fresh = () => ({
   name: 'Tara', started: false, sound: true,
   coins: 0, earned: 0, spent: 0, stars: 0,
-  levels: { count: 1, more: 1, fewer: 1, compare: 1, sums: 3 },
-  good: { count: 0, more: 0, fewer: 0, compare: 0, sums: 0 },
+  levels: { count: 1, more: 1, fewer: 1, compare: 1, sums: 3, peek: 3, missing: 2, next: 2 },
+  good: { count: 0, more: 0, fewer: 0, compare: 0, sums: 0, peek: 0, missing: 0, next: 0 },
   items: {}, friends: {}, wish: null, seenRooms: ['throne'],
   rounds: [], caught: 0, missed: 0,
   shown: {}, levelFrom: null, gardenSeen: {},
@@ -485,6 +485,29 @@ function makeQ(game, lv) {
     const go = ['One goes', 'Two go', 'Three go'][sub - 1];
     return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(['one_goes_bed', 'two_go_bed', 'three_go_bed'][sub - 1]), H('how_many_left')], choices: choices(n - sub, 1) };
   }
+  if (game === 'peek') {
+    const [a, b] = [[2, 4], [3, 6], [4, 8], [5, 10], [6, 12]][lv - 1];
+    const n = freshN(a, b), t = pick(THINGS);
+    return { game, n, t, ans: n, ms: [2500, 2000, 1600, 1300, 1000][lv - 1], text: 'Look quickly! How many?', say: 'Look quickly! How many did you see?', parts: [H('q_peek')], choices: choices(n, 1) };
+  }
+  if (game === 'missing') {
+    const top = [5, 10, 10, 15, 20][lv - 1], minus = lv >= 4 && Math.random() < .4;
+    let a, b, c, eq, ans;
+    if (minus) { c = rnd(4, top); b = rnd(1, Math.min(6, c - 1)); ans = b; eq = `${c} − ? = ${c - b}`; }
+    else {
+      a = rnd(1, top - 1); b = rnd(1, Math.min(lv >= 4 ? 7 : 5, top - a)); c = a + b;
+      if (lv >= 3 && Math.random() < .5) { ans = a; eq = `? + ${b} = ${c}`; } else { ans = b; eq = `${a} + ? = ${c}`; }
+    }
+    return { game, ans, eq, text: 'Which number is hiding?', say: `Which number is hiding? ${eq.replace('?', 'something').replace('−', 'take away').replace('=', 'makes')}`, parts: [H('q_missing')], choices: choices(ans, 0) };
+  }
+  if (game === 'next') {
+    const step = pick([[1], [1, -1], [2, 1], [2, 5, 10, -1], [2, 5, 10, -2, 3]][lv - 1]);
+    const len = 4, maxStart = step > 0 ? Math.max(0, [10, 16, 12, 20, 20][lv - 1] - step * len) : 0;
+    let start = step > 0 ? rnd(step >= 5 ? 0 : 1, Math.max(1, maxStart)) : rnd(-step * len + 1, [10, 20, 20, 20, 20][lv - 1]);
+    if (step >= 5) start = step * rnd(0, 3);
+    const seq = Array.from({ length: len }, (_, i) => start + step * i), ans = start + step * len;
+    return { game, ans, eq: `${seq.join(', ')}, ?`, text: 'What comes next?', say: `${seq.join(', ')}. What number comes next?`, parts: [H('q_next')], choices: choices(ans, 0) };
+  }
   if (game === 'sums') {
     const top = [5, 10, 10, 15, 20][lv - 1], minus = lv >= 3 && Math.random() < .5;
     const t = pick(THINGS);
@@ -528,6 +551,23 @@ async function renderQ(q, { quiet = false } = {}) {
     st.innerHTML = `<div class="plates">${[q.a, q.b].map((n, i) => `<button class="plate" data-i="${i}" aria-label="Plate ${i + 1}"><div class="objs" style="${size(i)}">${objs(q.t, n)}</div></button>`).join('')}</div>`;
     $$('.plate').forEach(p => p.onclick = () => answer(+p.dataset.i, p));
     talk(q.parts, q.say);
+    return;
+  }
+  if (q.game === 'missing' || q.game === 'next') {
+    st.innerHTML = `<div class="eq${q.game === 'next' ? ' seq' : ''}">${q.eq}</div>`;
+    ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
+    $$('.ans').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
+    talk(q.parts, q.say);
+    return;
+  }
+  if (q.game === 'peek') {
+    st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
+    talk(q.parts, q.say);
+    await wait(q.ms);
+    if (!alive()) return;
+    $('#objs').classList.add('peeked');
+    ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
+    $$('.ans').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
     return;
   }
   if (q.game === 'sums') {
@@ -601,7 +641,11 @@ async function answer(v, el) {
     const [hi, lo] = na > nb ? [na, nb] : [nb, na];
     plates[q.ans].classList.add('right');
     say([H(`more_than_${hi}_${lo}`)], `${hi} is more than ${lo}. Tap that plate.`);
+  } else if (!$('#objs')) {
+    $(`.ans[data-v="${q.ans}"]`)?.classList.add('right');
+    say([H(`its_tap_${q.ans}`)], `It's ${q.ans}. Tap ${q.ans}.`);
   } else {
+    $('#objs').classList.remove('peeked');
     await countAlong($('#objs'));
     if (R?.q !== q) return;
     $(`.ans[data-v="${q.ans}"]`)?.classList.add('right');
