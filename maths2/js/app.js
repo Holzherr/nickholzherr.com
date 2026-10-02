@@ -1,7 +1,8 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002k';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002k';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002k';
-import * as clips from './voice.js?v=1002k';
+import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002wc';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG, prepaintCastle } from './art.js?v=1002wc';
+import { installPaint, hydrate } from './paint.js?v=1002wc';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002wc';
+import * as clips from './voice.js?v=1002wc';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -264,6 +265,7 @@ function openCastle() {
   show('s-castle');
   const rooms = ROOMS.map(r => ({ ...r, open: roomOpen(r.id) }));
   $('#castle-wrap').innerHTML = castleSVG({ rooms, peeks: peeks() });
+  hydrate($('#castle-wrap'));
   $$('#castle-wrap .spot').forEach(g => {
     const go = () => tapRoom(g.dataset.room);
     g.addEventListener('click', go);
@@ -318,6 +320,7 @@ function openRoom(id, arriving) {
   $('#room-title').textContent = roomById[id].name;
   const st = $('#room-stage');
   st.innerHTML = roomSVG(id);
+  hydrate(st);
   const pieces = roomPieces(id);
   pieces.forEach(p => st.appendChild(pieceEl(p, p.id === arriving)));
   if (!pieces.length) {
@@ -1058,6 +1061,8 @@ function openParent() {
 })();
 
 // ---------- wiring ----------
+installPaint();
+prepaintCastle(ROOMS.map(r => ({ ...r, open: roomOpen(r.id) })));
 $('#purse-coin').innerHTML = coinSVG(34);
 $('#star-ico').innerHTML = starSVG(30);
 $('#nova-btn').innerHTML = `<span class="rosie" aria-hidden="true">${rosieSVG(100)}</span>`;

@@ -327,3 +327,64 @@ body.demo .nova .rosie-svg{width:170px;height:204px}
 .die{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);width:clamp(100px,15vw,150px);aspect-ratio:1;background:#fff;border-radius:22px;padding:12px;box-shadow:0 6px 0 var(--petal),var(--shadow)}
 .die span{display:flex;align-items:center;justify-content:center}
 .die span.on::after{content:'';width:72%;height:72%;border-radius:50%;background:var(--grape)}
+
+/* ---------- watercolour skin ----------
+   Painted surfaces come from paint.js as --wc-<colour> (rounded card) and --wc-<colour>-round (circle).
+   Shadows are dropped: the drying edge of the paint does that job. */
+:root{--paper:#fbf6ec;--paint:center/100% 100% no-repeat}
+body,.turn{background:var(--wc-sky,var(--paper)) center/cover,var(--paper)}
+body::before{content:"";position:fixed;inset:0;background:var(--wc-grain) repeat;mix-blend-mode:multiply;opacity:.55;pointer-events:none;z-index:200}
+#s-gate,#s-castle,#s-play,#s-reward,.turn{background:var(--wc-sky) center/cover,var(--paper)}
+.panel-screen,#s-shop{background:var(--wc-blossom) center/cover,var(--paper)}
+#s-room{background:var(--paper)}
+.castle image.paint,.room-bg image.paint{opacity:0;transition:opacity .5s}
+.castle image.paint.ready,.room-bg image.paint.ready{opacity:1}
+.gate-castle path,.gate-castle rect{filter:url(#wc-sprite)}
+.gate-castle{filter:none}
+
+.btn,.purse,.stars,.wish,.room-title,.room-hint,.say-pop,.play-hint,.nova .bubble,.game-tile,.ware,.purse-pile,.die,.nl-n,.tab,.name-field input{
+  background:var(--wc-card) var(--paint);box-shadow:none;border-radius:0}
+.stagebox,.sheet{background:var(--wc-card) var(--paint);box-shadow:none;border-radius:0}
+.round-btn{background:var(--wc-card-round) var(--paint);box-shadow:none}
+.btn.pink{background:var(--wc-berry) var(--paint);box-shadow:none}
+.btn.green{background:var(--wc-green) var(--paint);box-shadow:none}
+.btn.gold{background:var(--wc-gold) var(--paint);box-shadow:none}
+.btn:active,.round-btn:active,.game-tile:active,.ware:active,.ans:active{transform:translateY(3px) scale(.97);box-shadow:none}
+.ans{background:var(--wc-blue) var(--paint);box-shadow:none;border-radius:0}
+.ans.right{background:var(--wc-green) var(--paint);box-shadow:none}
+.ans.wrong{background:var(--wc-blush) var(--paint)}
+.plate{background:var(--wc-blush) var(--paint);border:0;border-radius:0}
+.plate.right{background:var(--wc-mint) var(--paint)}
+.ware.owned{background:var(--wc-mint) var(--paint);box-shadow:none}
+.price{background:var(--wc-goldlight) var(--paint);border-radius:0}
+.ware.owned .price{background:var(--wc-mint) var(--paint)}
+.tab[aria-pressed="true"]{background:var(--wc-grape) var(--paint);box-shadow:none}
+.tab{box-shadow:none}
+.toast{background:var(--wc-grape) var(--paint);box-shadow:none;border-radius:0;padding:12px 26px}
+.count-tag{background:var(--wc-gold-round) var(--paint)}
+.room-unlock{background:var(--wc-gold) var(--paint);box-shadow:none;border-radius:0}
+.counter{background:var(--wc-wood) var(--paint);box-shadow:none;border-radius:0}
+.cushion{background:var(--wc-berry) var(--paint);box-shadow:none}
+.cushion::before,.cushion::after{background:var(--wc-gold-round) var(--paint);box-shadow:none}
+.awning{background:var(--wc-awning) top/auto 120px repeat-x;height:120px}
+.awning::after{display:none}
+.awning h2{height:92px}
+.awning h2 span{background:var(--wc-card) var(--paint);box-shadow:none;border-radius:0;padding:8px 30px}
+.shop-body{padding-top:20px}
+.teach-say{background:var(--wc-blush) var(--paint);border-radius:0}
+.tframe{background:var(--wc-grape) var(--paint);border-radius:0;padding:10px}
+.tframe span{background:var(--wc-card-round) var(--paint);border-radius:0}
+.tframe span.on::after,.die span.on::after{filter:url(#wc-emoji)}
+.nl-n.right{background:var(--wc-green) var(--paint)}
+.progress i{background:var(--wc-card-round) var(--paint);border-color:transparent}
+.progress i.ok{background:var(--wc-green-round) var(--paint)}
+.progress i.miss{background:var(--wc-blush-round) var(--paint)}
+.progress i.now{border-color:transparent;transform:scale(1.35)}
+.progress i.prize{background:none}
+.modal{background:rgba(74,31,64,.32)}
+.name-field input{border:0;padding:12px 20px}
+.sheet{padding:30px}
+
+/* emoji look painted too */
+.ware .we,.pay-item .we,.wish .we,.piece > span,.teach-face,.story-ico,.game-tile .gi,.room-unlock .em{filter:url(#wc-emoji)}
+.ware.shadow .we{filter:brightness(0) opacity(.25)}
