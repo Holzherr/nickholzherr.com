@@ -76,7 +76,10 @@ function takeGardenLevels(list, from) {
   if (raised) S.levelFrom = from;
   save();
 }
+// Tara's Maths Garden account on 25 Sep (agent-team reports), until the castle has its own sign-in.
+const TARA_GARDEN = { count: 3, add: 3, fewer: 4, more: 4 };
 async function syncGarden() {
+  if (S.name.trim().toLowerCase() === 'tara') takeGardenLevels([TARA_GARDEN], 'Maths Garden (25 Sep)');
   try { takeGardenLevels(gardenOnDevice(), 'Maths Garden on this device'); } catch {}
   try { takeGardenLevels(await gardenAccount(), 'the Maths Garden account'); } catch {}
 }
