@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002h';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002h';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002h';
-import * as clips from './voice.js?v=1002h';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002i';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002i';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002i';
+import * as clips from './voice.js?v=1002i';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -573,6 +573,8 @@ async function renderQ(q, { quiet = false } = {}) {
   if (q.game === 'sums') {
     const help = q.minus ? objs(q.t, q.a - q.b) + objs(q.t, q.b, 'out') : objs(q.t, q.a) + `<span class="plus">+</span>` + objs(q.t, q.b);
     st.innerHTML = `<div class="eq">${q.eq}</div><div class="objs small" id="objs">${help}</div>`;
+  } else if (q.game === 'more' || q.game === 'fewer') {
+    st.innerHTML = `<div class="eq mini" id="eq">${q.n}</div><div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
   } else st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
   const showAnswers = () => {
     ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
@@ -591,7 +593,9 @@ async function renderQ(q, { quiet = false } = {}) {
     sfx.soft();
     await wait(900);
   }
-  if (alive()) showAnswers();
+  if (!alive()) return;
+  if ($('#eq')) $('#eq').textContent = q.game === 'more' ? `${q.n} + ${q.add} = ?` : `${q.n} − ${q.sub} = ?`;
+  showAnswers();
 }
 async function countAlong(container, { skipOut = true, tag = true, sp = HOST } = {}) {
   const items = [...container.querySelectorAll('.o')].filter(o => !(skipOut && o.classList.contains('out')));

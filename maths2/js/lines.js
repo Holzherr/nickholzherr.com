@@ -2,7 +2,7 @@
 // audio/manifest.json lists it, and falls back to the device voice when it doesn't.
 // tools/maths2-voice/generate.mjs reads this file to record the clips.
 
-import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002h';
+import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002i';
 
 export const HOST = 'rosie';
 export const NAMES = ['Tara'];

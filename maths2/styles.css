@@ -302,3 +302,4 @@ body.demo .nova .rosie-svg{width:170px;height:204px}
 .eq.seq{font-size:clamp(44px,8vw,84px)}
 .game-grid{grid-template-columns:repeat(4,minmax(0,220px))}
 @media (max-width:900px){.game-grid{grid-template-columns:repeat(2,minmax(0,260px))}}
+.eq.mini{font-size:clamp(44px,8vw,80px);margin-bottom:clamp(6px,1.4vw,14px)}
