@@ -19,6 +19,9 @@ export const ITEMS = [
   { id: 'painting', room: 'throne',  e: '🖼️', name: 'Painting',    price: 5 },
   { id: 'bouquet',  room: 'throne',  e: '💐', name: 'Flowers',     price: 2 },
   { id: 'crown',    room: 'throne',  e: '👑', name: 'Crown',       price: 6 },
+  { id: 'sofa',     room: 'throne',  e: '🛋️', name: 'Royal sofa',  price: 8 },
+  { id: 'clock',    room: 'throne',  e: '🕰️', name: 'Grand clock', price: 7 },
+  { id: 'piano',    room: 'throne',  e: '🎹', name: 'Piano',       price: 10 },
   // kitchen
   { id: 'cake',     room: 'kitchen', e: '🍉', name: 'Watermelon',  price: 4 },
   { id: 'cupcake',  room: 'kitchen', e: '🍇', name: 'Grapes',      price: 2 },
@@ -26,6 +29,9 @@ export const ITEMS = [
   { id: 'berries',  room: 'kitchen', e: '🍓', name: 'Strawberries', price: 2 },
   { id: 'croissant',room: 'kitchen', e: '🍐', name: 'Pear',        price: 2 },
   { id: 'pie',      room: 'kitchen', e: '🍍', name: 'Pineapple',   price: 3 },
+  { id: 'cupboard', room: 'kitchen', e: '🗄️', name: 'Cupboard',    price: 8 },
+  { id: 'basket',   room: 'kitchen', e: '🧺', name: 'Fruit basket', price: 4 },
+  { id: 'plant',    room: 'kitchen', e: '🪴', name: 'Pot plant',   price: 4 },
   // bedroom
   { id: 'bed',      room: 'bedroom', e: '🛏️', name: 'Bed',         price: 6 },
   { id: 'teddy',    room: 'bedroom', e: '🧸', name: 'Teddy',       price: 3 },
@@ -33,6 +39,9 @@ export const ITEMS = [
   { id: 'bow',      room: 'bedroom', e: '🎀', name: 'Big bow',     price: 2 },
   { id: 'wand',     room: 'bedroom', e: '🪄', name: 'Magic wand',  price: 5 },
   { id: 'lamp',     room: 'bedroom', e: '🪔', name: 'Night light', price: 4 },
+  { id: 'wardrobe', room: 'bedroom', e: '🚪', name: 'Wardrobe',    price: 8 },
+  { id: 'chest',    room: 'bedroom', e: '🧰', name: 'Treasure chest', price: 9 },
+  { id: 'bath',     room: 'bedroom', e: '🛁', name: 'Bubble bath', price: 7 },
   // stables
   { id: 'carrots',  room: 'stables', e: '🥕', name: 'Carrots',     price: 2 },
   { id: 'apples',   room: 'stables', e: '🍎', name: 'Apples',      price: 2 },
@@ -46,6 +55,7 @@ export const ITEMS = [
   { id: 'butterfly',room: 'garden',  e: '🦋', name: 'Butterfly',   price: 4 },
   { id: 'fountain', room: 'garden',  e: '⛲', name: 'Fountain',    price: 9 },
   { id: 'tree',     room: 'garden',  e: '🌳', name: 'Tree',        price: 5 },
+  { id: 'bench',    room: 'garden',  e: '🪑', name: 'Garden bench', price: 6 },
   // star tower
   { id: 'telescope',room: 'tower',   e: '🔭', name: 'Telescope',   price: 8 },
   { id: 'globe',    room: 'tower',   e: '🪐', name: 'Planet',      price: 6 },

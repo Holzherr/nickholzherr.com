@@ -2,7 +2,7 @@
 // audio/manifest.json lists it, and falls back to the device voice when it doesn't.
 // tools/maths2-voice/generate.mjs reads this file to record the clips.
 
-import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002f';
+import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002g';
 
 export const HOST = 'rosie';
 export const NAMES = ['Tara'];
@@ -86,7 +86,7 @@ function hostLines() {
   L.amazing = 'Amazing,';
   L.well_done_name = 'Well done,';
   L.good_trying = 'Good trying,';
-  for (const n of [4, 7]) L[`earned_${n}`] = `You earned ${coins(n)}. Tap them to put them in your purse.`;
+  for (const n of range(2, 12)) L[`earned_${n}`] = `You earned ${coins(n)}. Tap them to put them in your purse.`;
   L.got_star = 'You got a star!';
   L.perfect_star = 'A perfect round! You got a star!';
   for (const g of GAMES) L[`level_up_${g.id}`] = `${g.name} goes up a level!`;

@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002f';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002f';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002f';
-import * as clips from './voice.js?v=1002f';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002g';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002g';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002g';
+import * as clips from './voice.js?v=1002g';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -620,7 +620,7 @@ function endRound() {
   } else if (score >= 4) S.good[g]++;
   else S.good[g] = 0;
   if (star) S.stars++;
-  const coins = COINS_PER_ROUND + (star ? LEVEL_UP_BONUS : 0);
+  const coins = Math.min(12, Math.max(2, score) + rnd(0, 3) + (star ? LEVEL_UP_BONUS : 0));
   S.rounds.push({ g, score, level: R.level, at: Date.now() });
   save();
   showReward({ score, coins, levelUp, star, game: g });
@@ -641,7 +641,7 @@ function showReward({ score, coins, levelUp, star, game }) {
     const b = document.createElement('button');
     b.className = 'loose-coin';
     b.style.left = 50 + (col - (perRow - 1) / 2) * 20 + '%';
-    b.style.top = (coins > 4 ? 32 + row * 38 : 50) + '%';
+    b.style.top = 50 + (row - (Math.ceil(coins / 4) - 1) / 2) * 30 + '%';
     b.style.animationDelay = k * .09 + 's';
     b.innerHTML = coinSVG(64); b.setAttribute('aria-label', 'Gold coin');
     b.onclick = async () => {
@@ -655,7 +655,7 @@ function showReward({ score, coins, levelUp, star, game }) {
     c.appendChild(b);
   }
   const praise = score >= 4 ? 'amazing' : score >= 2 ? 'well_done_name' : 'good_trying';
-  say([H(praise), nameClip(HOST), H(`earned_${coins}`)], `${$('#rw-title').textContent} You earned ${coins} coins. Tap them to put them in your purse.`, { pitch: 1.15 });
+  say([H(praise), nameClip(HOST), ...(clips.has(HOST, `earned_${coins}`) ? [H(`earned_${coins}`)] : [])], `${$('#rw-title').textContent} You earned ${coins} coins. Tap them to put them in your purse.`, { pitch: 1.15 });
 }
 async function afterCoins({ levelUp, star, game }) {
   await wait(500);
@@ -668,7 +668,11 @@ async function afterCoins({ levelUp, star, game }) {
     line = levelUp ? `You got a star! ${g.name} goes up to level ${S.levels[game]}. ` + line : `A perfect round! You got a star! ` + line;
     parts = levelUp ? [H('got_star'), H(`level_up_${game}`), ...parts] : [H('perfect_star'), ...parts];
     const opened = ROOMS.find(r => r.stars === S.stars);
-    if (opened) { line += ` And a new room is open in your castle!`; parts.push(H('new_room_open')); }
+    if (opened) {
+      line += ` And the ${opened.name} is open in your castle!`; parts.push(H('new_room_open'));
+      $('#rw-star').insertAdjacentHTML('beforeend', `<button class="room-unlock" id="rw-room"><span class="em">🔓</span><span>New room!<b>${esc(opened.name)}</b></span><span class="go">Go and see ➜</span></button>`);
+      $('#rw-room').onclick = () => { S.seenRooms.includes(opened.id) || S.seenRooms.push(opened.id); save(); openRoom(opened.id); };
+    }
   }
   $('#rw-sub').textContent = line;
   say(parts, line, { pitch: 1.15 });
@@ -913,6 +917,7 @@ $('#go-shop').onclick = () => openShop();
 $('#room-shop').onclick = () => openShop(roomId);
 $('#rw-again').onclick = () => startRound(S.rounds.at(-1)?.g || 'count');
 $('#rw-shop').onclick = () => openShop();
+$('#shop-play').onclick = openGames;
 $('#rw-home').onclick = openCastle;
 $('#q-again').onclick = () => R?.q && !R.demo && say(R.q.parts, R.q.say);
 
