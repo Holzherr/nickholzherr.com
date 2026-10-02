@@ -8,8 +8,8 @@ export const HOST = 'rosie';
 export const NAMES = ['Tara'];
 
 export const WORDS = {
-  '💎': ['jewel', 'jewels'], '🍓': ['strawberry', 'strawberries'], '🌸': ['flower', 'flowers'], '🧁': ['cupcake', 'cupcakes'],
-  '⭐': ['star', 'stars'], '🦋': ['butterfly', 'butterflies'], '🍎': ['apple', 'apples'], '🎀': ['bow', 'bows'], '🍰': ['cake', 'cakes'],
+  '💎': ['jewel', 'jewels'], '🍓': ['strawberry', 'strawberries'], '🌸': ['flower', 'flowers'], '🍊': ['orange', 'oranges'], '🍌': ['banana', 'bananas'], '🍐': ['pear', 'pears'],
+  '⭐': ['star', 'stars'], '🦋': ['butterfly', 'butterflies'], '🍎': ['apple', 'apples'], '🎀': ['bow', 'bows'],
   '🧶': ['ball of wool', 'balls of wool'], '🔥': ['flame', 'flames'], '🥕': ['carrot', 'carrots'], '🌈': ['rainbow', 'rainbows'],
   '🪷': ['lily', 'lilies'], '✨': ['sparkle', 'sparkles'], '💤': ['one', 'ones'],
 };
@@ -59,7 +59,7 @@ function hostLines() {
   // games
   L.pick_game = 'Pick a game!';
   for (const t of THINGS) L[`q_count_${thingKey(t)}`] = `How many ${word(t, 2)}? Count them!`;
-  for (const t of ['🍰', '🧁', '🍓', '🍎', '💎']) L[`q_compare_${thingKey(t)}`] = `Which plate has more ${word(t, 2)}?`;
+  for (const t of ['🍌', '🍊', '🍓', '🍎', '🍐']) L[`q_compare_${thingKey(t)}`] = `Which plate has more ${word(t, 2)}?`;
   for (const n of range(1, 8)) L[`party_${n}`] = `There ${n === 1 ? 'is one' : 'are ' + numWord(n)} at the party.`;
   L.one_more_comes = 'One more comes.';
   L.two_more_come = 'Two more come.';

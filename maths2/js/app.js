@@ -412,7 +412,7 @@ const DEMO = {
   count:   { game: 'count', n: 3, t: '💎', ans: 3, choices: [2, 3, 4], text: 'How many jewels?', say: 'How many jewels? Count them!', parts: [H('q_count_jewels')] },
   more:    { game: 'more', n: 2, add: 1, t: '🐰', ans: 3, choices: [2, 3, 4], text: 'One more comes! How many now?', say: 'There are two at the party. One more comes. How many now?', parts: [H('party_2'), H('one_more_comes'), H('how_many_now')] },
   fewer:   { game: 'fewer', n: 4, sub: 1, t: '🐱', ans: 3, choices: [2, 3, 4], text: 'One goes to bed. How many left?', say: 'Four friends are playing. One goes to bed. How many are left?', parts: [H('playing_4'), H('one_goes_bed'), H('how_many_left')] },
-  compare: { game: 'compare', a: 2, b: 5, t: '🍰', ans: 1, big: null, text: 'Which plate has more?', say: 'Which plate has more cakes?', parts: [H('q_compare_cakes')] },
+  compare: { game: 'compare', a: 2, b: 5, t: '🍎', ans: 1, big: null, text: 'Which plate has more?', say: 'Which plate has more apples?', parts: [H('q_compare_apples')] },
 };
 async function demo(game) {
   const q = DEMO[game], r = R;
@@ -479,7 +479,7 @@ function makeQ(game, lv) {
     const go = sub === 1 ? 'One goes' : 'Two go';
     return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(sub === 1 ? 'one_goes_bed' : 'two_go_bed'), H('how_many_left')], choices: choices(n - sub, 1) };
   }
-  const t = pick(['🍰', '🧁', '🍓', '🍎', '💎']);
+  const t = pick(['🍌', '🍊', '🍓', '🍎', '🍐']);
   let a, b;
   if (lv === 1) { a = rnd(1, 3); b = a + rnd(3, 4); } else { a = rnd(2, 7); b = a + rnd(1, 2); }
   if (Math.random() < .5) [a, b] = [b, a];

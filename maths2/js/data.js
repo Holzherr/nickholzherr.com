@@ -20,12 +20,12 @@ export const ITEMS = [
   { id: 'bouquet',  room: 'throne',  e: '💐', name: 'Flowers',     price: 2 },
   { id: 'crown',    room: 'throne',  e: '👑', name: 'Crown',       price: 6 },
   // kitchen
-  { id: 'cake',     room: 'kitchen', e: '🎂', name: 'Birthday cake', price: 4 },
-  { id: 'cupcake',  room: 'kitchen', e: '🧁', name: 'Cupcakes',    price: 2 },
+  { id: 'cake',     room: 'kitchen', e: '🍉', name: 'Watermelon',  price: 4 },
+  { id: 'cupcake',  room: 'kitchen', e: '🍇', name: 'Grapes',      price: 2 },
   { id: 'teapot',   room: 'kitchen', e: '🫖', name: 'Teapot',      price: 3 },
   { id: 'berries',  room: 'kitchen', e: '🍓', name: 'Strawberries', price: 2 },
-  { id: 'croissant',room: 'kitchen', e: '🥐', name: 'Croissant',   price: 2 },
-  { id: 'pie',      room: 'kitchen', e: '🥧', name: 'Apple pie',   price: 3 },
+  { id: 'croissant',room: 'kitchen', e: '🍐', name: 'Pear',        price: 2 },
+  { id: 'pie',      room: 'kitchen', e: '🍍', name: 'Pineapple',   price: 3 },
   // bedroom
   { id: 'bed',      room: 'bedroom', e: '🛏️', name: 'Bed',         price: 6 },
   { id: 'teddy',    room: 'bedroom', e: '🧸', name: 'Teddy',       price: 3 },
@@ -59,7 +59,7 @@ export const FRIENDS = [
     quirk: 'Oh! I was so busy waving I lost count.' },
   { id: 'cat',      room: 'throne',  e: '🐱', name: 'Whiskers',  price: 5,  pitch: 1.6, thing: '🧶',
     quirk: 'Mew! I was chasing my tail and forgot one.' },
-  { id: 'cook',     room: 'kitchen', e: '🧑‍🍳', name: 'Cook Crumble', price: 7,  pitch: 1.0, thing: '🧁',
+  { id: 'cook',     room: 'kitchen', e: '🧑‍🍳', name: 'Cook Crumble', price: 7,  pitch: 1.0, thing: '🍊',
     quirk: 'Oops! I ate one while I was counting.' },
   { id: 'owl',      room: 'bedroom', e: '🦉', name: 'Hoot',      price: 6,  pitch: 1.2, thing: '⭐',
     quirk: 'Twit-twoo! I looked very wise, but I counted one twice.' },
@@ -81,7 +81,7 @@ export const GAMES = [
   { id: 'count',   name: 'Count the Jewels', icon: '💎', about: 'Count them all' },
   { id: 'more',    name: 'One More Guest',   icon: '🎈', about: 'Someone arrives' },
   { id: 'fewer',   name: 'Off to Bed',       icon: '🌙', about: 'Someone leaves' },
-  { id: 'compare', name: 'Which Has More?',  icon: '🍰', about: 'Pick the bigger pile' },
+  { id: 'compare', name: 'Which Has More?',  icon: '🍎', about: 'Pick the bigger pile' },
 ];
 
 export const MAX_LEVEL = 3;
@@ -94,5 +94,5 @@ export const SPOTS = [
   [50, 70], [25, 78], [75, 78], [15, 62], [85, 62], [38, 88], [62, 88], [32, 66], [68, 66], [50, 84], [10, 86], [90, 86],
 ];
 
-export const THINGS = ['💎', '🍓', '🌸', '🧁', '⭐', '🦋', '🍎', '🎀'];
+export const THINGS = ['💎', '🍓', '🌸', '🍊', '⭐', '🦋', '🍎', '🎀'];
 export const GUESTS = ['👸', '🤴', '🧚', '🐱', '🐶', '🦄', '🐸', '🐰'];

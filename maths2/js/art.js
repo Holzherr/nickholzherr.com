@@ -21,16 +21,16 @@ export function starSVG(size = 22) {
 // Princess Rosie: an original drawn character. CSS animates her (blink, sway, talk, wave);
 // the mouth moves while <body class="rosie-talking"> is set by say().
 export function rosieSVG(w = 100, h = Math.round(w * 1.2)) {
-  const skin = '#ffd9c4', hair = '#9a4b2c', hairDark = '#7a3720';
+  const skin = '#ffe1d0', hair = '#eed69a', hairDark = '#c4a45e';
   return `<svg class="rosie-svg" width="${w}" height="${h}" viewBox="0 0 120 144" aria-hidden="true">
     <g class="r-body">
-      <path d="M30 54C24 18 96 18 90 54C97 82 101 112 92 132L28 132C19 112 23 82 30 54Z" fill="${hair}"/>
-      <path d="M38 96C42 112 40 124 34 132M82 96C78 112 80 124 86 132" stroke="${hairDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M26 144C26 112 40 98 60 98C80 98 94 112 94 144Z" fill="#ff7bac"/>
-      <path d="M38 126Q60 132 82 126L83 131Q60 137 37 131Z" fill="#ffc94d"/>
-      <path d="M45 100Q52 112 60 107Q68 112 75 100Q68 98 60 98Q52 98 45 100Z" fill="#ffb3cf"/>
-      <circle cx="35" cy="108" r="11" fill="#ffb3cf"/>
-      <path d="M46 144L48 136M74 144L72 136" stroke="#e85d93" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 54C24 18 96 18 90 54C92 70 90 84 84 94L28 132C19 112 23 82 30 54Z" fill="${hair}"/>
+      <path d="M38 96C42 112 40 124 34 132" stroke="${hairDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M26 144C26 112 40 98 60 98C80 98 94 112 94 144Z" fill="#7fcdf2"/>
+      <path d="M38 126Q60 132 82 126L83 131Q60 137 37 131Z" fill="#e8f7ff"/>
+      <path d="M45 100Q52 112 60 107Q68 112 75 100Q68 98 60 98Q52 98 45 100Z" fill="#c9ecff"/>
+      <circle cx="35" cy="108" r="11" fill="#c9ecff"/>
+      <path d="M46 144L48 136M74 144L72 136" stroke="#4fb3e6" stroke-width="2" stroke-linecap="round"/>
       <path d="M52 140l1.2-2.6 1.2 2.6 2.6 1.2-2.6 1.2-1.2 2.6-1.2-2.6-2.6-1.2zM66 118l1-2 1 2 2 1-2 1-1 2-1-2-2-1z" fill="#fff" opacity=".85"/>
       <rect x="54" y="84" width="12" height="16" rx="5" fill="${skin}"/>
       <circle cx="60" cy="102" r="2.6" fill="#fff"/><circle cx="55" cy="100.5" r="2" fill="#fff"/><circle cx="65" cy="100.5" r="2" fill="#fff"/>
@@ -38,7 +38,12 @@ export function rosieSVG(w = 100, h = Math.round(w * 1.2)) {
         <ellipse cx="60" cy="62" rx="23" ry="25" fill="${skin}"/>
         <path d="M37 62C33 32 87 32 83 62C81 52 76 46 68 44C62 52 50 54 37 62Z" fill="${hair}"/>
         <path d="M37 56C30 84 32 104 39 122C42 104 39 82 39.5 64Z" fill="${hair}"/>
-        <path d="M83 56C90 84 88 104 81 122C78 104 81 82 80.5 64Z" fill="${hair}"/>
+        <g fill="${hair}" stroke="${hairDark}" stroke-width="1">
+          <path d="M80 54C88 62 86 72 80 78Z" stroke="none"/>
+          <ellipse cx="79" cy="82" rx="6" ry="7"/><ellipse cx="77" cy="93" rx="5.6" ry="6.6"/><ellipse cx="75" cy="103" rx="5.2" ry="6.2"/><ellipse cx="73.5" cy="112.5" rx="4.6" ry="5.6"/>
+          <path d="M73.5 118L70 126L77 125Z"/>
+        </g>
+        <circle cx="73.5" cy="118" r="2" fill="#9fd8f5"/>
         <g class="r-eyes">
           <ellipse cx="51" cy="64" rx="3.8" ry="4.8" fill="#3a2240"/><ellipse cx="69" cy="64" rx="3.8" ry="4.8" fill="#3a2240"/>
           <circle cx="52.4" cy="62.3" r="1.4" fill="#fff"/><circle cx="70.4" cy="62.3" r="1.4" fill="#fff"/>
@@ -49,12 +54,12 @@ export function rosieSVG(w = 100, h = Math.round(w * 1.2)) {
         <path d="M59 68.5Q60 70.5 61.5 69" stroke="#e0a58a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
         <path class="r-closed" d="M54 75.5Q60 80.5 66 75.5" stroke="#c2416d" stroke-width="2.2" fill="none" stroke-linecap="round"/>
         <path class="r-open" d="M54.5 75Q60 85 65.5 75Q60 76.6 54.5 75Z" fill="#c2416d"/>
-        <path d="M43 41L47 29L53.5 36.5L60 24L66.5 36.5L73 29L77 41Q60 36 43 41Z" fill="#ffc94d" stroke="#e8a92a" stroke-width="1.6" stroke-linejoin="round"/>
-        <circle cx="60" cy="33" r="3" fill="#ff5c9a"/><circle cx="47.5" cy="34.5" r="1.6" fill="#c7a6ff"/><circle cx="72.5" cy="34.5" r="1.6" fill="#c7a6ff"/>
+        <path d="M45 41L48 31L54 37L60 25L66 37L72 31L75 41Q60 37 45 41Z" fill="#f2fbff" stroke="#9fd8f5" stroke-width="1.6" stroke-linejoin="round"/>
+        <g stroke="#4fb3e6" stroke-width="1.2" stroke-linecap="round"><path d="M60 28.5v8M56.5 32.5h7M57.5 30l5 5M62.5 30l-5 5"/></g><circle cx="48.5" cy="35" r="1.5" fill="#9fd8f5"/><circle cx="71.5" cy="35" r="1.5" fill="#9fd8f5"/>
       </g>
       <g class="r-arm">
         <path d="M84 107Q97 99 99 84" stroke="${skin}" stroke-width="8" fill="none" stroke-linecap="round"/>
-        <circle cx="85" cy="108" r="11" fill="#ffb3cf"/>
+        <circle cx="85" cy="108" r="11" fill="#c9ecff"/>
         <circle cx="99.5" cy="81" r="5.6" fill="${skin}"/>
       </g>
     </g>
