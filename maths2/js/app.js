@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002e';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002e';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002e';
-import * as clips from './voice.js?v=1002e';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002f';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002f';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002f';
+import * as clips from './voice.js?v=1002f';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -531,7 +531,7 @@ async function renderQ(q, { quiet = false } = {}) {
     return;
   }
   if (q.game === 'sums') {
-    const help = q.minus ? objs(q.t, q.a - q.b) + objs('💤', q.b, 'out') : objs(q.t, q.a) + `<span class="plus">+</span>` + objs(q.t, q.b);
+    const help = q.minus ? objs(q.t, q.a - q.b) + objs(q.t, q.b, 'out') : objs(q.t, q.a) + `<span class="plus">+</span>` + objs(q.t, q.b);
     st.innerHTML = `<div class="eq">${q.eq}</div><div class="objs small" id="objs">${help}</div>`;
   } else st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
   const showAnswers = () => {

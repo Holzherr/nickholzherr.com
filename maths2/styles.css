@@ -289,3 +289,4 @@ body.demo .nova .rosie-svg{width:170px;height:204px}
 .eq{font:600 clamp(56px,11vw,110px)/1 'Fredoka',system-ui,sans-serif;color:#6b2a5e;letter-spacing:.04em;margin-bottom:clamp(10px,2vw,22px);text-align:center}
 .objs.small{font-size:clamp(22px,3.6vw,34px);gap:clamp(3px,.8vw,8px);opacity:.85}
 .objs .plus{align-self:center;color:#6b2a5e;font-weight:700}
+.objs.small .o.out{opacity:.3;filter:grayscale(1);transform:none}
