@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js';
-import * as clips from './voice.js';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002';
+import * as clips from './voice.js?v=1002';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
