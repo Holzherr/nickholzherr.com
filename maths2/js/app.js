@@ -1,5 +1,5 @@
 import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js';
-import { castleSVG, roomSVG, coinSVG, starSVG } from './art.js';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js';
 import { HOST, word, thingKey, slug, speakerOf } from './lines.js';
 import * as clips from './voice.js';
 
@@ -136,9 +136,15 @@ function speak(text, { pitch = 1.1, rate = .95 } = {}) {
 
 // Say a line: recorded clips when every part has one, otherwise the device voice reads `text`.
 // parts: [speaker, key] pairs; falsy entries (e.g. a name with no clip) are skipped.
+let talkId = 0;
 function say(parts, text, opts) {
   if (!S.sound) return Promise.resolve();
   const list = (parts || []).filter(Boolean);
+  const id = ++talkId;
+  document.body.classList.toggle('rosie-talking', !list.length || list[0][0] === HOST);
+  return sayNow(list, text, opts).finally(() => { if (id === talkId) document.body.classList.remove('rosie-talking'); });
+}
+function sayNow(list, text, opts) {
   try { audio(); } catch {}
   if (list.length && clips.clipCount() && !clips.canPlay(list)) console.warn('voice: no clip for', list.filter(([sp, k]) => !clips.has(sp, k)).map(x => x.join('/')).join(', '));
   if (clips.canPlay(list)) {
@@ -217,12 +223,14 @@ function closeModal() { $('#modal-root').innerHTML = ''; }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ---------- Nova ----------
+function wave(svg) { if (!svg) return; svg.classList.remove('waving'); void svg.getBoundingClientRect(); svg.classList.add('waving'); }
 let novaLine = '', novaParts = null;
 let novaTimer = 0;
 function nova(html, parts) {
   novaLine = html; novaParts = parts;
   const b = $('#nova-say');
   b.innerHTML = html; b.classList.remove('quiet');
+  wave($('#nova-btn .rosie-svg'));
   clearTimeout(novaTimer);
   const quiet = () => { novaTimer = setTimeout(() => b.classList.add('quiet'), 3500); };
   return say(parts, html, { pitch: 1.15 }).then(quiet);
@@ -311,7 +319,7 @@ function pieceEl(p, isNew) {
   const el = document.createElement('div');
   el.className = 'piece' + (p.kind === 'friend' ? ' friend' : '') + (isNew ? ' arrive' : '');
   place(el, p);
-  el.innerHTML = `<span>${p.def.e}</span>${p.kind === 'friend' && p.taught ? '<span class="badge" aria-hidden="true">⭐</span>' : ''}`;
+  el.innerHTML = `<span>${p.id === 'princess' ? rosieSVG('1em', '1.2em') : p.def.e}</span>${p.kind === 'friend' && p.taught ? '<span class="badge" aria-hidden="true">⭐</span>' : ''}`;
   el.tabIndex = 0; el.setAttribute('role', 'button'); el.setAttribute('aria-label', p.def.name);
   let start = null, moved = false;
   el.addEventListener('pointerdown', e => {
@@ -405,6 +413,7 @@ async function demo(game) {
   R.q = q; R.locked = true; R.demo = true;
   $('#progress').innerHTML = '';
   $('#play-hint').hidden = false;
+  const pr = $('#play-rosie'); pr.innerHTML = rosieSVG(innerWidth < 700 ? 120 : 190); pr.hidden = false; wave(pr.firstElementChild);
   try {
     const shown = renderQ(q, { quiet: true });
     await say([H('watch_me')], 'Watch me first!', { pitch: 1.15 });
@@ -434,7 +443,7 @@ async function demo(game) {
     await say([H('now_you')], 'Now you try!', { pitch: 1.2 });
     await wait(300);
   } finally {
-    $('#play-hint').hidden = true;
+    $('#play-hint').hidden = true; $('#play-rosie').hidden = true;
     if (R === r) { R.locked = false; R.demo = false; }
   }
 }
@@ -744,7 +753,7 @@ async function teach(f) {
   const said = wrong ? (n > 2 && Math.random() < .5 ? n - 1 : n + 1) : n;
   const m = modal(`<div class="sheet teach">
       <button class="round-btn close-x" data-close aria-label="Close">✕</button>
-      <div class="teach-face">${f.e}</div>
+      <div class="teach-face">${f.id === 'princess' ? rosieSVG(110) : f.e}</div>
       <div class="teach-say" id="t-say"></div>
       <div class="stagebox" style="min-height:130px"><div class="objs" id="t-objs">${objs(f.thing, n)}</div></div>
       <div class="row" id="t-act"></div>
@@ -861,7 +870,7 @@ function openParent() {
 // ---------- wiring ----------
 $('#purse-coin').innerHTML = coinSVG(34);
 $('#star-ico').innerHTML = starSVG(30);
-$('#nova-btn').innerHTML = '<span class="rosie" aria-hidden="true">👸</span>';
+$('#nova-btn').innerHTML = `<span class="rosie" aria-hidden="true">${rosieSVG(100)}</span>`;
 $('#nova-btn').setAttribute('aria-label', 'Princess Rosie, tap to hear again');
 $('#nova-btn').onclick = () => { sfx.pop(); if (novaLine) nova(novaLine, novaParts); };
 $('#hud-home').onclick = () => { R = null; stopVoice(); openCastle(); };

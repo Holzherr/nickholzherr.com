@@ -18,6 +18,49 @@ export function starSVG(size = 22) {
   </svg>`;
 }
 
+// Princess Rosie: an original drawn character. CSS animates her (blink, sway, talk, wave);
+// the mouth moves while <body class="rosie-talking"> is set by say().
+export function rosieSVG(w = 100, h = Math.round(w * 1.2)) {
+  const skin = '#ffd9c4', hair = '#9a4b2c', hairDark = '#7a3720';
+  return `<svg class="rosie-svg" width="${w}" height="${h}" viewBox="0 0 120 144" aria-hidden="true">
+    <g class="r-body">
+      <path d="M30 54C24 18 96 18 90 54C97 82 101 112 92 132L28 132C19 112 23 82 30 54Z" fill="${hair}"/>
+      <path d="M38 96C42 112 40 124 34 132M82 96C78 112 80 124 86 132" stroke="${hairDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M26 144C26 112 40 98 60 98C80 98 94 112 94 144Z" fill="#ff7bac"/>
+      <path d="M38 126Q60 132 82 126L83 131Q60 137 37 131Z" fill="#ffc94d"/>
+      <path d="M45 100Q52 112 60 107Q68 112 75 100Q68 98 60 98Q52 98 45 100Z" fill="#ffb3cf"/>
+      <circle cx="35" cy="108" r="11" fill="#ffb3cf"/>
+      <path d="M46 144L48 136M74 144L72 136" stroke="#e85d93" stroke-width="2" stroke-linecap="round"/>
+      <path d="M52 140l1.2-2.6 1.2 2.6 2.6 1.2-2.6 1.2-1.2 2.6-1.2-2.6-2.6-1.2zM66 118l1-2 1 2 2 1-2 1-1 2-1-2-2-1z" fill="#fff" opacity=".85"/>
+      <rect x="54" y="84" width="12" height="16" rx="5" fill="${skin}"/>
+      <circle cx="60" cy="102" r="2.6" fill="#fff"/><circle cx="55" cy="100.5" r="2" fill="#fff"/><circle cx="65" cy="100.5" r="2" fill="#fff"/>
+      <g class="r-head">
+        <ellipse cx="60" cy="62" rx="23" ry="25" fill="${skin}"/>
+        <path d="M37 62C33 32 87 32 83 62C81 52 76 46 68 44C62 52 50 54 37 62Z" fill="${hair}"/>
+        <path d="M37 56C30 84 32 104 39 122C42 104 39 82 39.5 64Z" fill="${hair}"/>
+        <path d="M83 56C90 84 88 104 81 122C78 104 81 82 80.5 64Z" fill="${hair}"/>
+        <g class="r-eyes">
+          <ellipse cx="51" cy="64" rx="3.8" ry="4.8" fill="#3a2240"/><ellipse cx="69" cy="64" rx="3.8" ry="4.8" fill="#3a2240"/>
+          <circle cx="52.4" cy="62.3" r="1.4" fill="#fff"/><circle cx="70.4" cy="62.3" r="1.4" fill="#fff"/>
+          <path d="M46.5 60.5L45 58.5M48.5 59.3L47.6 57M73.5 60.5L75 58.5M71.5 59.3L72.4 57" stroke="#3a2240" stroke-width="1.3" stroke-linecap="round"/>
+        </g>
+        <path d="M47 55.5Q51 53.5 55 55M65 55Q69 53.5 73 55.5" stroke="${hairDark}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="45.5" cy="72" r="4.6" fill="#ff8fb5" opacity=".45"/><circle cx="74.5" cy="72" r="4.6" fill="#ff8fb5" opacity=".45"/>
+        <path d="M59 68.5Q60 70.5 61.5 69" stroke="#e0a58a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path class="r-closed" d="M54 75.5Q60 80.5 66 75.5" stroke="#c2416d" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path class="r-open" d="M54.5 75Q60 85 65.5 75Q60 76.6 54.5 75Z" fill="#c2416d"/>
+        <path d="M43 41L47 29L53.5 36.5L60 24L66.5 36.5L73 29L77 41Q60 36 43 41Z" fill="#ffc94d" stroke="#e8a92a" stroke-width="1.6" stroke-linejoin="round"/>
+        <circle cx="60" cy="33" r="3" fill="#ff5c9a"/><circle cx="47.5" cy="34.5" r="1.6" fill="#c7a6ff"/><circle cx="72.5" cy="34.5" r="1.6" fill="#c7a6ff"/>
+      </g>
+      <g class="r-arm">
+        <path d="M84 107Q97 99 99 84" stroke="${skin}" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <circle cx="85" cy="108" r="11" fill="#ffb3cf"/>
+        <circle cx="99.5" cy="81" r="5.6" fill="${skin}"/>
+      </g>
+    </g>
+  </svg>`;
+}
+
 export function novaSVG(size = 84) {
   return `<svg class="nova-svg" width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true">
     <defs><radialGradient id="novaG" cx="40%" cy="35%"><stop offset="0" stop-color="#fffbe6"/><stop offset=".55" stop-color="#ffd66b"/><stop offset="1" stop-color="#f0a020"/></radialGradient></defs>
