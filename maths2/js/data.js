@@ -82,6 +82,7 @@ export const GAMES = [
   { id: 'more',    name: 'One More Guest',   icon: '🎈', about: 'Someone arrives' },
   { id: 'fewer',   name: 'Off to Bed',       icon: '🌙', about: 'Someone leaves' },
   { id: 'compare', name: 'Which Has More?',  icon: '🍎', about: 'Pick the bigger pile' },
+  { id: 'sums',    name: 'Magic Sums',       icon: '➕', about: '2 + 3 = ?' },
 ];
 
 export const MAX_LEVEL = 5;

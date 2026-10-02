@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002d';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002d';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002d';
-import * as clips from './voice.js?v=1002d';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002e';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002e';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002e';
+import * as clips from './voice.js?v=1002e';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -24,15 +24,18 @@ const KEY = 'maths-castle.v1';
 const fresh = () => ({
   name: 'Tara', started: false, sound: true,
   coins: 0, earned: 0, spent: 0, stars: 0,
-  levels: { count: 1, more: 1, fewer: 1, compare: 1 },
-  good: { count: 0, more: 0, fewer: 0, compare: 0 },
+  levels: { count: 1, more: 1, fewer: 1, compare: 1, sums: 3 },
+  good: { count: 0, more: 0, fewer: 0, compare: 0, sums: 0 },
   items: {}, friends: {}, wish: null, seenRooms: ['throne'],
   rounds: [], caught: 0, missed: 0,
   shown: {}, levelFrom: null, gardenSeen: {},
 });
 let S = load();
 function load() {
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) return { ...fresh(), ...s }; } catch {}
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s) { const f = fresh(); return { ...f, ...s, levels: { ...f.levels, ...s.levels }, good: { ...f.good, ...s.good } }; }
+  } catch {}
   return fresh();
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} }
@@ -400,7 +403,7 @@ let R = null;
 async function startRound(game) {
   R = { game, i: 0, results: [], level: S.levels[game], lastN: null };
   show('s-play');
-  if (!S.shown[game]) {
+  if (!S.shown[game] && DEMO[game]) {
     const r = R;
     await demo(game);
     if (R !== r || current !== 's-play') return;
@@ -482,6 +485,16 @@ function makeQ(game, lv) {
     const go = ['One goes', 'Two go', 'Three go'][sub - 1];
     return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(['one_goes_bed', 'two_go_bed', 'three_go_bed'][sub - 1]), H('how_many_left')], choices: choices(n - sub, 1) };
   }
+  if (game === 'sums') {
+    const top = [5, 10, 10, 15, 20][lv - 1], minus = lv >= 3 && Math.random() < .5;
+    const t = pick(THINGS);
+    let a, b;
+    if (minus) { a = rnd(3, top); b = rnd(1, Math.min(lv >= 4 ? 6 : 3, a - 1)); }
+    else { a = rnd(1, top - 1); b = rnd(1, Math.min(lv >= 4 ? 6 : 5, top - a)); }
+    const ans = minus ? a - b : a + b, sign = minus ? '−' : '+';
+    return { game, a, b, minus, t, n: a, sub: minus ? b : 0, ans, eq: `${a} ${sign} ${b} = ?`, text: 'Magic sum!',
+      say: `What is ${a} ${minus ? 'take away' : 'plus'} ${b}?`, parts: [H('what_is'), H(`n_${a}`), H(minus ? 'take_away' : 'plus'), H(`n_${b}`)], choices: choices(ans, 0) };
+  }
   const t = pick(['🍌', '🍊', '🍓', '🍎', '🍐']);
   let a, b;
   if (lv === 1) { a = rnd(1, 3); b = a + rnd(3, 4); } else if (lv <= 3) { a = rnd(2, 7); b = a + rnd(1, 2); } else if (lv === 4) { a = rnd(5, 13); b = a + rnd(1, 2); } else { a = rnd(8, 19); b = a + 1; }
@@ -517,12 +530,15 @@ async function renderQ(q, { quiet = false } = {}) {
     talk(q.parts, q.say);
     return;
   }
-  st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
+  if (q.game === 'sums') {
+    const help = q.minus ? objs(q.t, q.a - q.b) + objs('💤', q.b, 'out') : objs(q.t, q.a) + `<span class="plus">+</span>` + objs(q.t, q.b);
+    st.innerHTML = `<div class="eq">${q.eq}</div><div class="objs small" id="objs">${help}</div>`;
+  } else st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
   const showAnswers = () => {
     ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
     $$('.ans').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
   };
-  if (q.game === 'count') { showAnswers(); talk(q.parts, q.say); return; }
+  if (q.game === 'count' || q.game === 'sums') { showAnswers(); talk(q.parts, q.say); return; }
   talk(q.parts, q.say);
   await wait(q.game === 'more' ? 2300 : 2600);
   if (!alive()) return;

@@ -2,7 +2,7 @@
 // audio/manifest.json lists it, and falls back to the device voice when it doesn't.
 // tools/maths2-voice/generate.mjs reads this file to record the clips.
 
-import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002d';
+import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002e';
 
 export const HOST = 'rosie';
 export const NAMES = ['Tara'];
@@ -64,6 +64,9 @@ function hostLines() {
   L.one_more_comes = 'One more comes.';
   L.two_more_come = 'Two more come.';
   L.three_more_come = 'Three more come.';
+  L.what_is = 'What is';
+  L.plus = 'plus';
+  L.take_away = 'take away';
   L.how_many_now = 'How many now?';
   for (const n of range(2, 20)) L[`playing_${n}`] = `${Cap(numWord(n))} friends are playing.`;
   L.one_goes_bed = 'One goes to bed.';
