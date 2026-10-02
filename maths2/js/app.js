@@ -28,6 +28,7 @@ const fresh = () => ({
   good: { count: 0, more: 0, fewer: 0, compare: 0 },
   items: {}, friends: {}, wish: null, seenRooms: ['throne'],
   rounds: [], caught: 0, missed: 0,
+  shown: {}, levelFrom: null, gardenSeen: {},
 });
 let S = load();
 function load() {
@@ -35,6 +36,50 @@ function load() {
   return fresh();
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} }
+
+// ---------- levels carried over from Maths Garden ----------
+// Maths Garden lives on the same site (/maths), so its saved progress and sign-in are readable here.
+// Its levels count from 0 and go higher than the castle's, so level 0 is castle level 1 and 2+ is the top.
+// A Garden level is only taken when it has gone up since last time, so a level set by hand on the
+// grown-ups screen stays put until she moves on in Maths Garden.
+const GARDEN_GAME = { count: 'count', more: 'add', fewer: 'fewer', compare: 'more' };
+const GARDEN_DB = { url: 'https://gzdfoptvdocauvgxltjk.supabase.co', key: 'sb_publishable_b7V7vEv3xUtEZf3uFPrQAg_BX1uAqCH' };
+function gardenOnDevice() {
+  const out = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k?.startsWith('maths-garden:progress:')) continue;
+    try { const lv = JSON.parse(localStorage.getItem(k))?.levels; if (lv) out.push(lv); } catch {}
+  }
+  return out;
+}
+// Only uses a sign-in that is still valid: refreshing it here would rotate the token under Maths Garden.
+async function gardenAccount() {
+  const sess = JSON.parse(localStorage.getItem('sb-gzdfoptvdocauvgxltjk-auth-token') || 'null');
+  if (!sess?.access_token || sess.expires_at * 1000 < Date.now()) return [];
+  const get = path => fetch(`${GARDEN_DB.url}/rest/v1/${path}`, { headers: { apikey: GARDEN_DB.key, Authorization: `Bearer ${sess.access_token}` } })
+    .then(r => (r.ok ? r.json() : []));
+  const [kids, rows] = await Promise.all([get('children?select=id,name'), get('maths_levels?select=child_id,game,level')]);
+  const child = kids.find(c => c.name?.trim().toLowerCase() === S.name.trim().toLowerCase());
+  const byChild = {};
+  for (const r of rows) if (!child || r.child_id === child.id) (byChild[r.child_id] ||= {})[r.game] = r.level;
+  return Object.values(byChild);
+}
+function takeGardenLevels(list, from) {
+  let raised = false;
+  for (const [g, gg] of Object.entries(GARDEN_GAME)) {
+    const lv = Math.max(0, ...list.map(l => (typeof l[gg] === 'number' ? Math.min(MAX_LEVEL, l[gg] + 1) : 0)));
+    if (lv <= (S.gardenSeen[g] || 0)) continue;
+    S.gardenSeen[g] = lv;
+    if (lv > S.levels[g]) { S.levels[g] = lv; S.good[g] = 0; raised = true; }
+  }
+  if (raised) S.levelFrom = from;
+  save();
+}
+async function syncGarden() {
+  try { takeGardenLevels(gardenOnDevice(), 'Maths Garden on this device'); } catch {}
+  try { takeGardenLevels(await gardenAccount(), 'the Maths Garden account'); } catch {}
+}
 const owned = id => !!(S.items[id] || S.friends[id]);
 const roomOpen = id => S.stars >= roomById[id].stars;
 
@@ -334,10 +379,64 @@ function openGames() {
 }
 
 let R = null;
-function startRound(game) {
+async function startRound(game) {
   R = { game, i: 0, results: [], level: S.levels[game], lastN: null };
   show('s-play');
+  if (!S.shown[game]) {
+    const r = R;
+    await demo(game);
+    if (R !== r || current !== 's-play') return;
+    S.shown[game] = true; save();
+    R.results = []; R.lastN = null;
+  }
   nextQ();
+}
+
+// ---------- first go at a game: Rosie plays one question herself ----------
+const DEMO = {
+  count:   { game: 'count', n: 3, t: '💎', ans: 3, choices: [2, 3, 4], text: 'How many jewels?', say: 'How many jewels? Count them!', parts: [H('q_count_jewels')] },
+  more:    { game: 'more', n: 2, add: 1, t: '🐰', ans: 3, choices: [2, 3, 4], text: 'One more comes! How many now?', say: 'There are two at the party. One more comes. How many now?', parts: [H('party_2'), H('one_more_comes'), H('how_many_now')] },
+  fewer:   { game: 'fewer', n: 4, sub: 1, t: '🐱', ans: 3, choices: [2, 3, 4], text: 'One goes to bed. How many left?', say: 'Four friends are playing. One goes to bed. How many are left?', parts: [H('playing_4'), H('one_goes_bed'), H('how_many_left')] },
+  compare: { game: 'compare', a: 2, b: 5, t: '🍰', ans: 1, big: null, text: 'Which plate has more?', say: 'Which plate has more cakes?', parts: [H('q_compare_cakes')] },
+};
+async function demo(game) {
+  const q = DEMO[game], r = R;
+  const alive = () => R === r && current === 's-play';
+  R.q = q; R.locked = true; R.demo = true;
+  $('#progress').innerHTML = '';
+  $('#play-hint').hidden = false;
+  try {
+    const shown = renderQ(q, { quiet: true });
+    await say([H('watch_me')], 'Watch me first!', { pitch: 1.15 });
+    if (!alive()) return;
+    await say(q.parts, q.say);
+    await shown;
+    if (!alive()) return;
+    await wait(400);
+    if (game === 'compare') {
+      const plates = $$('.plate');
+      await countAlong(plates[0].querySelector('.objs'), { tag: false });
+      await wait(300);
+      if (!alive()) return;
+      await countAlong(plates[1].querySelector('.objs'), { tag: false });
+      if (!alive()) return;
+      plates[1].classList.add('right');
+      await say([H('more_than_5_2'), H('demo_plate')], 'Five is more than two. So I tap the plate with more.', { pitch: 1.15 });
+    } else {
+      await countAlong($('#objs'));
+      if (!alive()) return;
+      $(`.ans[data-v="${q.ans}"]`)?.classList.add('right');
+      sfx.good();
+      await say([H(`demo_tap_${q.ans}`)], `${q.ans}! So I tap ${q.ans}.`, { pitch: 1.15 });
+    }
+    if (!alive()) return;
+    await wait(500);
+    await say([H('now_you')], 'Now you try!', { pitch: 1.2 });
+    await wait(300);
+  } finally {
+    $('#play-hint').hidden = true;
+    if (R === r) { R.locked = false; R.demo = false; }
+  }
 }
 function choices(ans, min) {
   const out = new Set([ans]);
@@ -386,7 +485,8 @@ function nextQ() {
   renderProgress();
   renderQ(q);
 }
-async function renderQ(q) {
+async function renderQ(q, { quiet = false } = {}) {
+  const talk = (parts, text) => { if (!quiet) say(parts, text); };
   $('#q-text').textContent = q.text;
   const st = $('#q-stage'), ans = $('#answers');
   ans.innerHTML = ''; st.innerHTML = '';
@@ -395,7 +495,7 @@ async function renderQ(q) {
     const size = i => q.big == null ? '' : q.big === i ? 'font-size:clamp(58px,10vw,88px)' : 'font-size:clamp(30px,5vw,42px)';
     st.innerHTML = `<div class="plates">${[q.a, q.b].map((n, i) => `<button class="plate" data-i="${i}" aria-label="Plate ${i + 1}"><div class="objs" style="${size(i)}">${objs(q.t, n)}</div></button>`).join('')}</div>`;
     $$('.plate').forEach(p => p.onclick = () => answer(+p.dataset.i, p));
-    say(q.parts, q.say);
+    talk(q.parts, q.say);
     return;
   }
   st.innerHTML = `<div class="objs" id="objs">${objs(q.t, q.n)}</div>`;
@@ -403,8 +503,8 @@ async function renderQ(q) {
     ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
     $$('.ans').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
   };
-  if (q.game === 'count') { showAnswers(); say(q.parts, q.say); return; }
-  say(q.parts, q.say);
+  if (q.game === 'count') { showAnswers(); talk(q.parts, q.say); return; }
+  talk(q.parts, q.say);
   await wait(q.game === 'more' ? 2300 : 2600);
   if (!alive()) return;
   const box = $('#objs');
@@ -707,7 +807,8 @@ async function teach(f) {
 function openParent() {
   const rows = GAMES.map(g => {
     const rs = S.rounds.filter(r => r.g === g.id);
-    return `<tr><td>${g.icon} ${g.name}</td><td>Level ${S.levels[g.id]} of ${MAX_LEVEL}</td><td>${rs.length} rounds</td></tr>`;
+    const lv = S.levels[g.id];
+    return `<tr><td>${g.icon} ${g.name}</td><td class="lv-set"><button class="round-btn" data-lv="${g.id}" data-d="-1" aria-label="Easier" ${lv <= 1 ? 'disabled' : ''}>−</button> Level ${lv} of ${MAX_LEVEL} <button class="round-btn" data-lv="${g.id}" data-d="1" aria-label="Harder" ${lv >= MAX_LEVEL ? 'disabled' : ''}>+</button></td><td>${rs.length} rounds</td></tr>`;
   }).join('');
   const m = modal(`<div class="sheet parent">
       <button class="round-btn close-x" data-close aria-label="Close">✕</button>
@@ -721,14 +822,22 @@ function openParent() {
         <tr><td>Treasures and friends</td><td></td><td>${Object.keys(S.items).length + Object.keys(S.friends).length} of ${ITEMS.length + FRIENDS.length}</td></tr>
       </tbody></table>
       <p>Each round of 5 pays 4 coins, however it goes. A perfect round, or two good rounds in a row (4 out of 5), moves that game up a level and earns a star plus 3 bonus coins. Stars open new rooms. Friends she buys ask her to check their counting. Everything is saved on this device only.</p>
+      <p>Levels start from where she is in Maths Garden (when it was played in this browser, or you're signed in to it here)${S.levelFrom ? `; last taken from ${S.levelFrom}` : ''}. The first time she opens each game, Princess Rosie plays one question to show her how.</p>
       <div class="row">
         <button class="btn" id="p-coins">+10 coins (testing)</button>
         <button class="btn" id="p-star">+1 star (testing)</button>
+        <button class="btn" id="p-demos">Show how to play again</button>
         <button class="btn pink" id="p-reset">Start again</button>
       </div>
     </div>`);
   m.querySelector('#p-save-name').onclick = () => { S.name = m.querySelector('#p-name').value.trim() || 'Tara'; save(); toast('Name saved'); };
   m.querySelector('#p-coins').onclick = () => { S.coins += 10; save(); renderHud(); bumpPurse(); toast('+10 coins'); };
+  m.querySelectorAll('[data-lv]').forEach(b => b.onclick = () => {
+    const g = b.dataset.lv;
+    S.levels[g] = Math.min(MAX_LEVEL, Math.max(1, S.levels[g] + +b.dataset.d)); S.good[g] = 0; save();
+    openParent();
+  });
+  m.querySelector('#p-demos').onclick = () => { S.shown = {}; save(); toast('Rosie will show each game again'); };
   m.querySelector('#p-star').onclick = () => { S.stars++; save(); renderHud(); toast(`Stars: ${S.stars}`); };
   const reset = m.querySelector('#p-reset');
   reset.onclick = () => {
@@ -764,7 +873,7 @@ $('#room-shop').onclick = () => openShop(roomId);
 $('#rw-again').onclick = () => startRound(S.rounds.at(-1)?.g || 'count');
 $('#rw-shop').onclick = () => openShop();
 $('#rw-home').onclick = openCastle;
-$('#q-again').onclick = () => R?.q && say(R.q.parts, R.q.say);
+$('#q-again').onclick = () => R?.q && !R.demo && say(R.q.parts, R.q.say);
 
 $('#open-gates').onclick = () => {
   S.name = $('#name-in').value.trim() || 'Tara';
@@ -789,6 +898,7 @@ addEventListener('pointerdown', () => {
 }, { capture: true });
 
 function boot() {
+  syncGarden();
   if (!S.started) { show('s-gate'); $('#name-in').value = S.name; return; }
   openCastle();
 }

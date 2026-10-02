@@ -70,6 +70,10 @@ function hostLines() {
   L.how_many_left = 'How many are left?';
   Object.assign(L, { yes: 'Yes!', well_done: 'Well done!', thats_right: "That's right!", brilliant: 'Brilliant!', super: 'Super!' });
   L.not_quite = "Not quite. Let's count together.";
+  L.watch_me = 'Watch me first!';
+  for (const n of range(1, 10)) L[`demo_tap_${n}`] = `${Cap(numWord(n))}! So I tap ${numWord(n)}.`;
+  L.demo_plate = 'So I tap the plate with more.';
+  L.now_you = 'Now you try!';
   for (const n of range(0, 20)) L[`its_tap_${n}`] = `It's ${numWord(n)}. Tap ${numWord(n)}.`;
   for (const hi of range(2, 11)) for (const lo of range(Math.max(1, hi - 4), hi - 1)) L[`more_than_${hi}_${lo}`] = `${Cap(numWord(hi))} is more than ${numWord(lo)}. Tap that plate.`;
 

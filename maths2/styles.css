@@ -263,3 +263,5 @@ button:focus-visible,[tabindex]:focus-visible{outline:4px solid var(--sunny);out
 }
 @media (max-width:700px){.wish .dots{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+.play-hint{align-self:center;padding:6px 16px;border-radius:999px;background:#fff;color:var(--grape);font-weight:600;box-shadow:0 2px 8px rgba(74,31,64,.15)}
