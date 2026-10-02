@@ -2,7 +2,7 @@
 // audio/manifest.json lists it, and falls back to the device voice when it doesn't.
 // tools/maths2-voice/generate.mjs reads this file to record the clips.
 
-import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002';
+import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002d';
 
 export const HOST = 'rosie';
 export const NAMES = ['Tara'];
@@ -60,13 +60,15 @@ function hostLines() {
   L.pick_game = 'Pick a game!';
   for (const t of THINGS) L[`q_count_${thingKey(t)}`] = `How many ${word(t, 2)}? Count them!`;
   for (const t of ['🍌', '🍊', '🍓', '🍎', '🍐']) L[`q_compare_${thingKey(t)}`] = `Which plate has more ${word(t, 2)}?`;
-  for (const n of range(1, 8)) L[`party_${n}`] = `There ${n === 1 ? 'is one' : 'are ' + numWord(n)} at the party.`;
+  for (const n of range(1, 15)) L[`party_${n}`] = `There ${n === 1 ? 'is one' : 'are ' + numWord(n)} at the party.`;
   L.one_more_comes = 'One more comes.';
   L.two_more_come = 'Two more come.';
+  L.three_more_come = 'Three more come.';
   L.how_many_now = 'How many now?';
-  for (const n of range(2, 10)) L[`playing_${n}`] = `${Cap(numWord(n))} friends are playing.`;
+  for (const n of range(2, 20)) L[`playing_${n}`] = `${Cap(numWord(n))} friends are playing.`;
   L.one_goes_bed = 'One goes to bed.';
   L.two_go_bed = 'Two go to bed.';
+  L.three_go_bed = 'Three go to bed.';
   L.how_many_left = 'How many are left?';
   Object.assign(L, { yes: 'Yes!', well_done: 'Well done!', thats_right: "That's right!", brilliant: 'Brilliant!', super: 'Super!' });
   L.not_quite = "Not quite. Let's count together.";

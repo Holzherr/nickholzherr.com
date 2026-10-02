@@ -84,7 +84,7 @@ export const GAMES = [
   { id: 'compare', name: 'Which Has More?',  icon: '🍎', about: 'Pick the bigger pile' },
 ];
 
-export const MAX_LEVEL = 3;
+export const MAX_LEVEL = 5;
 export const ROUND_LEN = 5;
 export const COINS_PER_ROUND = 4;
 export const LEVEL_UP_BONUS = 3;

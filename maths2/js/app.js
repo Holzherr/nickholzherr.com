@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002';
-import * as clips from './voice.js?v=1002';
+import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002d';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002d';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002d';
+import * as clips from './voice.js?v=1002d';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -39,7 +39,7 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {}
 
 // ---------- levels carried over from Maths Garden ----------
 // Maths Garden lives on the same site (/maths), so its saved progress and sign-in are readable here.
-// Its levels count from 0 and go higher than the castle's, so level 0 is castle level 1 and 2+ is the top.
+// Its levels count from 0, so Garden level 0 is castle level 1.
 // A Garden level is only taken when it has gone up since last time, so a level set by hand on the
 // grown-ups screen stays put until she moves on in Maths Garden.
 const GARDEN_GAME = { count: 'count', more: 'add', fewer: 'fewer', compare: 'more' };
@@ -466,28 +466,28 @@ function choices(ans, min) {
 function freshN(a, b) { let n, k = 0; do { n = rnd(a, b); } while (n === R.lastN && k++ < 8); R.lastN = n; return n; }
 function makeQ(game, lv) {
   if (game === 'count') {
-    const [a, b] = [[1, 5], [3, 10], [6, 12]][lv - 1];
+    const [a, b] = [[1, 5], [3, 10], [6, 12], [8, 16], [11, 20]][lv - 1];
     const n = freshN(a, b), t = pick(THINGS);
     return { game, n, t, ans: n, text: `How many ${word(t, 2)}?`, say: `How many ${word(t, 2)}? Count them!`, parts: [H(`q_count_${thingKey(t)}`)], choices: choices(n, 1) };
   }
   if (game === 'more') {
-    const add = lv === 3 ? 2 : 1, [a, b] = [[1, 4], [3, 8], [2, 7]][lv - 1];
+    const add = [1, 1, 2, 2, 3][lv - 1], [a, b] = [[1, 4], [3, 8], [2, 7], [5, 12], [6, 12]][lv - 1];
     const n = freshN(a, b), t = pick(GUESTS);
-    const come = add === 1 ? 'One more comes' : 'Two more come';
-    return { game, n, add, t, ans: n + add, text: `${come}! How many now?`, say: `There are ${n} at the party. ${come}. How many now?`, parts: [H(`party_${n}`), H(add === 1 ? 'one_more_comes' : 'two_more_come'), H('how_many_now')], choices: choices(n + add, 1) };
+    const come = ['One more comes', 'Two more come', 'Three more come'][add - 1];
+    return { game, n, add, t, ans: n + add, text: `${come}! How many now?`, say: `There are ${n} at the party. ${come}. How many now?`, parts: [H(`party_${n}`), H(['one_more_comes', 'two_more_come', 'three_more_come'][add - 1]), H('how_many_now')], choices: choices(n + add, 1) };
   }
   if (game === 'fewer') {
-    const sub = lv === 3 ? 2 : 1, [a, b] = [[2, 5], [3, 9], [4, 10]][lv - 1];
+    const sub = [1, 1, 2, 2, 3][lv - 1], [a, b] = [[2, 5], [3, 9], [4, 10], [8, 15], [10, 20]][lv - 1];
     const n = freshN(a, b), t = pick(GUESTS);
-    const go = sub === 1 ? 'One goes' : 'Two go';
-    return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(sub === 1 ? 'one_goes_bed' : 'two_go_bed'), H('how_many_left')], choices: choices(n - sub, 1) };
+    const go = ['One goes', 'Two go', 'Three go'][sub - 1];
+    return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(['one_goes_bed', 'two_go_bed', 'three_go_bed'][sub - 1]), H('how_many_left')], choices: choices(n - sub, 1) };
   }
   const t = pick(['🍌', '🍊', '🍓', '🍎', '🍐']);
   let a, b;
-  if (lv === 1) { a = rnd(1, 3); b = a + rnd(3, 4); } else { a = rnd(2, 7); b = a + rnd(1, 2); }
+  if (lv === 1) { a = rnd(1, 3); b = a + rnd(3, 4); } else if (lv <= 3) { a = rnd(2, 7); b = a + rnd(1, 2); } else if (lv === 4) { a = rnd(5, 13); b = a + rnd(1, 2); } else { a = rnd(8, 19); b = a + 1; }
   if (Math.random() < .5) [a, b] = [b, a];
   const ans = a > b ? 0 : 1;
-  return { game, a, b, t, ans, big: lv === 3 ? 1 - ans : null, text: 'Which plate has more?', say: `Which plate has more ${word(t, 2)}?`, parts: [H(`q_compare_${thingKey(t)}`)] };
+  return { game, a, b, t, ans, big: lv >= 3 ? 1 - ans : null, text: 'Which plate has more?', say: `Which plate has more ${word(t, 2)}?`, parts: [H(`q_compare_${thingKey(t)}`)] };
 }
 const objs = (e, n, cls = '') => Array.from({ length: n }, () => `<span class="o ${cls}">${e}</span>`).join('');
 
