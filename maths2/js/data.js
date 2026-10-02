@@ -121,9 +121,35 @@ export const GAMES = [
   { id: 'peek',    name: 'Quick Peek',       icon: '👀', about: 'Look fast, then say how many' },
   { id: 'missing', name: 'Missing Number',   icon: '🔍', about: '3 + ? = 7' },
   { id: 'next',    name: 'What Comes Next?', icon: '🪜', about: '2, 4, 6, ?' },
+  { id: 'frog',    name: 'Froggy Hops',      icon: '🐸', about: 'Hop along the number line' },
+  { id: 'frame',   name: 'Ten Frame',        icon: '🔟', about: 'Fill it up to ten' },
+  { id: 'dice',    name: 'Dice Dots',        icon: '🎲', about: 'Add up the dots' },
 ];
 
 export const MAX_LEVEL = 5;
+export const ADV_LEN = 6;
+
+// Each adventure is a little story: six mixed questions, and each right answer wins one `prize`.
+export const STORIES = [
+  { id: 'dragon',  icon: '🐉', prize: '💎', title: "The Dragon's Jewels",
+    intro: 'Oh no! Sparkle the dragon has taken the castle jewels. Solve six puzzles to win them back!',
+    end: 'You won the jewels back! Sparkle says sorry.' },
+  { id: 'unicorn', icon: '🦄', prize: '🍎', title: 'Hungry Unicorns',
+    intro: 'The unicorns are hungry! Every right answer gives them a juicy apple.',
+    end: 'The unicorns are full and happy. Thank you!' },
+  { id: 'ball',    icon: '👗', prize: '🎀', title: 'The Royal Ball',
+    intro: "There's a royal ball tonight! Help me get the castle ready.",
+    end: "The castle is ready for the ball. Let's dance!" },
+  { id: 'stars',   icon: '🌙', prize: '⭐', title: 'Fallen Stars',
+    intro: "The stars have fallen out of the sky! Let's put them back, one puzzle at a time.",
+    end: 'All the stars are shining again!' },
+  { id: 'garden',  icon: '🌷', prize: '🌸', title: 'The Magic Garden',
+    intro: 'The magic garden needs help to grow. Each right answer grows a flower!',
+    end: 'Look at all the flowers! The garden is beautiful.' },
+  { id: 'pond',    icon: '🐸', prize: '🪷', title: 'Froggy Pond',
+    intro: 'The frogs need lily pads to sit on. Each right answer grows a lily pad!',
+    end: 'Every frog has a lily pad now. Ribbit!' },
+];
 export const ROUND_LEN = 5;
 export const COINS_PER_ROUND = 4;
 export const LEVEL_UP_BONUS = 3;

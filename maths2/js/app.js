@@ -1,7 +1,7 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002j';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002j';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002j';
-import * as clips from './voice.js?v=1002j';
+import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002k';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG } from './art.js?v=1002k';
+import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002k';
+import * as clips from './voice.js?v=1002k';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -24,8 +24,9 @@ const KEY = 'maths-castle.v1';
 const fresh = () => ({
   name: 'Tara', started: false, sound: true,
   coins: 0, earned: 0, spent: 0, stars: 0,
-  levels: { count: 1, more: 1, fewer: 1, compare: 1, sums: 3, peek: 3, missing: 2, next: 2 },
-  good: { count: 0, more: 0, fewer: 0, compare: 0, sums: 0, peek: 0, missing: 0, next: 0 },
+  levels: { count: 1, more: 1, fewer: 1, compare: 1, sums: 3, peek: 3, missing: 2, next: 2, frog: 2, frame: 2, dice: 2 },
+  good: { count: 0, more: 0, fewer: 0, compare: 0, sums: 0, peek: 0, missing: 0, next: 0, frog: 0, frame: 0, dice: 0 },
+  streak: {}, lastStory: null,
   items: {}, friends: {}, wish: null, seenRooms: ['throne'],
   rounds: [], caught: 0, missed: 0,
   shown: {}, levelFrom: null, gardenSeen: {},
@@ -400,6 +401,43 @@ function openGames() {
 }
 
 let R = null;
+
+// ---------- adventures: one story, six mixed questions ----------
+// The harder ideas join the mix only once the easier version underneath them is going well.
+function unlocked() {
+  const ok = ['count', 'more', 'fewer', 'compare', 'peek', 'frog', 'frame', 'dice'];
+  if (S.levels.more >= 3 && S.levels.fewer >= 3) ok.push('sums');
+  if (S.levels.sums >= 3) ok.push('missing');
+  if (S.levels.count >= 3) ok.push('next');
+  return ok;
+}
+// Mostly a level she has already got (one below hers), sometimes her own level as the stretch.
+const advLevel = g => Math.max(1, S.levels[g] - (Math.random() < .65 ? 1 : 0));
+// Three right first time in a row moves a game up; two misses in a row moves it back down.
+function adapt(g, ok) {
+  const st = S.streak[g] || 0;
+  S.streak[g] = ok ? Math.max(0, st) + 1 : Math.min(0, st) - 1;
+  if (S.streak[g] >= 3 && S.levels[g] < MAX_LEVEL) { S.levels[g]++; S.streak[g] = 0; R.ups.push(g); }
+  else if (S.streak[g] <= -2 && S.levels[g] > 1) { S.levels[g]--; S.streak[g] = 0; }
+  save();
+}
+async function startAdventure() {
+  const story = pick(STORIES.filter(st => st.id !== S.lastStory));
+  S.lastStory = story.id; save();
+  const r = R = { game: 'adventure', story, plan: shuffle(unlocked()).slice(0, ADV_LEN), i: 0, results: [], lastN: null, ups: [], locked: true };
+  show('s-play');
+  renderProgress();
+  $('#q-text').textContent = story.title;
+  $('#q-stage').innerHTML = `<div class="story"><div class="story-ico">${story.icon}</div><p>${esc(story.intro)}</p></div>`;
+  $('#answers').innerHTML = `<button class="btn pink big" id="adv-go">Let's go! ➜</button>`;
+  let gone = false;
+  const go = () => { if (gone || R !== r || current !== 's-play') return; gone = true; stopVoice(); nextQ(); };
+  $('#adv-go').onclick = go;
+  await Promise.all([say([H(`story_${story.id}_intro`)], story.intro, { pitch: 1.15 }), wait(3500)]);
+  await wait(600);
+  go();
+}
+
 async function startRound(game) {
   R = { game, i: 0, results: [], level: S.levels[game], lastN: null };
   show('s-play');
@@ -485,6 +523,23 @@ function makeQ(game, lv) {
     const go = ['One goes', 'Two go', 'Three go'][sub - 1];
     return { game, n, sub, t, ans: n - sub, text: `${go} to bed. How many left?`, say: `${n} friends are playing. ${go} to bed. How many are left?`, parts: [H(`playing_${n}`), H(['one_goes_bed', 'two_go_bed', 'three_go_bed'][sub - 1]), H('how_many_left')], choices: choices(n - sub, 1) };
   }
+  if (game === 'frog') {
+    const top = lv >= 4 ? 20 : 10, h = rnd(1, [2, 3, 3, 5, 5][lv - 1]), back = lv >= 3 && Math.random() < .4;
+    const a = back ? rnd(h, top) : rnd(0, top - h), ans = back ? a - h : a + h;
+    const line = `Froggy hops ${h} ${back ? 'back' : 'forward'}. Where does she land?`;
+    return { game, a, h, back, top, ans, eq: `${a} ${back ? '−' : '+'} ${h} = ?`, text: line, say: line, parts: [H(`frog_${back ? 'back' : 'fwd'}_${h}`)] };
+  }
+  if (game === 'frame') {
+    if (lv >= 5) { const n = rnd(11, 19); return { game, kind: 'teen', n, ans: n, eq: `10 + ${n - 10} = ?`, text: 'How many dots altogether?', say: 'How many dots altogether?', parts: [H('q_frame_teen')], choices: choices(n, 10) }; }
+    if (lv === 1) { const n = rnd(3, 10); return { game, kind: 'count', n, ans: n, text: 'How many dots?', say: 'How many dots in the frame?', parts: [H('q_frame_count')], choices: choices(n, 1) }; }
+    const n = rnd(lv === 2 ? 5 : 1, 9);
+    return { game, kind: 'fill', n, ans: 10 - n, eq: lv >= 3 ? `${n} + ? = 10` : null, text: 'How many more to fill it?', say: 'How many more to fill the frame?', parts: [H('q_frame_fill')], choices: choices(10 - n, 1) };
+  }
+  if (game === 'dice') {
+    const k = lv === 1 ? 1 : lv <= 3 ? 2 : 3, max = [6, 4, 6, 4, 6][lv - 1];
+    const d = Array.from({ length: k }, () => rnd(1, max)), ans = d.reduce((x, y) => x + y, 0);
+    return { game, d, ans, eq: k > 1 ? `${d.join(' + ')} = ?` : null, text: k > 1 ? 'How many dots altogether?' : 'How many dots?', say: 'How many dots altogether?', parts: [H('q_dice')], choices: choices(ans, 1) };
+  }
   if (game === 'peek') {
     const [a, b] = [[2, 4], [3, 6], [4, 8], [5, 10], [6, 12]][lv - 1];
     const n = freshN(a, b), t = pick(THINGS);
@@ -528,14 +583,18 @@ function makeQ(game, lv) {
 const objs = (e, n, cls = '') => Array.from({ length: n }, () => `<span class="o ${cls}">${e}</span>`).join('');
 
 function renderProgress() {
+  if (R.plan) {
+    $('#progress').innerHTML = R.plan.map((_, i) => `<i class="prize ${R.results[i] === true ? 'ok' : R.results[i] === false ? 'miss' : i === R.i ? 'now' : ''}">${R.story.prize}</i>`).join('');
+    return;
+  }
   $('#progress').innerHTML = Array.from({ length: ROUND_LEN }, (_, i) => {
     const r = R.results[i];
     return `<i class="${r === true ? 'ok' : r === false ? 'miss' : i === R.i ? 'now' : ''}"></i>`;
   }).join('');
 }
 function nextQ() {
-  if (R.i >= ROUND_LEN) return endRound();
-  const q = makeQ(R.game, R.level);
+  if (R.i >= (R.plan ? ADV_LEN : ROUND_LEN)) return endRound();
+  const q = R.plan ? makeQ(R.plan[R.i], advLevel(R.plan[R.i])) : makeQ(R.game, R.level);
   R.q = q; R.tries = 0; R.locked = false;
   renderProgress();
   renderQ(q);
@@ -550,6 +609,26 @@ async function renderQ(q, { quiet = false } = {}) {
     const size = i => q.big == null ? '' : q.big === i ? 'font-size:clamp(58px,10vw,88px)' : 'font-size:clamp(30px,5vw,42px)';
     st.innerHTML = `<div class="plates">${[q.a, q.b].map((n, i) => `<button class="plate" data-i="${i}" aria-label="Plate ${i + 1}"><div class="objs" style="${size(i)}">${objs(q.t, n)}</div></button>`).join('')}</div>`;
     $$('.plate').forEach(p => p.onclick = () => answer(+p.dataset.i, p));
+    talk(q.parts, q.say);
+    return;
+  }
+  if (q.game === 'frog') {
+    const cols = `style="grid-template-columns:repeat(${q.top + 1},1fr)"`;
+    st.innerHTML = `<div class="eq mini">${q.eq}</div>
+      <div class="nline" ${cols}>${Array.from({ length: q.top + 1 }, (_, k) => `<span class="nl-f">${k === q.a ? '🐸' : ''}</span>`).join('')}</div>
+      <div class="nline" ${cols}>${Array.from({ length: q.top + 1 }, (_, k) => `<button class="nl-n" data-v="${k}">${k}</button>`).join('')}</div>`;
+    $$('.nl-n').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
+    talk(q.parts, q.say);
+    return;
+  }
+  if (q.game === 'frame' || q.game === 'dice') {
+    const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
+    const frame = n => `<div class="tframe">${Array.from({ length: 10 }, (_, k) => `<span class="${k < n ? 'on' : ''}"></span>`).join('')}</div>`;
+    const die = v => `<div class="die">${Array.from({ length: 9 }, (_, k) => `<span class="${PIPS[v].includes(k) ? 'on' : ''}"></span>`).join('')}</div>`;
+    const pic = q.game === 'dice' ? `<div class="dice">${q.d.map(die).join('')}</div>` : q.kind === 'teen' ? `<div class="frames">${frame(10)}${frame(q.n - 10)}</div>` : frame(q.n);
+    st.innerHTML = (q.eq ? `<div class="eq mini">${q.eq}</div>` : '') + pic;
+    ans.innerHTML = q.choices.map(c => `<button class="ans" data-v="${c}">${c}</button>`).join('');
+    $$('.ans').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
     talk(q.parts, q.say);
     return;
   }
@@ -619,6 +698,8 @@ async function answer(v, el) {
     R.locked = true;
     el.classList.add('right');
     R.results[R.i] = R.tries === 0;
+    if (R.plan && R.tries === 0) adapt(q.game, true);
+    if (q.game === 'frog') { $$('.nl-f').forEach((c, k) => { c.textContent = k === q.ans ? '🐸' : ''; }); }
     renderProgress();
     sfx.good();
     const [pk, pt] = pick([['yes', 'Yes!'], ['well_done', 'Well done!'], ['thats_right', "That's right!"], ['brilliant', 'Brilliant!'], ['super', 'Super!']]);
@@ -633,6 +714,7 @@ async function answer(v, el) {
   el.classList.remove('wrong'); void el.offsetWidth; el.classList.add('wrong');
   sfx.soft();
   if (R.tries > 1) return;
+  if (R.plan) adapt(q.game, false);
   R.locked = true;
   await say([H('not_quite')], "Not quite. Let's count together.", { pitch: 1.15 });
   if (R?.q !== q) return;
@@ -646,7 +728,9 @@ async function answer(v, el) {
     plates[q.ans].classList.add('right');
     say([H(`more_than_${hi}_${lo}`)], `${hi} is more than ${lo}. Tap that plate.`);
   } else if (!$('#objs')) {
-    $(`.ans[data-v="${q.ans}"]`)?.classList.add('right');
+    if (q.game === 'frog') await frogHop(q);
+    if (R?.q !== q) return;
+    $(`#s-play [data-v="${q.ans}"]`)?.classList.add('right');
     say([H(`its_tap_${q.ans}`)], `It's ${q.ans}. Tap ${q.ans}.`);
   } else {
     $('#objs').classList.remove('peeked');
@@ -658,7 +742,27 @@ async function answer(v, el) {
   R.locked = false;
 }
 
+async function frogHop(q) {
+  const cells = $$('.nl-f');
+  let at = q.a;
+  for (let k = 0; k < q.h; k++) {
+    if (R?.q !== q) return;
+    cells[at].textContent = ''; at += q.back ? -1 : 1; cells[at].textContent = '🐸';
+    sfx.pop(); say([num(k + 1)], String(k + 1), { rate: 1.05 });
+    await wait(700);
+  }
+}
+function endAdventure() {
+  const score = R.results.filter(Boolean).length, ups = R.ups;
+  const star = ups.length > 0 || score === ADV_LEN;
+  if (star) S.stars++;
+  const coins = Math.min(12, Math.max(2, score) + rnd(0, 2) + (star ? LEVEL_UP_BONUS : 0));
+  S.rounds.push({ g: 'adventure', story: R.story.id, score, at: Date.now() });
+  save();
+  showReward({ score, coins, levelUp: ups.length > 0, star, game: ups[0], story: R.story });
+}
 function endRound() {
+  if (R.plan) return endAdventure();
   const g = R.game, score = R.results.filter(Boolean).length;
   let levelUp = false, star = false;
   if (score === ROUND_LEN || (score >= 4 && S.good[g] >= 1)) {
@@ -675,13 +779,13 @@ function endRound() {
 }
 
 // ---------- reward ----------
-function showReward({ score, coins, levelUp, star, game }) {
+function showReward({ score, coins, levelUp, star, game, story }) {
   clips.preload([1, 2, 3, 4, 5, 6, 7].map(n => num(n)));
   show('s-reward');
   $('#rw-buttons').hidden = true;
   $('#rw-star').innerHTML = '';
   $('#rw-title').textContent = score >= 4 ? `Amazing, ${S.name}!` : score >= 2 ? `Well done, ${S.name}!` : `Good trying, ${S.name}!`;
-  $('#rw-sub').textContent = `You earned ${coins} coins. Tap each one to put it in your purse.`;
+  $('#rw-sub').textContent = `${story ? story.end + ' ' : ''}You earned ${coins} coins. Tap each one to put it in your purse.`;
   const c = $('#cushion'); c.innerHTML = '';
   let left = coins, got = 0;
   for (let k = 0; k < coins; k++) {
@@ -703,7 +807,7 @@ function showReward({ score, coins, levelUp, star, game }) {
     c.appendChild(b);
   }
   const praise = score >= 4 ? 'amazing' : score >= 2 ? 'well_done_name' : 'good_trying';
-  say([H(praise), nameClip(HOST), ...(clips.has(HOST, `earned_${coins}`) ? [H(`earned_${coins}`)] : [])], `${$('#rw-title').textContent} You earned ${coins} coins. Tap them to put them in your purse.`, { pitch: 1.15 });
+  say([...(story ? [H(`story_${story.id}_end`)] : []), H(praise), nameClip(HOST), ...(clips.has(HOST, `earned_${coins}`) ? [H(`earned_${coins}`)] : [])], `${story ? story.end + ' ' : ''}${$('#rw-title').textContent} You earned ${coins} coins. Tap them to put them in your purse.`, { pitch: 1.15 });
 }
 async function afterCoins({ levelUp, star, game }) {
   await wait(500);
@@ -789,7 +893,7 @@ function openPay(id) {
     msg(`You have <b>${S.coins}</b>. It costs <b>${price}</b>. You need <b>${need}</b> more!`, [H(`have_coins_${S.coins}`), H(`short_${price}`), H(`need_more_${need}`)]);
     m.querySelector('#pay-actions').innerHTML = `<button class="btn gold" id="save-for">⭐ Save up for it</button><button class="btn pink" id="earn">✏️ Play maths</button>`;
     m.querySelector('#save-for').onclick = () => { S.wish = id; save(); closeModal(); toast(`Saving up for the ${d.name}`); openCastle(); };
-    m.querySelector('#earn').onclick = () => { closeModal(); openGames(); };
+    m.querySelector('#earn').onclick = () => { closeModal(); startAdventure(); };
   };
   pileBtn.onclick = async () => {
     if (done || paid >= price) return;
@@ -908,11 +1012,12 @@ function openParent() {
         <tr><td>Voice</td><td></td><td>${clips.clipCount() ? `${clips.clipCount()} recorded clips` : 'device voice'}</td></tr>
         <tr><td>Treasures and friends</td><td></td><td>${Object.keys(S.items).length + Object.keys(S.friends).length} of ${ITEMS.length + FRIENDS.length}</td></tr>
       </tbody></table>
-      <p>Each round of 5 pays 4 coins, however it goes. A perfect round, or two good rounds in a row (4 out of 5), moves that game up a level and earns a star plus 3 bonus coins. Stars open new rooms. Friends she buys ask her to check their counting. Everything is saved on this device only.</p>
+      <p>Play starts an adventure: a short story with six questions mixed from the games below, mostly one level under hers with the odd stretch. Three right first time in a row moves a game up a level; two misses in a row moves it back down. Sums, Missing Number and What Comes Next join the mix once the easier games under them reach level 3. A level-up or a perfect adventure earns a star and 3 bonus coins. Stars open new rooms. Friends she buys ask her to check their counting. Everything is saved on this device only.</p>
       <p>Levels start from where she is in Maths Garden (when it was played in this browser, or you're signed in to it here)${S.levelFrom ? `; last taken from ${S.levelFrom}` : ''}. The first time she opens each game, Princess Rosie plays one question to show her how.</p>
       <div class="row">
         <button class="btn" id="p-coins">+10 coins (testing)</button>
         <button class="btn" id="p-star">+1 star (testing)</button>
+        <button class="btn" id="p-games">Practise one game</button>
         <button class="btn" id="p-demos">Show how to play again</button>
         <button class="btn" id="p-carry">Move progress to another tab</button>
         <button class="btn pink" id="p-reset">Start again</button>
@@ -930,6 +1035,7 @@ function openParent() {
     try { await navigator.clipboard.writeText(link); toast('Link copied: paste it into a normal Safari tab'); }
     catch { m.querySelector('#p-carry').insertAdjacentHTML('afterend', `<input readonly value="${esc(link)}" onfocus="this.select()" style="width:100%">`); }
   };
+  m.querySelector('#p-games').onclick = () => { closeModal(); openGames(); };
   m.querySelector('#p-demos').onclick = () => { S.shown = {}; save(); toast('Rosie will show each game again'); };
   m.querySelector('#p-star').onclick = () => { S.stars++; save(); renderHud(); toast(`Stars: ${S.stars}`); };
   const reset = m.querySelector('#p-reset');
@@ -960,12 +1066,12 @@ $('#nova-btn').onclick = () => { sfx.pop(); if (novaLine) nova(novaLine, novaPar
 $('#hud-home').onclick = () => { R = null; stopVoice(); openCastle(); };
 $('#sound').onclick = () => { S.sound = !S.sound; save(); renderHud(); if (!S.sound) stopVoice(); };
 $('#wish').onclick = () => { const d = S.wish && defOf(S.wish); if (d) openShop(friendById[d.id] ? 'friends' : d.room, d.id); };
-$('#go-play').onclick = openGames;
+$('#go-play').onclick = startAdventure;
 $('#go-shop').onclick = () => openShop();
 $('#room-shop').onclick = () => openShop(roomId);
-$('#rw-again').onclick = () => startRound(S.rounds.at(-1)?.g || 'count');
+$('#rw-again').onclick = () => { const g = S.rounds.at(-1)?.g; g && g !== 'adventure' ? startRound(g) : startAdventure(); };
 $('#rw-shop').onclick = () => openShop();
-$('#shop-play').onclick = openGames;
+$('#shop-play').onclick = startAdventure;
 $('#rw-home').onclick = openCastle;
 $('#q-again').onclick = () => R?.q && !R.demo && say(R.q.parts, R.q.say);
 

@@ -2,7 +2,7 @@
 // audio/manifest.json lists it, and falls back to the device voice when it doesn't.
 // tools/maths2-voice/generate.mjs reads this file to record the clips.
 
-import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS } from './data.js?v=1002j';
+import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS, STORIES } from './data.js?v=1002k';
 
 export const HOST = 'rosie';
 export const NAMES = ['Tara'];
@@ -70,6 +70,16 @@ function hostLines() {
   L.q_peek = 'Look quickly! How many did you see?';
   L.q_missing = 'Which number is hiding?';
   L.q_next = 'What number comes next?';
+  for (const h of range(1, 6)) {
+    L[`frog_fwd_${h}`] = `Froggy hops ${numWord(h)} forward. Where does she land?`;
+    L[`frog_back_${h}`] = `Froggy hops ${numWord(h)} back. Where does she land?`;
+  }
+  L.q_frame_count = 'How many dots in the frame?';
+  L.q_frame_fill = 'How many more to fill the frame?';
+  L.q_frame_teen = 'How many dots altogether?';
+  L.q_dice = 'How many dots altogether?';
+  L.lets_go = "Let's go!";
+  for (const st of STORIES) { L[`story_${st.id}_intro`] = st.intro; L[`story_${st.id}_end`] = st.end; }
   L.how_many_now = 'How many now?';
   for (const n of range(2, 20)) L[`playing_${n}`] = `${Cap(numWord(n))} friends are playing.`;
   L.one_goes_bed = 'One goes to bed.';
