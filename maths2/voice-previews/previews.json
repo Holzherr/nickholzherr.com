@@ -1,0 +1,202 @@
+{
+  "rosie": {
+    "text": "I'm Princess Rosie. Here are three gold coins to start. Play maths to earn more, then visit the shop! The Kitchen is open! Tap it to look inside. How many jewels? Count them! Brilliant! It costs five coins. Tap your purse to pay, one coin at a time.",
+    "options": [
+      {
+        "n": 1,
+        "file": "rosie-1.mp3",
+        "generated_voice_id": "KfMv5Nfi9R6cR5gjSMna"
+      },
+      {
+        "n": 2,
+        "file": "rosie-2.mp3",
+        "generated_voice_id": "oiWBDQ6cPFUzUsEVNjhU"
+      },
+      {
+        "n": 3,
+        "file": "rosie-3.mp3",
+        "generated_voice_id": "RmOkND8HH4rqqKfCqVg2"
+      }
+    ]
+  },
+  "cat": {
+    "text": "Hello, Tara! I'm Whiskers. I'm still learning to count. Can you check for me? I think there are five balls of wool. Am I right? Mew! I was chasing my tail and forgot one. Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "cat-1.mp3",
+        "generated_voice_id": "sxgPlL0p9dcIus3BW2EX"
+      },
+      {
+        "n": 2,
+        "file": "cat-2.mp3",
+        "generated_voice_id": "nYvg13lOuHjsQqONV23v"
+      },
+      {
+        "n": 3,
+        "file": "cat-3.mp3",
+        "generated_voice_id": "pigq9N9r2hCjy13OJuLG"
+      }
+    ]
+  },
+  "cook": {
+    "text": "Hello, Tara! I'm Cook Crumble. I'm still learning to count. Can you check for me? I think there are five cupcakes. Am I right? Oops! I ate one while I was counting. Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "cook-1.mp3",
+        "generated_voice_id": "QedpWhjZixsTEIRtD46g"
+      },
+      {
+        "n": 2,
+        "file": "cook-2.mp3",
+        "generated_voice_id": "Bi8BgSoeEj4OnLmnxsYc"
+      },
+      {
+        "n": 3,
+        "file": "cook-3.mp3",
+        "generated_voice_id": "Dy37iaZbjDZHwKJ7zTr0"
+      }
+    ]
+  },
+  "owl": {
+    "text": "Hello, Tara! I'm Hoot. I'm still learning to count. Can you check for me? I think there are five stars. Am I right? Twit-twoo! I looked very wise, but I counted one twice. Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "owl-1.mp3",
+        "generated_voice_id": "b3n8w7zIwOa9kQ5rEmAn"
+      },
+      {
+        "n": 2,
+        "file": "owl-2.mp3",
+        "generated_voice_id": "xj0U9NR5d8HNDW9Qxqd0"
+      },
+      {
+        "n": 3,
+        "file": "owl-3.mp3",
+        "generated_voice_id": "NmqCOIodsvMkn9aTzjlA"
+      }
+    ]
+  },
+  "dragon": {
+    "text": "Hello, Tara! I'm Sparky. I'm still learning to count. Can you check for me? I think there are five flames. Am I right? My big claws squashed my counting! Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "dragon-1.mp3",
+        "generated_voice_id": "2oxqQ4JOVwHHNEC1yUwp"
+      },
+      {
+        "n": 2,
+        "file": "dragon-2.mp3",
+        "generated_voice_id": "EPlcXLwVRzr8jSX12pmz"
+      },
+      {
+        "n": 3,
+        "file": "dragon-3.mp3",
+        "generated_voice_id": "UjnlloCoJXiZTStPTade"
+      }
+    ]
+  },
+  "pony": {
+    "text": "Hello, Tara! I'm Buttercup. I'm still learning to count. Can you check for me? I think there are five carrots. Am I right? Neigh! I munched one before I counted it. Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "pony-1.mp3",
+        "generated_voice_id": "FVegbfCrBbaSqJm9ghI8"
+      },
+      {
+        "n": 2,
+        "file": "pony-2.mp3",
+        "generated_voice_id": "1Ev9CTtYiJn8hNLjV8ZG"
+      },
+      {
+        "n": 3,
+        "file": "pony-3.mp3",
+        "generated_voice_id": "gfWNYBbd24sol8DAEjg9"
+      }
+    ]
+  },
+  "unicorn": {
+    "text": "Hello, Tara! I'm Moonbeam. I'm still learning to count. Can you check for me? I think there are five rainbows. Am I right? My sparkles got in my eyes! Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "unicorn-1.mp3",
+        "generated_voice_id": "6qeWcyR7mZKKCes7vwPP"
+      },
+      {
+        "n": 2,
+        "file": "unicorn-2.mp3",
+        "generated_voice_id": "IuysI5AfUpTOVlcUBD36"
+      },
+      {
+        "n": 3,
+        "file": "unicorn-3.mp3",
+        "generated_voice_id": "4zpQnaNCXrhLHCx0txZY"
+      }
+    ]
+  },
+  "frog": {
+    "text": "Hello, Tara! I'm Prince Ribbit. I'm still learning to count. Can you check for me? I think there are five lilies. Am I right? Ribbit! I hopped over one. Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "frog-1.mp3",
+        "generated_voice_id": "6vZxm6bYwaIXs2klrkA4"
+      },
+      {
+        "n": 2,
+        "file": "frog-2.mp3",
+        "generated_voice_id": "SNGwwlnDvd1V6704hJWZ"
+      },
+      {
+        "n": 3,
+        "file": "frog-3.mp3",
+        "generated_voice_id": "hRyJLB9d8b5ngEVrqx1K"
+      }
+    ]
+  },
+  "fairy": {
+    "text": "Hello, Tara! I'm Twinkle. I'm still learning to count. Can you check for me? I think there are five flowers. Am I right? I flew too fast and missed one! Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "fairy-1.mp3",
+        "generated_voice_id": "qqZWWT8ffT09lSfsP5ag"
+      },
+      {
+        "n": 2,
+        "file": "fairy-2.mp3",
+        "generated_voice_id": "BIW8xobV3kthZQeljWcU"
+      },
+      {
+        "n": 3,
+        "file": "fairy-3.mp3",
+        "generated_voice_id": "oCv2NAXOY5DXr2tOHxoB"
+      }
+    ]
+  },
+  "wizard": {
+    "text": "Hello, Tara! I'm Wizard Wobble. I'm still learning to count. Can you check for me? I think there are five sparkles. Am I right? My spell book said a different number! Thank you for teaching me!",
+    "options": [
+      {
+        "n": 1,
+        "file": "wizard-1.mp3",
+        "generated_voice_id": "vyaHmI5OuzS40m6KaG3x"
+      },
+      {
+        "n": 2,
+        "file": "wizard-2.mp3",
+        "generated_voice_id": "W1Pmyqmc9NKzj3yzbAl0"
+      },
+      {
+        "n": 3,
+        "file": "wizard-3.mp3",
+        "generated_voice_id": "fBZHwLnqQNk0zLi5PFZY"
+      }
+    ]
+  }
+}

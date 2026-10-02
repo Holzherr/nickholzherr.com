@@ -34,7 +34,7 @@
     },
     "pony": {
       "label": "Buttercup the pony",
-      "description": "A cheerful young girl's voice for a pony, bright and bouncy, with a soft West Country English accent.",
+      "description": "A cheerful young woman's voice for a cartoon pony, bright and bouncy, with a soft West Country English accent.",
       "voice_id": "",
       "settings": { "stability": 0.45, "similarity_boost": 0.75, "style": 0.4, "use_speaker_boost": true, "speed": 1.0 }
     },
