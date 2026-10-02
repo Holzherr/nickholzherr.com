@@ -141,7 +141,9 @@ function say(parts, text, opts) {
   if (!S.sound) return Promise.resolve();
   const list = (parts || []).filter(Boolean);
   const id = ++talkId;
-  document.body.classList.toggle('rosie-talking', !list.length || list[0][0] === HOST);
+  const host = !list.length || list[0][0] === HOST;
+  document.body.classList.toggle('rosie-talking', host);
+  if (host && !opts?.noBubble && !/^\d+$/.test(text)) guide(esc(text), list);
   return sayNow(list, text, opts).finally(() => { if (id === talkId) document.body.classList.remove('rosie-talking'); });
 }
 function sayNow(list, text, opts) {
@@ -164,6 +166,7 @@ let current = null;
 function show(id) {
   SCREENS.forEach(s => { $('#' + s).hidden = s !== id; });
   current = id;
+  document.body.dataset.screen = id;
   $('#hud').hidden = id === 's-gate';
   $('#hud-home').hidden = id === 's-castle';
   closeModal();
@@ -226,14 +229,18 @@ addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 function wave(svg) { if (!svg) return; svg.classList.remove('waving'); void svg.getBoundingClientRect(); svg.classList.add('waving'); }
 let novaLine = '', novaParts = null;
 let novaTimer = 0;
-function nova(html, parts) {
+// Rosie's speech bubble; it fades a few seconds after she stops talking. Tapping her repeats the line.
+function guide(html, parts) {
   novaLine = html; novaParts = parts;
   const b = $('#nova-say');
+  if (b.innerHTML !== html) wave($('#nova-btn .rosie-svg'));
   b.innerHTML = html; b.classList.remove('quiet');
-  wave($('#nova-btn .rosie-svg'));
   clearTimeout(novaTimer);
-  const quiet = () => { novaTimer = setTimeout(() => b.classList.add('quiet'), 3500); };
-  return say(parts, html, { pitch: 1.15 }).then(quiet);
+  novaTimer = setTimeout(() => b.classList.add('quiet'), 3500 + html.length * 60);
+}
+function nova(html, parts) {
+  guide(html, parts);
+  return say(parts, html, { pitch: 1.15, noBubble: true });
 }
 
 // ---------- castle ----------
@@ -413,7 +420,7 @@ async function demo(game) {
   R.q = q; R.locked = true; R.demo = true;
   $('#progress').innerHTML = '';
   $('#play-hint').hidden = false;
-  const pr = $('#play-rosie'); pr.innerHTML = rosieSVG(innerWidth < 700 ? 120 : 190); pr.hidden = false; wave(pr.firstElementChild);
+  document.body.classList.add('demo'); wave($('#nova-btn .rosie-svg'));
   try {
     const shown = renderQ(q, { quiet: true });
     await say([H('watch_me')], 'Watch me first!', { pitch: 1.15 });
@@ -443,7 +450,7 @@ async function demo(game) {
     await say([H('now_you')], 'Now you try!', { pitch: 1.2 });
     await wait(300);
   } finally {
-    $('#play-hint').hidden = true; $('#play-rosie').hidden = true;
+    $('#play-hint').hidden = true; document.body.classList.remove('demo');
     if (R === r) { R.locked = false; R.demo = false; }
   }
 }

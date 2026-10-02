@@ -102,13 +102,16 @@ function flag(x, y, color) {
 }
 
 // A window that is a doorway into a room. Locked windows show a padlock and the stars needed.
+// Rosie standing in a castle window: bottom-centred on (cx, bottom), `h` tall.
+const rosieIn = (cx, bottom, h) => rosieSVG(h / 1.2, h).replace('<svg ', `<svg x="${cx - h / 2.4}" y="${bottom - h}" `);
+
 function roomWindow(room, shape, open, peek, label, labelPos) {
   const [x, y, w, h] = shape;
   const d = windowArch(x, y, w, h);
   const cx = x + w / 2;
   const inner = open
     ? `<path d="${d}" fill="url(#glow)"/>
-       <text x="${cx}" y="${y + h - 10}" text-anchor="middle" font-size="${Math.min(w * .52, 34)}" class="peek">${peek}</text>`
+       ${peek === '👸' ? rosieIn(cx, y + h - 2, Math.min(w * .52, 34) * 1.5) : `<text x="${cx}" y="${y + h - 10}" text-anchor="middle" font-size="${Math.min(w * .52, 34)}" class="peek">${peek}</text>`}`
     : `<path d="${d}" fill="url(#locked)"/>
        <g transform="translate(${cx - 11} ${y + h / 2 - 16})"><rect x="2" y="12" width="18" height="15" rx="3" fill="#ffc94d"/><path d="M6 12V8a5 5 0 0 1 10 0v4" stroke="#ffc94d" stroke-width="3" fill="none"/></g>`;
   const [lx, ly] = labelPos;

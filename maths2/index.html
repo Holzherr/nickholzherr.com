@@ -47,13 +47,15 @@
   <button class="btn pink big" id="open-gates"><span class="em">🏰</span> Open the castle</button>
 </section>
 
+<!-- Princess Rosie: guides on every screen -->
+<div class="nova" id="nova">
+    <button class="nova-btn" id="nova-btn" aria-label="Nova, tap to hear again"></button>
+    <div class="bubble" id="nova-say"></div>
+</div>
+
 <!-- castle -->
 <section class="screen" id="s-castle" hidden>
   <div class="castle-wrap" id="castle-wrap"></div>
-  <div class="nova" id="nova">
-    <button class="nova-btn" id="nova-btn" aria-label="Nova, tap to hear again"></button>
-    <div class="bubble" id="nova-say"></div>
-  </div>
   <div class="actions">
     <button class="btn pink big" id="go-play"><span class="em">✏️</span> Play maths</button>
     <button class="btn gold big" id="go-shop"><span class="em">🛍️</span> Shop</button>
@@ -81,7 +83,6 @@
 <section class="screen" id="s-play" hidden>
   <div class="progress" id="progress"></div>
   <div class="play-hint" id="play-hint" hidden>👀&nbsp; Watch Princess Rosie</div>
-  <div class="play-rosie" id="play-rosie" hidden></div>
   <div class="q-text"><span id="q-text"></span><button class="round-btn" id="q-again" aria-label="Hear it again">🔈</button></div>
   <div class="stagebox" id="q-stage"></div>
   <div class="answers" id="answers"></div>
