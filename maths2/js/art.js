@@ -18,52 +18,143 @@ export function starSVG(size = 22) {
   </svg>`;
 }
 
-// Princess Rosie: an original drawn character. CSS animates her (blink, sway, talk, wave);
-// the mouth moves while <body class="rosie-talking"> is set by say().
-export function rosieSVG(w = 100, h = Math.round(w * 1.2)) {
-  const skin = '#ffe1d0', hair = '#eed69a', hairDark = '#c4a45e';
-  return `<svg class="rosie-svg" width="${w}" height="${h}" viewBox="0 0 120 144" aria-hidden="true">
-    <g class="r-body">
-      <path d="M30 54C24 18 96 18 90 54C92 70 90 84 84 94L28 132C19 112 23 82 30 54Z" fill="${hair}"/>
-      <path d="M38 96C42 112 40 124 34 132" stroke="${hairDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M26 144C26 112 40 98 60 98C80 98 94 112 94 144Z" fill="#7fcdf2"/>
-      <path d="M38 126Q60 132 82 126L83 131Q60 137 37 131Z" fill="#e8f7ff"/>
-      <path d="M45 100Q52 112 60 107Q68 112 75 100Q68 98 60 98Q52 98 45 100Z" fill="#c9ecff"/>
-      <circle cx="35" cy="108" r="11" fill="#c9ecff"/>
-      <path d="M46 144L48 136M74 144L72 136" stroke="#4fb3e6" stroke-width="2" stroke-linecap="round"/>
-      <path d="M52 140l1.2-2.6 1.2 2.6 2.6 1.2-2.6 1.2-1.2 2.6-1.2-2.6-2.6-1.2zM66 118l1-2 1 2 2 1-2 1-1 2-1-2-2-1z" fill="#fff" opacity=".85"/>
-      <rect x="54" y="84" width="12" height="16" rx="5" fill="${skin}"/>
-      <circle cx="60" cy="102" r="2.6" fill="#fff"/><circle cx="55" cy="100.5" r="2" fill="#fff"/><circle cx="65" cy="100.5" r="2" fill="#fff"/>
-      <g class="r-head">
-        <ellipse cx="60" cy="62" rx="23" ry="25" fill="${skin}"/>
-        <path d="M37 62C33 32 87 32 83 62C81 52 76 46 68 44C62 52 50 54 37 62Z" fill="${hair}"/>
-        <path d="M37 56C30 84 32 104 39 122C42 104 39 82 39.5 64Z" fill="${hair}"/>
-        <g fill="${hair}" stroke="${hairDark}" stroke-width="1">
-          <path d="M80 54C88 62 86 72 80 78Z" stroke="none"/>
-          <ellipse cx="79" cy="82" rx="6" ry="7"/><ellipse cx="77" cy="93" rx="5.6" ry="6.6"/><ellipse cx="75" cy="103" rx="5.2" ry="6.2"/><ellipse cx="73.5" cy="112.5" rx="4.6" ry="5.6"/>
-          <path d="M73.5 118L70 126L77 125Z"/>
-        </g>
-        <circle cx="73.5" cy="118" r="2" fill="#9fd8f5"/>
-        <g class="r-eyes">
-          <ellipse cx="51" cy="64" rx="3.8" ry="4.8" fill="#3a2240"/><ellipse cx="69" cy="64" rx="3.8" ry="4.8" fill="#3a2240"/>
-          <circle cx="52.4" cy="62.3" r="1.4" fill="#fff"/><circle cx="70.4" cy="62.3" r="1.4" fill="#fff"/>
-          <path d="M46.5 60.5L45 58.5M48.5 59.3L47.6 57M73.5 60.5L75 58.5M71.5 59.3L72.4 57" stroke="#3a2240" stroke-width="1.3" stroke-linecap="round"/>
-        </g>
-        <path d="M47 55.5Q51 53.5 55 55M65 55Q69 53.5 73 55.5" stroke="${hairDark}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-        <circle cx="45.5" cy="72" r="4.6" fill="#ff8fb5" opacity=".45"/><circle cx="74.5" cy="72" r="4.6" fill="#ff8fb5" opacity=".45"/>
-        <path d="M59 68.5Q60 70.5 61.5 69" stroke="#e0a58a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-        <path class="r-closed" d="M54 75.5Q60 80.5 66 75.5" stroke="#c2416d" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-        <path class="r-open" d="M54.5 75Q60 85 65.5 75Q60 76.6 54.5 75Z" fill="#c2416d"/>
-        <path d="M45 41L48 31L54 37L60 25L66 37L72 31L75 41Q60 37 45 41Z" fill="#f2fbff" stroke="#9fd8f5" stroke-width="1.6" stroke-linejoin="round"/>
-        <g stroke="#4fb3e6" stroke-width="1.2" stroke-linecap="round"><path d="M60 28.5v8M56.5 32.5h7M57.5 30l5 5M62.5 30l-5 5"/></g><circle cx="48.5" cy="35" r="1.5" fill="#9fd8f5"/><circle cx="71.5" cy="35" r="1.5" fill="#9fd8f5"/>
-      </g>
-      <g class="r-arm">
-        <path d="M84 107Q97 99 99 84" stroke="${skin}" stroke-width="8" fill="none" stroke-linecap="round"/>
-        <circle cx="85" cy="108" r="11" fill="#c9ecff"/>
-        <circle cx="99.5" cy="81" r="5.6" fill="${skin}"/>
-      </g>
+// Princess Rosie, drawn from options so several looks can share one rig. The default is the
+// look Nick picked (2 Oct 2026): big eyes, tall ice crown, side braid, white sticker outline.
+// Classes r-body / r-head / r-eyes / r-open / r-closed / r-arm are what the CSS animates.
+const HAIR = {
+  platinum: { h: '#f4e8c6', e: '#b8955a', s: '#dcc78f' },
+  silver:   { h: '#eef2f7', e: '#8f9db3', s: '#cfd8e6' },
+  gold:     { h: '#f6dc8a', e: '#b88a2e', s: '#e5c062' },
+  lilac:    { h: '#efe6fb', e: '#9a86c0', s: '#d6c8f0' },
+};
+const SKIN = {
+  fair:       { s: '#ffe2d3', e: '#e9b49b' },
+  warm:       { s: '#f6cfae', e: '#d29d78' },
+  lightbrown: { s: '#e2ab83', e: '#b98057' },
+  brown:      { s: '#c98d64', e: '#9e6a46' },
+};
+const DRESS = {
+  ice:   { m: '#6cc3ee', l: '#c4ebff', d: '#3d9fd6' },
+  lilac: { m: '#b9a2f2', l: '#e6dcff', d: '#8a6fd6' },
+  aqua:  { m: '#5fd3c8', l: '#c7f4ef', d: '#2fa89d' },
+  navy:  { m: '#3f5fb8', l: '#bcd0ff', d: '#2a3f85' },
+  white: { m: '#eaf6ff', l: '#ffffff', d: '#8fc0e3' },
+  deep:  { m: '#2f7fd0', l: '#a9d8ff', d: '#1d5aa0' },
+};
+
+const flake = (x, y, r, color, w = 1.2) =>
+  `<g stroke="${color}" stroke-width="${w}" stroke-linecap="round"><path d="M${x} ${y - r}v${2 * r}M${x - r} ${y}h${2 * r}M${x - r * .7} ${y - r * .7}l${r * 1.4} ${r * 1.4}M${x + r * .7} ${y - r * .7}l${-r * 1.4} ${r * 1.4}"/></g>`;
+
+export function rosieSVG(w = 100, h = Math.round(w * 1.2), o = {}) {
+  const {
+    hair: hk = 'platinum', skin: sk = 'fair', dress: dk = 'ice',
+    style = 'braid', fringe = 'swept', eyes = 'sparkle', crown = 'crystal',
+    head = 1.2, cape = false, sticker = true,
+  } = { eyes: 'big', crown: 'tall', ...o };
+  const H = HAIR[hk], S = SKIN[sk], D = DRESS[dk];
+  const T = `transform="translate(60 88) scale(${head}) translate(-60 -88)"`;
+  const hairAttrs = `fill="${H.h}" stroke="${H.e}" stroke-width="1.4" stroke-linejoin="round"`;
+
+  // behind the body
+  const backs = {
+    braid: `<path d="M34 60C28 26 92 26 86 60C87 68 84 74 78 78Q60 84 42 78C36 74 33 68 34 60Z" ${hairAttrs}/>`,
+    long: `<path d="M32 60C26 24 94 24 88 60C94 84 96 110 90 132L30 132C24 110 26 84 32 60Z" ${hairAttrs}/>
+      <path d="M40 96C42 110 40 122 36 130M80 96C78 110 80 122 84 130" stroke="${H.s}" stroke-width="1.6" fill="none"/>`,
+    wavy: `<path d="M32 60C26 24 94 24 88 60C96 72 90 84 96 96C100 108 90 118 94 130L26 130C30 118 20 108 24 96C30 84 24 72 32 60Z" ${hairAttrs}/>
+      <path d="M36 92Q32 104 38 116M84 92Q88 104 82 116" stroke="${H.s}" stroke-width="1.6" fill="none"/>`,
+    bun: `<circle cx="60" cy="25" r="12" ${hairAttrs}/><path d="M52 21Q60 15 68 21" stroke="${H.s}" stroke-width="1.4" fill="none"/>
+      <path d="M34 60C28 26 92 26 86 60C87 68 84 74 78 78Q60 84 42 78C36 74 33 68 34 60Z" ${hairAttrs}/>`,
+    twin: `<circle cx="37" cy="36" r="10" ${hairAttrs}/><circle cx="83" cy="36" r="10" ${hairAttrs}/>
+      <path d="M34 60C28 26 92 26 86 60C87 68 84 74 78 78Q60 84 42 78C36 74 33 68 34 60Z" ${hairAttrs}/>`,
+    pony: `<path d="M72 30C92 30 102 52 98 74C96 92 100 106 92 118C90 104 86 92 86 78C86 60 82 44 72 38Z" ${hairAttrs}/>
+      <path d="M34 60C28 26 92 26 86 60C87 68 84 74 78 78Q60 84 42 78C36 74 33 68 34 60Z" ${hairAttrs}/>`,
+  };
+  // over the shoulders, in front of the dress
+  const braidLinks = [[86, 84, 6.2], [85, 94, 6], [84, 103.5, 5.6], [83, 112.5, 5.2], [82.2, 121, 4.7]]
+    .map(([x, y, r]) => `<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * 1.15}"/><path d="M${x - r + 1.5} ${y - 2}Q${x} ${y + 3} ${x + r - 1.5} ${y - 2}" fill="none" stroke="${H.s}"/>`).join('');
+  const fronts = {
+    braid: `<g fill="${H.h}" stroke="${H.e}" stroke-width="1.1"><path d="M82 52C91 60 92 70 89 79L83 79C85 71 84 62 79 56Z"/>${braidLinks}<path d="M82.2 126L78 135L86 134Z"/></g>
+      <circle cx="82.2" cy="126" r="2" fill="${D.l}" stroke="${D.d}" stroke-width=".7"/>`,
+    long: `<path d="M38 56C31 80 33 100 38 116C41 100 40 80 41 62Z M82 56C89 80 87 100 82 116C79 100 80 80 79 62Z" ${hairAttrs}/>`,
+    wavy: `<path d="M38 56C30 72 36 84 32 96C30 106 36 112 38 118C42 106 38 98 41 88C43 78 40 68 41 62Z M82 56C90 72 84 84 88 96C90 106 84 112 82 118C78 106 82 98 79 88C77 78 80 68 79 62Z" ${hairAttrs}/>`,
+    bun: '', twin: '', pony: '',
+  };
+  const fringes = {
+    swept: `<path d="M38 58C33 32 56 22 72 27C85 31 89 45 84 58C81 47 72 40 60 41.5C49 42.5 42 48 38 58Z" ${hairAttrs}/>
+      <path d="M46 44C52 36 64 33 74 37M44 50C50 42 60 39 70 40" stroke="${H.s}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+    parted: `<path d="M38 60C33 32 87 32 82 60C79 48 70 41 60 40C50 41 41 48 38 60Z" ${hairAttrs}/>
+      <path d="M60 33V40M52 37Q45 44 42 54M68 37Q75 44 78 54" stroke="${H.s}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+    bangs: `<path d="M38 58C35 30 85 30 82 58C77 53 72 51 67 53C63 49 57 49 53 53C48 51 43 53 38 58Z" ${hairAttrs}/>
+      <path d="M53 53L55 44M67 53L65 44M46 52L48 44M74 52L72 44" stroke="${H.s}" stroke-width="1.2" fill="none" stroke-linecap="round"/>`,
+  };
+  const eyeSets = {
+    sparkle: `<ellipse cx="51" cy="61" rx="5.2" ry="5.6" fill="#fff"/><ellipse cx="69" cy="61" rx="5.2" ry="5.6" fill="#fff"/>
+      <circle cx="51.4" cy="61.6" r="3.9" fill="#3aa3e6"/><circle cx="68.6" cy="61.6" r="3.9" fill="#3aa3e6"/>
+      <circle cx="51.4" cy="61.8" r="2" fill="#1d2b4a"/><circle cx="68.6" cy="61.8" r="2" fill="#1d2b4a"/>
+      <circle cx="52.8" cy="60" r="1.3" fill="#fff"/><circle cx="70" cy="60" r="1.3" fill="#fff"/>
+      <path d="M45.4 59.6Q51 54.6 56.6 59.2M63.4 59.2Q69 54.6 74.6 59.6" stroke="#2a1f33" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+      <path d="M45.6 59.4L43.6 58M74.4 59.4L76.4 58" stroke="#2a1f33" stroke-width="1.4" stroke-linecap="round"/>`,
+    big: `<ellipse cx="50.5" cy="62" rx="6.4" ry="7.4" fill="#fff"/><ellipse cx="69.5" cy="62" rx="6.4" ry="7.4" fill="#fff"/>
+      <ellipse cx="51" cy="63" rx="5" ry="5.8" fill="#4ab0ec"/><ellipse cx="69" cy="63" rx="5" ry="5.8" fill="#4ab0ec"/>
+      <ellipse cx="51" cy="64" rx="3.2" ry="3.8" fill="#1d3a66"/><ellipse cx="69" cy="64" rx="3.2" ry="3.8" fill="#1d3a66"/>
+      <circle cx="53" cy="60.6" r="1.8" fill="#fff"/><circle cx="71" cy="60.6" r="1.8" fill="#fff"/><circle cx="49.4" cy="66" r=".9" fill="#fff"/><circle cx="67.4" cy="66" r=".9" fill="#fff"/>
+      <path d="M44 59Q50.5 53 57 58.4M63 58.4Q69.5 53 76 59" stroke="#2a1f33" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+      <path d="M44.2 58.8L42 57.2M75.8 58.8L78 57.2" stroke="#2a1f33" stroke-width="1.5" stroke-linecap="round"/>`,
+    dot: `<ellipse cx="51" cy="62" rx="3.4" ry="4.4" fill="#22304f"/><ellipse cx="69" cy="62" rx="3.4" ry="4.4" fill="#22304f"/>
+      <circle cx="52.2" cy="60.4" r="1.3" fill="#fff"/><circle cx="70.2" cy="60.4" r="1.3" fill="#fff"/>
+      <path d="M47 57.6L45.6 56M73 57.6L74.4 56" stroke="#22304f" stroke-width="1.3" stroke-linecap="round"/>`,
+  };
+  const crowns = {
+    crystal: `<g fill="#e4f7ff" stroke="#6cbde8" stroke-width="1.1" stroke-linejoin="round">
+        <path d="M43 36Q60 28 77 36L76 39Q60 32 44 39Z"/>
+        <path d="M60 17L64 27L60 33L56 27Z"/><path d="M50.5 23L53.5 30L50 34L47.5 29Z"/><path d="M69.5 23L72.5 29L70 34L66.5 30Z"/>
+        <path d="M43 29L45.5 34L43 37L41 33Z"/><path d="M77 29L79 33L77 37L74.5 34Z"/></g>
+      <circle cx="60" cy="27" r="1.6" fill="#3aa3e6"/>`,
+    snow: `<path d="M42 37Q60 29 78 37" stroke="#e4f7ff" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <path d="M42 37Q60 29 78 37" stroke="#6cbde8" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="27" r="7" fill="#e4f7ff" stroke="#6cbde8" stroke-width="1"/>${flake(60, 27, 5, '#3aa3e6', 1.3)}
+      <circle cx="48" cy="33" r="1.8" fill="#9fd8f5"/><circle cx="72" cy="33" r="1.8" fill="#9fd8f5"/>`,
+    tall: `<g fill="#e4f7ff" stroke="#6cbde8" stroke-width="1.1" stroke-linejoin="round">
+        <path d="M44 38L46 22L52 31L60 10L68 31L74 22L76 38Q60 33 44 38Z"/></g>
+      <path d="M60 16L62.5 26L60 30L57.5 26Z" fill="#9fd8f5"/><circle cx="46.5" cy="25" r="1.4" fill="#3aa3e6"/><circle cx="73.5" cy="25" r="1.4" fill="#3aa3e6"/>`,
+    mini: `<g fill="#e4f7ff" stroke="#6cbde8" stroke-width="1" stroke-linejoin="round"><path d="M50 36L52 30L56 34L60 26L64 34L68 30L70 36Q60 33 50 36Z"/></g>
+      <circle cx="60" cy="30.5" r="1.4" fill="#ff8fc0"/>`,
+  };
+  const blush = sk === 'brown' || sk === 'lightbrown' ? 'opacity=".3" fill="#e0707f"' : 'opacity=".35" fill="#ff9fb0"';
+
+  return `<svg class="rosie-svg${sticker ? ' sticker' : ''}" width="${w}" height="${h}" viewBox="0 0 120 144" aria-hidden="true">
+  <g class="r-body">
+    ${cape ? `<path d="M34 104L16 144L104 144L86 104Z" fill="${D.l}" opacity=".65"/>${flake(26, 136, 3, '#ffffff', 1)}${flake(96, 130, 2.5, '#ffffff', 1)}` : ''}
+    <g ${T}>${backs[style]}</g>
+    <path d="M28 144C28 114 42 102 60 102C78 102 92 114 92 144Z" fill="${S.s}"/>
+    <path d="M26 144L29 118Q31 110 38 110L40 144Z M94 144L91 118Q89 110 82 110L80 144Z" fill="${D.l}" opacity=".9"/>
+    <path d="M36 144L38 116Q48 111 60 118Q72 111 82 116L84 144Z" fill="${D.m}"/>
+    <path d="M38 116Q48 111 60 118Q72 111 82 116" stroke="${D.l}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <path d="M60 118L56 124L60 130L64 124Z" fill="${D.l}" stroke="${D.d}" stroke-width=".8"/>
+    ${flake(60, 137.5, 4.5, '#ffffff', 1.3)}
+    <rect x="54" y="82" width="12" height="22" rx="5" fill="${S.s}"/>
+    <path d="M54 88Q60 92 66 88" stroke="${S.e}" stroke-width="1" fill="none" opacity=".6"/>
+    <path d="M50 101Q60 110 70 101" stroke="${D.l}" stroke-width="1" fill="none"/>
+    ${flake(60, 109, 2.5, D.d, 1)}
+    <g ${T}><g class="r-head">
+      <ellipse cx="60" cy="60" rx="21" ry="23" fill="${S.s}" stroke="${S.e}" stroke-width=".8"/>
+      <path d="M38.6 71l1.8 4.5 1.8-4.5-1.8-2z M81.4 71l-1.8 4.5-1.8-4.5 1.8-2z" fill="${D.l}" stroke="${D.d}" stroke-width=".7"/>
+      <g class="r-eyes">${eyeSets[eyes]}</g>
+      <path d="M45.5 52.5Q51 50 56 52M64 52Q69 50 74.5 52.5" stroke="${H.e}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+      <circle cx="45" cy="70" r="4.4" ${blush}/><circle cx="75" cy="70" r="4.4" ${blush}/>
+      <path d="M59 66.5Q60 68.5 61.4 67.2" stroke="${S.e}" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <path class="r-closed" d="M55 73Q60 77 65 73" stroke="#d4547a" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+      <path class="r-open" d="M55.4 72.6Q60 82 64.6 72.6Q60 74 55.4 72.6Z" fill="#c2416d"/>
+      ${fringes[fringe]}
+      ${crowns[crown]}
+    </g></g>
+    <g ${T}>${fronts[style]}</g>
+    <g class="r-arm">
+      <path d="M85 112Q97 102 99 88" stroke="${D.l}" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <circle cx="99.5" cy="83.5" r="5.4" fill="${S.s}" stroke="${S.e}" stroke-width=".8"/>
     </g>
-  </svg>`;
+  </g>
+</svg>`;
 }
 
 export function novaSVG(size = 84) {

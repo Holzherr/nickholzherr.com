@@ -78,7 +78,8 @@ button:focus-visible,[tabindex]:focus-visible{outline:4px solid var(--sunny);out
 .rosie{display:block;line-height:0;filter:drop-shadow(0 8px 10px rgba(74,31,64,.25))}
 .rosie-svg{display:block;overflow:visible}
 .rosie-svg .r-body{transform-box:view-box;transform-origin:60px 144px;animation:r-sway 3.6s ease-in-out infinite}
-.rosie-svg .r-head{transform-box:view-box;transform-origin:60px 90px}
+.rosie-svg .r-head{transform-box:view-box;transform-origin:60px 88px}
+.rosie-svg.sticker{filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 4px 6px rgba(74,31,64,.25))}
 .rosie-svg .r-eyes{transform-box:fill-box;transform-origin:center;animation:r-blink 4.6s infinite}
 .rosie-svg .r-open{opacity:0}
 .rosie-svg .r-arm{transform-box:view-box;transform-origin:85px 108px}
