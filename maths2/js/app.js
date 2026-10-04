@@ -1,8 +1,8 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002wc';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG, prepaintCastle } from './art.js?v=1002wc';
-import { installPaint, hydrate } from './paint.js?v=1002wc';
-import { HOST, word, thingKey, slug, speakerOf } from './lines.js?v=1002wc';
-import * as clips from './voice.js?v=1002wc';
+import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002nq';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG, prepaintCastle } from './art.js?v=1002nq';
+import { installPaint, hydrate } from './paint.js?v=1002nq';
+import { HOST, NOT_QUITE, word, thingKey, slug, speakerOf } from './lines.js?v=1002nq';
+import * as clips from './voice.js?v=1002nq';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -564,7 +564,7 @@ function makeQ(game, lv) {
     let start = step > 0 ? rnd(step >= 5 ? 0 : 1, Math.max(1, maxStart)) : rnd(-step * len + 1, [10, 20, 20, 20, 20][lv - 1]);
     if (step >= 5) start = step * rnd(0, 3);
     const seq = Array.from({ length: len }, (_, i) => start + step * i), ans = start + step * len;
-    return { game, ans, eq: `${seq.join(', ')}, ?`, text: 'What comes next?', say: `${seq.join(', ')}. What number comes next?`, parts: [H('q_next')], choices: choices(ans, 0) };
+    return { game, ans, seq, eq: `${seq.join(', ')}, ?`, text: 'What comes next?', say: `${seq.join(', ')}. What number comes next?`, parts: [H('q_next')], choices: choices(ans, 0) };
   }
   if (game === 'sums') {
     const top = [5, 10, 10, 15, 20][lv - 1], minus = lv >= 3 && Math.random() < .5;
@@ -719,7 +719,10 @@ async function answer(v, el) {
   if (R.tries > 1) return;
   if (R.plan) adapt(q.game, false);
   R.locked = true;
-  await say([H('not_quite')], "Not quite. Let's count together.", { pitch: 1.15 });
+  const counts = q.game === 'compare' || $('#objs');
+  const [nk, nt] = counts ? ['not_quite', "Not quite. Let's count together."]
+    : NOT_QUITE[q.game] ? [`not_quite_${q.game}`, NOT_QUITE[q.game]] : ['not_quite_show', 'Not quite. Here is the answer.'];
+  await say([H(nk)], nt, { pitch: 1.15 });
   if (R?.q !== q) return;
   if (q.game === 'compare') {
     const plates = $$('.plate');
@@ -732,6 +735,7 @@ async function answer(v, el) {
     say([H(`more_than_${hi}_${lo}`)], `${hi} is more than ${lo}. Tap that plate.`);
   } else if (!$('#objs')) {
     if (q.game === 'frog') await frogHop(q);
+    if (q.game === 'next') await say(q.seq.map(n => num(n)), q.seq.join(', '));
     if (R?.q !== q) return;
     $(`#s-play [data-v="${q.ans}"]`)?.classList.add('right');
     say([H(`its_tap_${q.ans}`)], `It's ${q.ans}. Tap ${q.ans}.`);
