@@ -1,7 +1,7 @@
 // Hand-built SVG art: the castle, the six room interiors, coins and Nova, all in watercolour. Rules for new art: STYLE.md.
 
-import { PAPER, registerScene, prepaint, watercolourise } from './paint.js?v=1002nq';
-import { castlePainting, WINDOWS, SHEET, arch } from './castle-paint.js?v=1002nq';
+import { PAPER, registerScene, prepaint, watercolourise } from './paint.js?v=1005demo';
+import { castlePainting, WINDOWS, SHEET, arch } from './castle-paint.js?v=1005demo';
 
 const FONT = `font-family="Fredoka, ui-rounded, system-ui, sans-serif"`;
 
