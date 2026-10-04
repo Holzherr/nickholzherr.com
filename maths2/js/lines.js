@@ -2,7 +2,7 @@
 // audio/manifest.json lists it, and falls back to the device voice when it doesn't.
 // tools/maths2-voice/generate.mjs reads this file to record the clips.
 
-import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS, STORIES } from './data.js?v=1002wc';
+import { ROOMS, ITEMS, FRIENDS, GAMES, THINGS, STORIES } from './data.js?v=1002nq';
 
 export const HOST = 'rosie';
 export const NAMES = ['Tara'];
@@ -24,6 +24,10 @@ export const numWord = n => n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 1
 const Cap = s => s[0].toUpperCase() + s.slice(1);
 const coins = n => `${numWord(n)} coin${n === 1 ? '' : 's'}`;
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+
+// After a first wrong answer in a game with nothing to count, Rosie says its own line instead of
+// "Let's count together". Games not listed here say not_quite_show.
+export const NOT_QUITE = { frog: 'Not quite. Watch Froggy hop.', missing: "Not quite. Let's find the hiding number.", next: 'Not quite. Listen to the pattern.' };
 
 // "The Kitchen" / "the Stables" read naturally with these.
 const ROOM_PHRASE = { throne: 'the Throne Room', kitchen: 'the Kitchen', bedroom: 'the Bedroom', stables: 'the Stables', garden: 'the Garden', tower: 'the Star Tower' };
@@ -88,6 +92,8 @@ function hostLines() {
   L.how_many_left = 'How many are left?';
   Object.assign(L, { yes: 'Yes!', well_done: 'Well done!', thats_right: "That's right!", brilliant: 'Brilliant!', super: 'Super!' });
   L.not_quite = "Not quite. Let's count together.";
+  for (const g in NOT_QUITE) L[`not_quite_${g}`] = NOT_QUITE[g];
+  L.not_quite_show = 'Not quite. Here is the answer.';
   L.watch_me = 'Watch me first!';
   for (const n of range(1, 10)) L[`demo_tap_${n}`] = `${Cap(numWord(n))}! So I tap ${numWord(n)}.`;
   L.demo_plate = 'So I tap the plate with more.';

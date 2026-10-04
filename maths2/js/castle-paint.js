@@ -1,6 +1,6 @@
 // The castle as a watercolour: pigment layers (washes and glazes) under loose pencil.
 // Painted on a wider sheet than the 1000×720 castle so wide and tall screens stay covered.
-import { PAPER, sceneFilters } from './paint.js?v=1002wc';
+import { PAPER, sceneFilters } from './paint.js?v=1002nq';
 
 export const SHEET = { x: -300, y: -400, w: 1600, h: 1120 };
 
