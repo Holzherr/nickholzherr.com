@@ -1,8 +1,8 @@
-import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1002nq';
-import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG, prepaintCastle } from './art.js?v=1002nq';
-import { installPaint, hydrate } from './paint.js?v=1002nq';
-import { HOST, NOT_QUITE, word, thingKey, slug, speakerOf } from './lines.js?v=1002nq';
-import * as clips from './voice.js?v=1002nq';
+import { ROOMS, ITEMS, FRIENDS, GAMES, STORIES, ADV_LEN, MAX_LEVEL, ROUND_LEN, COINS_PER_ROUND, LEVEL_UP_BONUS, SPOTS, THINGS, GUESTS } from './data.js?v=1005demo';
+import { castleSVG, roomSVG, coinSVG, starSVG, rosieSVG, prepaintCastle } from './art.js?v=1005demo';
+import { installPaint, hydrate } from './paint.js?v=1005demo';
+import { HOST, NOT_QUITE, word, thingKey, slug, speakerOf } from './lines.js?v=1005demo';
+import * as clips from './voice.js?v=1005demo';
 
 // ---------- helpers ----------
 const $ = s => document.querySelector(s);
@@ -595,8 +595,16 @@ function renderProgress() {
     return `<i class="${r === true ? 'ok' : r === false ? 'miss' : i === R.i ? 'now' : ''}"></i>`;
   }).join('');
 }
-function nextQ() {
+async function nextQ() {
   if (R.i >= (R.plan ? ADV_LEN : ROUND_LEN)) return endRound();
+  // An adventure's first question of a game she has not seen yet: Rosie plays one herself first.
+  const g = R.plan?.[R.i];
+  if (g && DEMO[g] && !S.shown[g]) {
+    const r = R;
+    await demo(g);
+    if (R !== r || current !== 's-play') return;
+    S.shown[g] = true; save();
+  }
   const q = R.plan ? makeQ(R.plan[R.i], advLevel(R.plan[R.i])) : makeQ(R.game, R.level);
   R.q = q; R.tries = 0; R.locked = false;
   renderProgress();
