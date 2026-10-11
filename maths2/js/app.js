@@ -36,9 +36,41 @@ let S = load();
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY));
-    if (s) { const f = fresh(); return { ...f, ...s, levels: { ...f.levels, ...s.levels }, good: { ...f.good, ...s.good } }; }
+    if (s) return clean(s);
   } catch {}
   return fresh();
+}
+// Saved progress and #carry= links are untrusted (anyone can craft a link) and parts of it are rendered as
+// HTML, so keep only known fields with the right types and drop the rest.
+function clean(s) {
+  const f = fresh();
+  if (!s || typeof s !== 'object') return f;
+  const isNum = v => typeof v === 'number' && Number.isFinite(v);
+  const num = (v, d) => (isNum(v) ? v : d);
+  const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
+  const perGame = (o, d, ok) => Object.fromEntries(GAMES.map(g => [g.id, obj(o)[g.id]])
+    .filter(([id, v]) => ok(v) || id in d).map(([id, v]) => [id, ok(v) ? v : d[id]]));
+  const pieces = (o, known, friend) => Object.fromEntries(Object.entries(obj(o)).filter(([id]) => known[id])
+    .map(([id, p]) => [id, { x: num(obj(p).x, 50), y: num(obj(p).y, 80), ...(friend ? { taught: obj(p).taught === true } : {}) }]));
+  const story = id => STORIES.some(st => st.id === id);
+  const gameIds = new Set([...GAMES.map(g => g.id), 'adventure']);
+  return {
+    ...f,
+    name: typeof s.name === 'string' && s.name.trim() ? s.name.slice(0, 16) : f.name,
+    started: s.started === true, sound: s.sound !== false,
+    coins: num(s.coins, 0), earned: num(s.earned, 0), spent: num(s.spent, 0), stars: num(s.stars, 0),
+    caught: num(s.caught, 0), missed: num(s.missed, 0),
+    levels: perGame(s.levels, f.levels, isNum), good: perGame(s.good, f.good, isNum),
+    streak: perGame(s.streak, {}, isNum), gardenSeen: perGame(s.gardenSeen, {}, isNum), shown: perGame(s.shown, {}, v => v === true),
+    items: pieces(s.items, itemById, false), friends: pieces(s.friends, friendById, true),
+    wish: typeof s.wish === 'string' && defOf(s.wish) ? s.wish : null,
+    seenRooms: Array.isArray(s.seenRooms) ? s.seenRooms.filter(id => roomById[id]) : f.seenRooms,
+    rounds: (Array.isArray(s.rounds) ? s.rounds : []).filter(r => gameIds.has(obj(r).g)).map(r => ({
+      g: r.g, score: num(r.score, 0), at: num(r.at, 0),
+      ...(isNum(r.level) ? { level: r.level } : {}), ...(story(r.story) ? { story: r.story } : {}) })),
+    lastStory: story(s.lastStory) ? s.lastStory : null,
+    levelFrom: typeof s.levelFrom === 'string' ? s.levelFrom.slice(0, 60) : null,
+  };
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} }
 
@@ -1028,7 +1060,7 @@ function openParent() {
         <tr><td>Treasures and friends</td><td></td><td>${Object.keys(S.items).length + Object.keys(S.friends).length} of ${ITEMS.length + FRIENDS.length}</td></tr>
       </tbody></table>
       <p>Play starts an adventure: a short story with six questions mixed from the games below, mostly one level under hers with the odd stretch. Three right first time in a row moves a game up a level; two misses in a row moves it back down. Sums, Missing Number and What Comes Next join the mix once the easier games under them reach level 3. A level-up or a perfect adventure earns a star and 3 bonus coins. Stars open new rooms. Friends she buys ask her to check their counting. Everything is saved on this device only.</p>
-      <p>Levels start from where she is in Maths Garden (when it was played in this browser, or you're signed in to it here)${S.levelFrom ? `; last taken from ${S.levelFrom}` : ''}. The first time she opens each game, Princess Rosie plays one question to show her how.</p>
+      <p>Levels start from where she is in Maths Garden (when it was played in this browser, or you're signed in to it here)${S.levelFrom ? `; last taken from ${esc(S.levelFrom)}` : ''}. The first time she opens each game, Princess Rosie plays one question to show her how.</p>
       <div class="row">
         <button class="btn" id="p-coins">+10 coins (testing)</button>
         <button class="btn" id="p-star">+1 star (testing)</button>
@@ -1117,7 +1149,7 @@ addEventListener('pointerdown', () => {
 // A progress link from "Move progress to another tab" (e.g. out of a Private tab) replaces this tab's progress.
 function takeCarried() {
   if (!location.hash.startsWith('#carry=')) return;
-  try { S = { ...fresh(), ...JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(location.hash.slice(7)))))) }; save(); } catch {}
+  try { S = clean(JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(location.hash.slice(7))))))); save(); } catch {}
   history.replaceState(null, '', location.pathname + location.search);
 }
 function boot() {
