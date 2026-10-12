@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Startup GTM Shelf — Nick Holzherr</title>
+<meta name="description" content="Twenty hours of growth and go-to-market talks for startup founders, shelved like a library.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316150f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23fbfaf7' text-anchor='middle'%3ENH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#e9e3d6; --paper:#f7f3ea; --card:#fffdf8; --ink:#1d1a16; --muted:#8a8275; --line:#e4ddcf;
+  --chip:#fffdf8; --ledge:#e2d9c8; --ledge-edge:#cfc4ae;
+  --serif:"Newsreader",Georgia,serif; --sans:"Inter",-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.frame{max-width:1160px;margin:28px auto 40px;background:var(--paper);border-radius:22px;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 30px 80px -30px rgba(60,45,20,.35),0 2px 6px rgba(60,45,20,.08);overflow:hidden}
+.top{display:flex;align-items:center;gap:10px;padding:16px 28px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top .logo{font-family:var(--serif);font-size:19px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.top .logo i{font-style:normal;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--ink);color:var(--paper);font-size:11px;font-family:Georgia,serif}
+.top .sep{opacity:.5}
+.top b{color:var(--ink);font-weight:500}
+.top .spacer{flex:1}
+.top a.home{text-decoration:none;color:var(--muted)}
+.top a.home:hover{color:var(--ink)}
+main{padding:44px 44px 36px}
+.eyebrow{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,8vw,84px);letter-spacing:-.025em;line-height:1;margin:12px 0 18px}
+.stats{color:var(--muted);font-size:13.5px;display:flex;flex-wrap:wrap;gap:6px 0}
+.stats span:not(:last-child)::after{content:"·";margin:0 10px;opacity:.6}
+.stats b{color:var(--ink);font-weight:600}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:28px 0 16px}
+.seg{display:inline-flex;background:#ece6da;border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;font:inherit;font-size:13px;color:var(--muted);padding:6px 14px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.search{flex:1;min-width:180px;max-width:300px;position:relative}
+.search input{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:8px 30px 8px 32px;outline:none;color:var(--ink)}
+.search input:focus{border-color:#bdb3a0}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.45}
+.search kbd{position:absolute;right:8px;top:50%;transform:translateY(-50%);font:11px var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:0 5px}
+.arrange{margin-left:auto;display:flex;align-items:center;gap:4px}
+.arrange .lbl{color:#b3aa9b;font-size:12.5px;margin-right:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{border:1px solid var(--line);background:var(--chip);font:inherit;font-size:13px;color:#3d3830;border-radius:10px;padding:5px 11px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .12s,border-color .12s}
+.chip:hover{border-color:#cfc6b4}
+.chip .dot{width:11px;height:11px;border-radius:3px}
+.chip .n{color:#b3aa9b;font-size:12px}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip.on .n{color:#9c958a}
+
+/* shelves */
+#shelves{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:0 40px}
+#shelves.one{grid-template-columns:1fr}
+.shelf{margin:0 0 46px;min-width:0}
+.shelf-head{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.shelf-head h2{font-family:var(--serif);font-weight:400;font-size:24px;margin:0}
+.shelf-head span{color:var(--muted);font-size:12.5px}
+.row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 2px;padding:26px 6px 0;position:relative;min-height:120px}
+.row::after{content:"";flex-basis:100%;height:0}
+.ledge{height:14px;background:linear-gradient(var(--ledge),#d8ceba);border-radius:3px;box-shadow:0 1px 0 var(--ledge-edge),0 12px 18px -10px rgba(60,40,10,.35);margin:0 0 0;position:relative;z-index:1}
+.spine{--c:#4b3a8c;--label:#f5efe0;--fg:#f5efe0;position:relative;height:calc(var(--h) * var(--hs,1));width:var(--w);border:0;padding:0;cursor:pointer;
+  background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 14%,rgba(255,255,255,.10) 30%,transparent 55%,rgba(0,0,0,.14)),var(--c);
+  border-radius:3px 3px 1px 1px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),1px 0 0 rgba(0,0,0,.08);
+  transition:transform .22s cubic-bezier(.2,.8,.3,1.3),filter .15s;margin-bottom:-1px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 0 9px;color:var(--fg);font-family:var(--serif)}
+.spine:hover,.spine:focus-visible{transform:translateY(-12px);outline:none}
+.spine.sel{transform:translateY(-22px);filter:drop-shadow(0 10px 10px rgba(0,0,0,.25))}
+.spine .band{width:100%;height:3px;border-top:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)}
+.spine .mark{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.22);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35);flex:none}
+.spine .label{flex:1;margin:9px 0;width:calc(100% - 12px);background:var(--label);color:#2a241c;border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.spine.plain .label{background:transparent;color:var(--fg);box-shadow:none}
+.spine .label span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;line-height:1.12;overflow:hidden;max-height:100%;max-width:100%;padding:8px 2px;letter-spacing:.01em;text-wrap:balance}
+.spine.caps .label span{font-family:var(--sans);text-transform:uppercase;font-size:9.5px;letter-spacing:.12em;font-weight:600}
+.spine .who{font-family:var(--sans);font-size:8px;letter-spacing:.14em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.85;max-height:86px;overflow:hidden;white-space:nowrap;flex:none}
+.spine .both{position:absolute;top:-9px;left:50%;width:6px;height:16px;margin-left:-3px;background:#d9443a;border-radius:1px 1px 0 0}
+.bookend{width:22px;height:70px;background:linear-gradient(90deg,#9d9483,#c9c0ae);border-radius:3px 10px 1px 1px;align-self:flex-end;margin-left:8px;margin-bottom:-1px}
+.empty{color:var(--muted);font-family:var(--serif);font-size:20px;padding:30px 0 50px}
+
+/* list */
+.list{display:none;border-top:1px solid var(--line)}
+.list.on{display:block}
+.li{display:grid;grid-template-columns:132px 1fr auto;gap:18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.li:hover .ttl{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.li .th{aspect-ratio:16/9;border-radius:8px;background:var(--c) center/cover;position:relative;overflow:hidden}
+.li .ttl{font-family:var(--serif);font-size:19px;line-height:1.2}
+.li .sub{color:var(--muted);font-size:12.5px;margin-top:4px}
+.li .len{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+/* detail */
+.detail{position:fixed;inset:auto 0 0 0;z-index:20;display:flex;justify-content:center;pointer-events:none;padding:0 16px 16px;visibility:hidden;transition:visibility 0s .35s}
+.detail.open{visibility:visible;transition:none}
+.sheet{pointer-events:auto;width:100%;max-width:820px;background:var(--card);border-radius:18px;box-shadow:0 30px 80px -20px rgba(30,20,5,.45),0 0 0 1px rgba(0,0,0,.05);display:grid;grid-template-columns:300px 1fr;overflow:hidden;transform:translateY(120%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.detail.open .sheet{transform:none}
+.cover{position:relative;background:var(--c);min-height:190px;display:block}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.cover .play{position:absolute;inset:0;display:grid;place-items:center;border:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.35));cursor:pointer}
+.cover .play i{width:54px;height:54px;border-radius:50%;background:rgba(255,253,248,.94);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.cover .noimg{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);color:#f5efe0;font-size:26px;padding:20px;text-align:center;line-height:1.1}
+.info{padding:20px 22px 20px;position:relative}
+.info .k{font-size:11.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.info h3{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1;margin:8px 0 6px;letter-spacing:-.01em}
+.info .by{font-size:13px;color:#4a443b}
+.info p{font-family:var(--serif);font-size:16.5px;line-height:1.4;color:#3a352d;margin:12px 0 16px}
+.info .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-size:13px;border-radius:10px;padding:8px 13px;text-decoration:none;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:0;background:#efe9de;cursor:pointer;font-size:15px;color:#6b6457}
+footer{padding:22px 44px 30px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;line-height:1.6}
+footer a{color:#5e574c}
+
+@media (max-width:760px){
+  .frame{margin:0;border-radius:0;box-shadow:none}
+  .top{padding:14px 16px}
+  main{padding:30px 16px 24px}
+  footer{padding:20px 16px 110px}
+  .arrange{margin-left:0;width:100%;overflow-x:auto}
+  .search{max-width:none}
+  .row{padding:24px 2px 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .row::-webkit-scrollbar{display:none}
+  .spine,.bookend{flex:none}
+  .spine{--hs:.86}
+  .li{grid-template-columns:96px 1fr;gap:12px}
+  .li .len{display:none}
+  .li .ttl{font-size:16.5px}
+  .detail{padding:0 8px 8px}
+  .sheet{grid-template-columns:1fr;max-height:calc(100vh - 40px);overflow:auto}
+  .cover{aspect-ratio:16/9;min-height:0}
+  .info h3{font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){.spine,.sheet{transition:none}}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="top">
+    <a class="logo" href="/"><i>NH</i>Nick Holzherr</a>
+    <span class="sep">/</span><b>GTM shelf</b>
+    <span class="spacer"></span>
+    <a class="home" href="/">Home</a>
+  </div>
+
+  <main>
+    <div class="eyebrow">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2.5v11M5.5 2.5v11M9 3l3.5 10.5"/></svg>
+      Watch list for founders
+    </div>
+    <h1>The GTM shelf</h1>
+    <div class="stats" id="stats"></div>
+
+    <div class="controls">
+      <div class="seg" id="view">
+        <button class="on" data-v="shelf"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 2.5v11M5.5 2.5v11M9 3l3.5 10.5"/></svg>Shelf</button>
+        <button data-v="list"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h12M2 12h12"/></svg>List</button>
+      </div>
+      <label class="search">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+        <input id="q" type="search" placeholder="Search the shelf" autocomplete="off"><kbd>/</kbd>
+      </label>
+      <div class="arrange"><span class="lbl">Arrange by</span>
+        <div class="seg" id="arr">
+          <button class="on" data-a="list">Source</button>
+          <button data-a="topic">Topic</button>
+          <button data-a="speaker">Speaker</button>
+          <button data-a="length">Length</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chips" id="chips"></div>
+    <div id="shelves"></div>
+    <div class="list" id="list"></div>
+  </main>
+
+  <footer>
+    Picks from David Rodríguez's two lists — <a href="https://www.linkedin.com/posts/davidars_if-i-only-had-10-hours-to-learn-how-growth-activity-7511458945199321088-YPbx/" target="_blank" rel="noopener">10 hours to learn growth</a> and <a href="https://www.linkedin.com/posts/davidars_if-i-only-had-10-hours-to-learn-how-gtm-really-share-7514381975613272065-PlXA/" target="_blank" rel="noopener">10 hours to learn GTM</a>. A red ribbon marks the talk on both. Shelf style after Hassan El Mghari's Gloss library.
+  </footer>
+</div>
+
+<div class="detail" id="detail" aria-live="polite">
+  <div class="sheet" role="dialog" aria-label="Video details">
+    <div class="cover" id="cover"></div>
+    <div class="info">
+      <button class="x" id="x" aria-label="Close">✕</button>
+      <div class="k" id="dk"></div>
+      <h3 id="dt"></h3>
+      <div class="by" id="db"></div>
+      <p id="dp"></p>
+      <div class="acts" id="da"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// list: "growth" / "gtm" = which of David's lists; tags drive the chips.
+const V = [
+  {id:"n_yHZ_vKjno", t:"Why Retention Comes Before Growth", who:"Alex Schultz", org:"Facebook", src:"YC Startup School", s:2847, y:2014, list:["growth"], tags:["Retention & PMF"],
+   why:"Facebook's growth lead on the one curve that matters before you spend on acquisition: does retention flatten out?"},
+  {id:"0igjSRZyX-w", t:"How to Measure Product-Market Fit", who:"Rahul Vohra", org:"Superhuman", src:"Lenny's Podcast", s:5108, y:2025, list:["growth"], tags:["Retention & PMF"],
+   why:"The \"how disappointed would you be\" survey and the loop Superhuman used to push its PMF score up."},
+  {id:"6qAB6aUMIeA", t:"What Still Works in AI-Era Growth", who:"Elena Verna", org:"Lovable", src:"Lenny's Podcast", s:5515, y:2025, list:["growth"], tags:["Channels","AI"],
+   why:"Which parts of the classic growth playbook survive AI, from inside Lovable's run to $200M ARR."},
+  {id:"hdjlCLb9Hl8", t:"How to Position Your Product", who:"April Dunford", org:"Obviously Awesome", src:"Lenny's Podcast", s:3939, y:2023, list:["growth","gtm"], tags:["Positioning"],
+   why:"Positioning as a repeatable process: competitive alternatives, unique value, best-fit customers. On both lists — in the GTM list as \"Why Great Products Still Don't Sell\"."},
+  {id:"6lY9CYIY4pQ", t:"How to Pick Your Growth Channels", who:"Gustaf Alströmer", org:"Y Combinator", src:"YC Startup School", s:2330, y:2019, list:["growth"], tags:["Channels"],
+   why:"YC's framework for testing channels early and doubling down on the one that works."},
+  {id:"2BKmNmnEj9w", t:"How to Find Hidden Growth Opportunities", who:"Albert Cheng", org:"Duolingo · Grammarly · Chess.com", src:"Lenny's Podcast", s:5125, y:2025, list:["growth"], tags:["Retention & PMF"],
+   why:"Finding the levers already inside your product, from someone who ran growth at three consumer giants."},
+  {id:"cX4cL6B-_aU", t:"How New Distribution Platforms Open (and Close)", who:"Brian Balfour", org:"Reforge", src:"Lenny's Podcast", s:5352, y:2025, list:["growth"], tags:["Channels","AI"],
+   why:"Platform shifts open a window for distribution, then shut it. Why ChatGPT is the next one."},
+  {id:null, url:"https://www.clay.com/livestreams/behind-the-scenes-of-clays-marketing-growth", t:"How Clay Turned LinkedIn Into a Growth Engine", who:"Bruno Estrella & Davide Grieco", org:"Clay", src:"Clay livestream", s:null, y:null, list:["growth"], tags:["Marketing","Clay"],
+   why:"Clay's marketing team on the LinkedIn content machine behind its growth."},
+  {id:"Pdhgu9U4g_I", t:"How Clay Won Its Market with Storytelling", who:"Peter Kang", org:"Clay", src:"YouTube", s:651, y:2026, list:["growth"], tags:["Marketing","Clay"],
+   why:"Short and sharp: how Clay used narrative to own its category."},
+  {id:"k-H4nsOTuxU", t:"How Anthropic Grew from $1B to $19B ARR", who:"Amol Avasare", org:"Anthropic", src:"Lenny's Podcast", s:6769, y:2026, list:["growth"], tags:["AI"],
+   why:"Anthropic's head of growth on automating growth work itself during a 19x run."},
+
+  {id:"DHNcr5kd6FE", t:"The Unconventional GTM Behind Clay's $1.25B", who:"Varun Anand", org:"Clay", src:"First Round", s:3751, y:2025, list:["gtm"], tags:["Sales","Pricing","Clay"],
+   why:"Clay's co-founder on rethinking GTM, pricing and enterprise sales from first principles."},
+  {id:"RmnWHz8HD74", t:"What World-Class GTM Looks Like in 2026", who:"Jeanne DeWitt Grosser", org:"Vercel · Stripe · Google", src:"Lenny's Podcast", s:5162, y:2025, list:["gtm"], tags:["Sales"],
+   why:"How the best GTM orgs are structured now, from the person who built them at Stripe and Vercel."},
+  {id:"RBbINB5HSHk", t:"Win One Small Market Before You Chase the Big One", who:"Geoffrey Moore", org:"Crossing the Chasm", src:"Lenny's Podcast", s:5089, y:2024, list:["gtm"], tags:["Positioning"],
+   why:"The beachhead argument from the man who wrote it: dominate a niche, then expand."},
+  {id:"dr7gKuKc234", t:"The Narrowing That Took Clay from $1M to $100M ARR", who:"Kareem Amin", org:"Clay", src:"First Round", s:3257, y:2024, list:["gtm"], tags:["Retention & PMF","Clay"],
+   why:"Clay's long road to PMF and the decision to narrow down to power users."},
+  {id:"NR85H55eYkM", t:"Why 95% of AI Startups Get Pricing Wrong", who:"Madhavan Ramanujam", org:"Simon-Kucher", src:"Lenny's Podcast", s:4303, y:2025, list:["gtm"], tags:["Pricing","AI"],
+   why:"Pricing lessons from 400+ companies, applied to AI products and outcome-based models."},
+  {id:"0fKYVl12VTA", t:"Your First Salesperson Should Be You", who:"Pete Koomen", org:"Y Combinator", src:"YC Startup School", s:1387, y:2024, list:["gtm"], tags:["Sales"],
+   why:"Founder-led enterprise sales: why you can't hand it off early, and how to run it."},
+  {id:"YS9In813jJ0", t:"How to Close a $100K Enterprise Deal, Step by Step", who:"Jen Abel", org:"Enterprise sales advisor", src:"Lenny's Podcast", s:5097, y:2026, list:["gtm"], tags:["Sales"],
+   why:"The step-by-step for six- and seven-figure deals, aimed at founders selling upmarket."},
+  {id:"RG_eyn0fRXs", t:"The Formula Behind HubSpot's 6,000% Revenue Growth", who:"Mark Roberge", org:"HubSpot", src:"Talks at Google", s:3380, y:2015, list:["gtm"], tags:["Sales"],
+   why:"The Sales Acceleration Formula: hiring, training and managing sales like an engineer."},
+  {id:"gzs61z9Fekw", t:"How to Build a Powerful Marketing Machine", who:"Emily Kramer", org:"MKT1 · Asana · Carta", src:"Lenny's Podcast", s:4254, y:2022, list:["gtm"], tags:["Marketing"],
+   why:"How to structure B2B marketing from the first hire to a full team."},
+];
+
+const PAL = {
+  growth:["#3f3182","#5a47a8","#7a66c4","#a594dc","#2f2566","#6b55b8","#8f7fd2"],
+  gtm:["#7d2433","#a8394b","#c9586a","#5e1a26","#b5475f","#d27a86","#8e2d4a"],
+};
+const LIGHT = c => ["#a594dc","#8f7fd2","#d27a86","#c9586a"].includes(c);
+const TOPIC_DOT = {"Retention & PMF":"#5a47a8","Positioning":"#c0874a","Channels":"#3f8f7a","Sales":"#a8394b","Pricing":"#c9a227","Marketing":"#b5475f","AI":"#2f2566","Clay":"#5e6f9e"};
+const LISTS = {growth:{name:"Growth",sub:"How to grow"}, gtm:{name:"GTM",sub:"How to sell and win a market"}};
+
+const hash = s => [...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+V.forEach((v,i)=>{
+  const h = hash(v.t);
+  const pal = PAL[v.list[0]];
+  v.c = pal[h % pal.length];
+  v.light = LIGHT(v.c);
+  v.style = ["label","label","plain","caps"][h % 4];
+  v.ht = 262 + (h % 7) * 11;                          // spine height px
+  v.wd = v.s ? Math.round(Math.min(50, Math.max(42, 24 + v.s/60/3.6))) : 46; // width by length
+  v.min = v.s ? Math.round(v.s/60) : null;
+  v.key = v.id || "clay-live";
+});
+
+const fmt = m => m==null ? "Livestream" : m < 60 ? `${m} min` : `${Math.floor(m/60)}h ${String(m%60).padStart(2,"0")}m`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const surname = w => w.includes("&") ? w.split("&").map(p=>p.trim().split(" ").pop()).join(" & ") : w.split(" ").pop();
+
+let state = {chip:"all", q:"", arr:"list", view:"shelf", sel:null};
+
+// stats
+const totalMin = V.reduce((a,v)=>a+(v.min||0),0);
+document.getElementById("stats").innerHTML =
+  `<span><b>${V.length}</b> talks</span><span><b>2</b> lists</span><span><b>${Math.round(totalMin/60)}</b> hours of watching</span><span>${V.filter(v=>v.list.length>1).length} on both lists</span>`;
+
+// chips
+const CHIPS = [
+  {k:"all", n:"All", f:()=>true},
+  {k:"growth", n:"Growth list", dot:PAL.growth[1], f:v=>v.list.includes("growth")},
+  {k:"gtm", n:"GTM list", dot:PAL.gtm[1], f:v=>v.list.includes("gtm")},
+  ...Object.keys(TOPIC_DOT).map(t=>({k:t, n:t, dot:TOPIC_DOT[t], f:v=>v.tags.includes(t)})),
+  {k:"short", n:"Under an hour", dot:"#c9a227", f:v=>v.min!=null && v.min<60},
+];
+function renderChips(){
+  document.getElementById("chips").innerHTML = CHIPS.map(c=>{
+    const n = V.filter(c.f).length;
+    return `<button class="chip ${state.chip===c.k?"on":""}" data-k="${esc(c.k)}">${c.dot?`<span class="dot" style="background:${c.dot}"></span>`:""}${esc(c.n)} <span class="n">${n}</span></button>`;
+  }).join("");
+}
+document.getElementById("chips").addEventListener("click",e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  state.chip = b.dataset.k; renderChips(); render();
+});
+
+function visible(){
+  const chip = CHIPS.find(c=>c.k===state.chip);
+  const q = state.q.trim().toLowerCase();
+  return V.filter(v=>chip.f(v) && (!q || [v.t,v.who,v.org,v.src,...v.tags].join(" ").toLowerCase().includes(q)));
+}
+
+function spine(v){
+  return `<button class="spine ${v.style==="plain"?"plain":""} ${v.style==="caps"?"caps":""} ${state.sel===v.key?"sel":""}"
+    style="--c:${v.c};--h:${v.ht}px;--w:${v.wd}px;${v.light?"--fg:#2a1f4a;":""}"
+    data-k="${v.key}" title="${esc(v.t)} — ${esc(v.who)}" aria-label="${esc(v.t)} by ${esc(v.who)}, ${fmt(v.min)}">
+    ${v.list.length>1?'<span class="both"></span>':""}
+    <span class="band"></span>
+    <span class="label"><span>${esc(v.t)}</span></span>
+    <span class="who">${esc(surname(v.who))}</span>
+  </button>`;
+}
+
+function groups(items){
+  if(state.arr==="topic"){
+    return Object.keys(TOPIC_DOT).map(t=>({h:t, items:items.filter(v=>v.tags.includes(t))})).filter(g=>g.items.length);
+  }
+  if(state.arr==="speaker"){
+    return [{h:"A–Z by speaker", items:[...items].sort((a,b)=>surname(a.who).localeCompare(surname(b.who)))}];
+  }
+  if(state.arr==="length"){
+    return [{h:"Shortest first", items:[...items].sort((a,b)=>(a.s??3600)-(b.s??3600))}];
+  }
+  return ["growth","gtm"].map(l=>({h:LISTS[l].name, sub:LISTS[l].sub, items:items.filter(v=>v.list.includes(l))})).filter(g=>g.items.length);
+}
+
+function render(){
+  const items = visible();
+  const sh = document.getElementById("shelves"), li = document.getElementById("list");
+  sh.style.display = state.view==="shelf" ? "" : "none";
+  li.classList.toggle("on", state.view==="list");
+  if(!items.length){
+    sh.innerHTML = li.innerHTML = `<div class="empty">Nothing on the shelf matches that.</div>`;
+    return;
+  }
+  const gs = groups(items);
+  sh.classList.toggle("one", gs.length===1);
+  sh.innerHTML = gs.map(g=>{
+    const m = g.items.reduce((a,v)=>a+(v.min||0),0);
+    return `<section class="shelf">
+      <div class="shelf-head"><h2>${esc(g.h)}</h2><span>${g.sub?esc(g.sub)+" · ":""}${g.items.length} talks · ${(m/60).toFixed(1)} h</span></div>
+      <div class="row">${g.items.map(spine).join("")}<span class="bookend"></span></div>
+      <div class="ledge"></div>
+    </section>`;
+  }).join("");
+  li.innerHTML = groups(items).flatMap(g=>g.items).filter((v,i,a)=>a.indexOf(v)===i).map(v=>`
+    <div class="li" data-k="${v.key}" role="button" tabindex="0">
+      <div class="th" style="--c:${v.c};${v.id?`background-image:url(https://i.ytimg.com/vi/${v.id}/mqdefault.jpg)`:""}"></div>
+      <div><div class="ttl">${esc(v.t)}</div><div class="sub">${esc(v.who)} · ${esc(v.org)} · ${esc(v.src)}</div></div>
+      <div class="len">${fmt(v.min)}</div>
+    </div>`).join("");
+}
+
+// detail sheet
+const D = document.getElementById("detail");
+function open(key){
+  const v = V.find(x=>x.key===key); if(!v) return;
+  state.sel = key;
+  document.querySelectorAll(".spine").forEach(s=>s.classList.toggle("sel", s.dataset.k===key));
+  const cover = document.getElementById("cover");
+  cover.style.setProperty("--c", v.c);
+  cover.innerHTML = v.id
+    ? `<img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt=""><button class="play" aria-label="Play here"><i><svg width="18" height="18" viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="#1d1a16"/></svg></i></button>`
+    : `<div class="noimg">${esc(v.t)}</div>`;
+  const pb = cover.querySelector(".play");
+  if(pb) pb.onclick = () => { cover.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(v.t)}"></iframe>`; };
+  document.getElementById("dk").innerHTML = [v.list.map(l=>LISTS[l].name+" list").join(" + "), fmt(v.min), v.src, v.y].filter(Boolean).map(esc).join(" <span>·</span> ");
+  document.getElementById("dt").textContent = v.t;
+  document.getElementById("db").textContent = `${v.who} · ${v.org}`;
+  document.getElementById("dp").textContent = v.why;
+  const href = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
+  document.getElementById("da").innerHTML = `<a class="btn dark" href="${href}" target="_blank" rel="noopener">${v.id?"Watch on YouTube":"Open the livestream"} ↗</a>`;
+  D.classList.add("open");
+}
+function close(){
+  D.classList.remove("open"); state.sel = null;
+  document.querySelectorAll(".spine.sel").forEach(s=>s.classList.remove("sel"));
+  setTimeout(()=>{ if(!D.classList.contains("open")) document.getElementById("cover").innerHTML=""; }, 350);
+}
+document.getElementById("x").onclick = close;
+document.addEventListener("click",e=>{
+  const t = e.target.closest("[data-k].spine, .li");
+  if(t) return open(t.dataset.k);
+  if(D.classList.contains("open") && !e.target.closest(".sheet") && !e.target.closest(".chip,.seg,.search")) close();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") close();
+  if(e.key==="/" && document.activeElement.tagName!=="INPUT"){ e.preventDefault(); document.getElementById("q").focus(); }
+  if(e.key==="Enter" && e.target.classList?.contains("li")) open(e.target.dataset.k);
+});
+
+// controls
+document.getElementById("q").addEventListener("input",e=>{ state.q = e.target.value; render(); });
+document.getElementById("view").addEventListener("click",e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.view = b.dataset.v;
+  document.querySelectorAll("#view button").forEach(x=>x.classList.toggle("on", x===b));
+  render();
+});
+document.getElementById("arr").addEventListener("click",e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.arr = b.dataset.a;
+  document.querySelectorAll("#arr button").forEach(x=>x.classList.toggle("on", x===b));
+  render();
+});
+
+renderChips(); render();
+</script>
+</body>
+</html>
