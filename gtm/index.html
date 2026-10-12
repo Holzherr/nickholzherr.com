@@ -112,8 +112,18 @@ h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,8vw,84px);lette
 .plate svg{display:block;margin:0 auto 6px;color:var(--c)}
 .plate .nm{font-style:italic;font-size:19px}
 .plate .no{font-family:var(--sans);font-size:8.5px;color:#8a8275;margin-top:8px;letter-spacing:.04em}
-.book .player{position:absolute;left:16px;right:16px;top:50%;transform:translateY(-50%);aspect-ratio:16/9;background:#000;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
-.book .player iframe{width:100%;height:100%;border:0;display:block}
+.book .inside{grid-template-rows:auto auto;align-content:center;gap:26px;padding:0 18px}
+.book .inside .plate{width:58%;justify-self:center;padding:12px 12px 10px}
+.book .inside .plate svg{display:none}
+.vid{position:relative;width:100%;aspect-ratio:16/9;background:#000 center/cover;border-radius:3px;overflow:hidden;box-shadow:0 0 0 4px #fbf7ee,0 12px 28px -10px rgba(0,0,0,.45);cursor:pointer;border:0;padding:0;display:block}
+.vid::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.35))}
+.vid i{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:rgba(255,253,248,.94);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3);z-index:1;transition:transform .15s}
+.vid:hover i{transform:scale(1.08)}
+.vid span{position:absolute;right:8px;bottom:7px;z-index:1;font:600 11px var(--sans);color:#fff;background:rgba(0,0,0,.55);border-radius:5px;padding:2px 6px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid.on{cursor:default}.vid.on::after{display:none}
+.page .vid{margin:-4px 0 16px;box-shadow:0 8px 20px -10px rgba(0,0,0,.4)}
+.page .go{border:0;cursor:pointer;width:100%}
 .book .page{position:absolute;inset:0;transform:translateZ(calc(var(--D)/2 - 1px));background:#fcfaf4;border-radius:2px 6px 6px 2px;padding:26px 26px 20px;display:flex;flex-direction:column;color:var(--ink);
   box-shadow:inset 18px 0 24px -16px rgba(0,0,0,.22),inset 0 0 0 1px rgba(0,0,0,.06)}
 .page .tagrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:11.5px;color:var(--muted)}
@@ -378,7 +388,8 @@ const SHELVED = new Date().toLocaleDateString("en-GB",{day:"numeric",month:"shor
 const pose = p => `translate(${p.x}px,${p.y}px) translate(-50%,-50%) scale(${p.s}) rotateX(${p.rx||0}deg) rotateY(${p.ry||0}deg)`;
 const play = (el, frames, dur, easing=EASE) => el.animate(frames,{duration:ms(dur),easing,fill:"forwards"}).finished;
 
-function bookHTML(v, src){
+function bookHTML(v, src, narrow){
+  const vid = v.id ? `<button class="vid" data-act="play" style="background-image:url(https://i.ytimg.com/vi/${v.id}/hqdefault.jpg)" aria-label="Play ${esc(v.t)}"><i><svg width="18" height="18" viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="#1d1a16"/></svg></i><span>${fmt(v.min)}</span></button>` : "";
   const href = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
   const topic = v.tags[0];
   const no = String(V.indexOf(v)+1).padStart(2,"0");
@@ -389,6 +400,7 @@ function bookHTML(v, src){
   <div class="face edge"></div><div class="face tp"></div>
   <div class="face back"></div>
   <div class="page">
+    ${narrow ? vid : ""}
     <div class="tagrow"><span class="tag"><i></i>${esc(topic)}</span><span>${esc(v.y||"Live")} · ${fmt(v.min)}</span></div>
     <h3>${esc(v.t)}</h3>
     <div class="au">${esc(v.who)}</div>
@@ -396,8 +408,8 @@ function bookHTML(v, src){
     <hr>
     <p>${esc(v.why)}</p>
     <div class="status">${v.list.map(l=>LISTS[l].name).join(" + ")} list · ${esc(v.src)}</div>
-    <a class="go" href="${href}" target="_blank" rel="noopener">${v.id?"Watch on YouTube":"Open the livestream"} <span>→</span></a>
-    <div class="foot"><span>${v.id?`<button data-act="here">▶ Play here</button>`:esc(new URL(href).hostname.replace("www.",""))}</span><button data-act="back">Put it back</button></div>
+    ${v.id ? `<button class="go" data-act="play">▶ Play video</button>` : `<a class="go" href="${href}" target="_blank" rel="noopener">Open the livestream <span>→</span></a>`}
+    <div class="foot"><a href="${href}" target="_blank" rel="noopener" style="color:inherit">${v.id?"youtube.com ↗":esc(new URL(href).hostname.replace("www.",""))}</a><button data-act="back">Put it back</button></div>
   </div>
   <div class="front">
     <div class="face cv">
@@ -407,6 +419,7 @@ function bookHTML(v, src){
       <div class="au">${esc(v.who)}</div>
     </div>
     <div class="face inside">
+      ${narrow ? "" : vid}
       <div class="plate">
         <div class="xl">EX LIBRIS</div>
         <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 24h46M8 24V6h5v18M14 24V3h5v21M20 24V8h4v16M27 24l4-17 4.5 1-4 16M38 24V5h5v19"/></svg>
@@ -424,15 +437,15 @@ async function open(key, src){
   busy = true;
   const r = src.getBoundingClientRect();
   const narrow = innerWidth < 700;
-  const H = Math.min(narrow ? 470 : 430, innerHeight - 70);
-  const P = narrow ? Math.min(H*0.72, innerWidth - 36) : H*0.72;
+  const H = narrow ? Math.min(600, innerHeight - 60) : Math.min(470, innerHeight - 70);
+  const P = narrow ? Math.min(380, innerWidth - 36) : H*0.74;
   const fromSpine = src.classList.contains("spine");
   const s0 = fromSpine ? r.height/H : r.width/P;
   const D = fromSpine ? Math.max(24, r.width/s0) : 34;
   const b = document.createElement("div");
   b.className = "book";
   b.style.cssText = `--P:${P}px;--H:${H}px;--D:${D}px;--k:${(1/s0).toFixed(3)};--c:${v.c};--fg:${v.light?"#2a1f4a":"#f5efe0"};--label:#f5efe0`;
-  b.innerHTML = bookHTML(v, src);
+  b.innerHTML = bookHTML(v, src, narrow);
   b.setAttribute("role","dialog"); b.setAttribute("aria-label", v.t);
   stage.appendChild(b);
   const front = b.querySelector(".front"), inside = b.querySelector(".inside");
@@ -485,9 +498,12 @@ function walk(dir){
 stage.addEventListener("click", e=>{
   const act = e.target.closest("[data-act]")?.dataset.act;
   if(act==="back") return close();
-  if(act==="here" && cur?.v.id){
-    const host = cur.narrow ? cur.b.querySelector(".page") : cur.inside;
-    if(!host.querySelector(".player")) host.insertAdjacentHTML("beforeend", `<div class="player"><iframe src="https://www.youtube-nocookie.com/embed/${cur.v.id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(cur.v.t)}"></iframe></div>`);
+  if(act==="play" && cur?.v.id){
+    const box = cur.b.querySelector(".vid");
+    if(!box.classList.contains("on")){
+      box.classList.add("on");
+      box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${cur.v.id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(cur.v.t)}"></iframe>`;
+    }
   }
 });
 scrim.addEventListener("click", close);
