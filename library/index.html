@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founder's Library — Nick Holzherr</title>
+<meta name="description" content="The books, talks and courses Nick Holzherr recommends to startup founders, shelved like a library.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316150f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23fbfaf7' text-anchor='middle'%3ENH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#e9e3d6; --paper:#f7f3ea; --card:#fffdf8; --ink:#1d1a16; --muted:#8a8275; --line:#e4ddcf;
+  --chip:#fffdf8; --ledge:#e2d9c8; --ledge-edge:#cfc4ae;
+  --serif:"Newsreader",Georgia,serif; --sans:"Inter",-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.frame{max-width:1160px;margin:28px auto 40px;background:var(--paper);border-radius:22px;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 30px 80px -30px rgba(60,45,20,.35),0 2px 6px rgba(60,45,20,.08);overflow:hidden}
+.top{display:flex;align-items:center;gap:10px;padding:16px 28px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top .logo{font-family:var(--serif);font-size:19px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.top .logo i{font-style:normal;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--ink);color:var(--paper);font-size:11px;font-family:Georgia,serif}
+.top .sep{opacity:.5}
+.top b{color:var(--ink);font-weight:500}
+.top .spacer{flex:1}
+.top a.home{text-decoration:none;color:var(--muted)}
+.top a.home:hover{color:var(--ink)}
+main{padding:44px 44px 36px}
+.eyebrow{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,8vw,84px);letter-spacing:-.025em;line-height:1;margin:12px 0 18px}
+.stats{color:var(--muted);font-size:13.5px;display:flex;flex-wrap:wrap;gap:6px 0}
+.stats span:not(:last-child)::after{content:"·";margin:0 10px;opacity:.6}
+.stats b{color:var(--ink);font-weight:600}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:28px 0 16px}
+.seg{display:inline-flex;background:#ece6da;border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;font:inherit;font-size:13px;color:var(--muted);padding:6px 14px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.search{flex:1;min-width:180px;max-width:300px;position:relative}
+.search input{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:8px 30px 8px 32px;outline:none;color:var(--ink)}
+.search input:focus{border-color:#bdb3a0}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.45}
+.search kbd{position:absolute;right:8px;top:50%;transform:translateY(-50%);font:11px var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:0 5px}
+.arrange{margin-left:auto;display:flex;align-items:center;gap:4px}
+.arrange .lbl{color:#b3aa9b;font-size:12.5px;margin-right:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{border:1px solid var(--line);background:var(--chip);font:inherit;font-size:13px;color:#3d3830;border-radius:10px;padding:5px 11px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .12s,border-color .12s}
+.chip:hover{border-color:#cfc6b4}
+.chip .dot{width:11px;height:11px;border-radius:3px}
+.chip .n{color:#b3aa9b;font-size:12px}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip.on .n{color:#9c958a}
+
+/* shelves */
+#shelves{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:0 40px}
+#shelves.one{grid-template-columns:1fr}
+.shelf.wide{grid-column:1/-1}
+.spacer-cell{min-height:0}
+.room-head{grid-column:1/-1;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:6px 0 18px;padding-top:18px;border-top:1px solid var(--line)}
+.room-head:first-child{border-top:0;padding-top:0}
+.room-head h2{font-family:var(--serif);font-weight:400;font-size:36px;letter-spacing:-.015em;margin:0}
+.room-head span{color:var(--muted);font-size:13px}
+.rooms{margin:0 0 14px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.rooms .n{color:#b3aa9b;font-size:11.5px;margin-left:2px}
+.rooms button{white-space:nowrap;flex:none}
+.rooms::-webkit-scrollbar{display:none}
+.shelf{margin:0 0 46px;min-width:0}
+.shelf-head{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.shelf-head h3{font-family:var(--serif);font-weight:400;font-size:22px;margin:0}
+.shelf-head span{color:var(--muted);font-size:12.5px}
+.row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 2px;padding:26px 6px 0;position:relative;min-height:120px}
+.row::after{content:"";flex-basis:100%;height:0}
+.ledge{height:14px;background:linear-gradient(var(--ledge),#d8ceba);border-radius:3px;box-shadow:0 1px 0 var(--ledge-edge),0 12px 18px -10px rgba(60,40,10,.35);margin:0 0 0;position:relative;z-index:1}
+.spine{--c:#4b3a8c;--label:#f5efe0;--fg:#f5efe0;position:relative;height:calc(var(--h) * var(--hs,1));width:var(--w);border:0;padding:0;cursor:pointer;
+  background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 14%,rgba(255,255,255,.10) 30%,transparent 55%,rgba(0,0,0,.14)),var(--c);
+  border-radius:3px 3px 1px 1px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),1px 0 0 rgba(0,0,0,.08);
+  transition:transform .22s cubic-bezier(.2,.8,.3,1.3),filter .15s;margin-bottom:-1px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 0 9px;color:var(--fg);font-family:var(--serif)}
+.spine:hover,.spine:focus-visible{transform:translateY(-12px);outline:none}
+.spine .band{width:100%;height:3px;border-top:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)}
+.spine .mark{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.22);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35);flex:none}
+.spine .label{flex:1;margin:9px 0;width:calc(100% - 12px);background:var(--label);color:#2a241c;border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.spine.plain .label{background:transparent;color:var(--fg);box-shadow:none}
+.spine .label span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;line-height:1.12;overflow:hidden;max-height:100%;max-width:100%;padding:8px 2px;letter-spacing:.01em;text-wrap:balance}
+.spine.caps .label span{font-family:var(--sans);text-transform:uppercase;font-size:9.5px;letter-spacing:.12em;font-weight:600}
+.spine .who{font-family:var(--sans);font-size:8px;letter-spacing:.14em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.85;max-height:86px;overflow:hidden;white-space:nowrap;flex:none}
+.spine .both{position:absolute;top:-9px;left:50%;width:6px;height:16px;margin-left:-3px;background:#d9443a;border-radius:1px 1px 0 0}
+.spine .both.pick{background:#d4a72c}
+.bookend{width:22px;height:70px;background:linear-gradient(90deg,#9d9483,#c9c0ae);border-radius:3px 10px 1px 1px;align-self:flex-end;margin-left:8px;margin-bottom:-1px}
+.empty{color:var(--muted);font-family:var(--serif);font-size:20px;padding:30px 0 50px}
+
+/* list */
+.list{display:none;border-top:1px solid var(--line)}
+.list.on{display:block}
+.li{display:grid;grid-template-columns:132px 1fr auto;gap:18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.li:hover .ttl{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.li .th{aspect-ratio:16/9;border-radius:8px;background:var(--c) center/cover;position:relative;overflow:hidden}
+.li .ttl{font-family:var(--serif);font-size:19px;line-height:1.2}
+.li .sub{color:var(--muted);font-size:12.5px;margin-top:4px}
+.li .len{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+/* book: pulled off the shelf, turned to its cover, then opened */
+.scrim{position:fixed;inset:0;z-index:20;background:rgba(244,239,229,.78);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;transition:opacity .45s;pointer-events:none}
+.scrim.on{opacity:1;pointer-events:auto}
+.stage{position:fixed;inset:0;z-index:21;perspective:2000px;pointer-events:none}
+.book{--P:300px;--H:420px;--D:40px;position:absolute;left:0;top:0;width:var(--P);height:var(--H);transform-style:preserve-3d;pointer-events:auto;font-family:var(--serif);will-change:transform}
+.book .face{position:absolute;top:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.book .front{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:left center;transform:translateZ(calc(var(--D)/2))}
+.book .cv{position:absolute;inset:0;border-radius:2px 6px 6px 2px;overflow:hidden;color:var(--fg);
+  background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(255,255,255,.10) 2.5%,transparent 6%),repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0 2px,transparent 2px 4px),var(--c);
+  box-shadow:inset 0 0 0 12px var(--c),inset 0 0 0 13px rgba(255,255,255,.32),0 30px 60px -20px rgba(30,15,0,.5);padding:30px 30px 28px;display:flex;flex-direction:column}
+.book .cv .art{aspect-ratio:16/9;border:4px solid var(--label);background:var(--label) center/cover;box-shadow:0 2px 6px rgba(0,0,0,.25);margin-bottom:auto;filter:saturate(.85) contrast(1.02)}
+.book .cv .art.none{display:grid;place-items:center;color:var(--c);font-size:44px;font-style:italic}
+.book .cv .ey{font-family:var(--sans);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.8;margin:20px 0 8px}
+.book .cv h4{font-weight:400;font-size:27px;line-height:1.05;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
+.book .cv .au{font-style:italic;font-size:15px;opacity:.85}
+.book .cv .cimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.book .cv.photo::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.32),rgba(255,255,255,.18) 2.5%,transparent 7%,transparent 85%,rgba(0,0,0,.08));pointer-events:none}
+.book .cv .orn{margin-bottom:auto;opacity:.55}
+.note{width:86%;justify-self:center;background:#fffdf6;padding:16px 18px 14px;transform:rotate(1.5deg);box-shadow:0 1px 2px rgba(0,0,0,.15),0 10px 22px -10px rgba(0,0,0,.3);font-style:italic;font-size:17px;line-height:1.35;color:#2a241c;
+  background-image:repeating-linear-gradient(transparent 0 22px,rgba(80,110,160,.14) 22px 23px)}
+.note b{display:block;font:500 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#9a6b1a;font-style:normal;margin-bottom:6px}
+.note span{display:block;font:11px var(--sans);font-style:normal;color:var(--muted);margin-top:8px}
+.page .note{width:auto;transform:none;margin:14px 0 0;font-size:15.5px}
+.book .inside{position:absolute;inset:0;transform:rotateY(180deg);border-radius:6px 2px 2px 6px;overflow:hidden;
+  background:radial-gradient(circle,rgba(0,0,0,.13) 1px,transparent 1.4px) 0 0/9px 9px,color-mix(in srgb,var(--c) 16%,#f4ede0);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),inset -18px 0 24px -14px rgba(0,0,0,.25);display:grid;place-items:center}
+.plate{width:66%;background:#fbf7ee;padding:18px 14px 14px;text-align:center;transform:rotate(-2.5deg);box-shadow:0 1px 2px rgba(0,0,0,.18),0 8px 18px -8px rgba(0,0,0,.3);color:#2a241c}
+.plate .xl{font-family:var(--sans);font-size:8.5px;letter-spacing:.3em;margin-bottom:8px}
+.plate svg{display:block;margin:0 auto 6px;color:var(--c)}
+.plate .nm{font-style:italic;font-size:19px}
+.plate .no{font-family:var(--sans);font-size:8.5px;color:#8a8275;margin-top:8px;letter-spacing:.04em}
+.book .inside{grid-template-rows:auto auto;align-content:center;gap:26px;padding:0 18px}
+.book .inside .plate{width:58%;justify-self:center;padding:12px 12px 10px}
+.book .inside .plate svg{display:none}
+.vid{position:relative;width:100%;aspect-ratio:16/9;background:#000 center/cover;border-radius:3px;overflow:hidden;box-shadow:0 0 0 4px #fbf7ee,0 12px 28px -10px rgba(0,0,0,.45);cursor:pointer;border:0;padding:0;display:block}
+.vid::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.35))}
+.vid i{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:rgba(255,253,248,.94);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3);z-index:1;transition:transform .15s}
+.vid:hover i{transform:scale(1.08)}
+.vid span{position:absolute;right:8px;bottom:7px;z-index:1;font:600 11px var(--sans);color:#fff;background:rgba(0,0,0,.55);border-radius:5px;padding:2px 6px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid.on{cursor:default}.vid.on::after{display:none}
+.page .vid{margin:-4px 0 16px;box-shadow:0 8px 20px -10px rgba(0,0,0,.4)}
+.page .go{border:0;cursor:pointer;width:100%}
+.book .page{position:absolute;inset:0;transform:translateZ(calc(var(--D)/2 - 1px));background:#fcfaf4;border-radius:2px 6px 6px 2px;padding:26px 26px 20px;display:flex;flex-direction:column;color:var(--ink);
+  box-shadow:inset 18px 0 24px -16px rgba(0,0,0,.22),inset 0 0 0 1px rgba(0,0,0,.06)}
+.page .tagrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:11.5px;color:var(--muted)}
+.page .tag{display:inline-flex;align-items:center;gap:6px;background:#f1ebdf;border-radius:7px;padding:3px 8px;color:#3d3830}
+.page .tag i{width:9px;height:9px;border-radius:2px;background:var(--c)}
+.page h3{font-weight:400;font-size:27px;line-height:1.08;margin:14px 0 8px;letter-spacing:-.01em;text-wrap:balance}
+.page .au{font-style:italic;font-size:16px;color:#5a5348}
+.page .org{font-family:var(--sans);font-size:11.5px;color:var(--muted);margin-top:3px}
+.page hr{border:0;border-top:1px solid var(--line);margin:16px 0 14px}
+.page p{font-size:16px;line-height:1.42;margin:0;color:#3a352d}
+.page .status{font-family:var(--sans);font-size:11.5px;color:var(--muted);margin:auto 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.page .go{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:var(--paper);text-decoration:none;font-family:var(--sans);font-size:13.5px;border-radius:999px;padding:11px 16px}
+.page .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-family:var(--sans);font-size:11.5px;color:var(--muted)}
+.page .foot button{font:inherit;border:1px solid var(--line);background:transparent;border-radius:7px;padding:3px 8px;color:#5e574c;cursor:pointer}
+.page .foot button:hover{color:var(--ink);border-color:#cfc6b4}
+.book .back{left:0;width:100%;height:100%;transform:translateZ(calc(var(--D)/-2)) rotateY(180deg);background:var(--c);border-radius:6px 2px 2px 6px}
+.book .sp{left:calc(50% - var(--D)/2);width:var(--D);height:100%;transform:rotateY(-90deg) translateZ(calc(var(--P)/2));
+  background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 14%,rgba(255,255,255,.10) 30%,transparent 55%,rgba(0,0,0,.14)),var(--c);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(10px*var(--k)) 0 calc(9px*var(--k));color:var(--fg);border-radius:3px}
+.book .sp .band{width:100%;height:calc(3px*var(--k));border-top:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)}
+.book .sp .label{flex:1;margin:calc(9px*var(--k)) 0;width:calc(100% - 12px*var(--k));background:var(--label);color:#2a241c;border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.book .sp.plain .label{background:transparent;color:var(--fg)}
+.book .sp .label span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:calc(12px*var(--k));line-height:1.12;overflow:hidden;max-height:100%;padding:calc(8px*var(--k)) 2px;text-wrap:balance}
+.book .sp.caps .label span{font-family:var(--sans);text-transform:uppercase;font-size:calc(9.5px*var(--k));letter-spacing:.12em;font-weight:600}
+.book .sp .who{font-family:var(--sans);font-size:calc(8px*var(--k));letter-spacing:.14em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.85;white-space:nowrap}
+.book .edge{left:calc(50% - var(--D)/2);width:calc(var(--D) - 2px);height:calc(100% - 8px);top:4px;transform:rotateY(90deg) translateZ(calc(var(--P)/2 - 3px));background:repeating-linear-gradient(90deg,#efe8da 0 1px,#fbf8f1 1px 3px)}
+.book .tp{left:0;top:calc(50% - var(--D)/2);width:calc(100% - 4px);height:calc(var(--D) - 2px);transform:rotateX(90deg) translateZ(calc(var(--H)/2 - 3px));background:repeating-linear-gradient(0deg,#efe8da 0 1px,#fbf8f1 1px 3px)}
+.spine.out{visibility:hidden}
+.hint{position:fixed;left:0;right:0;bottom:18px;z-index:22;text-align:center;font-size:12px;color:var(--muted);opacity:0;transition:opacity .4s;pointer-events:none}
+.hint.on{opacity:1}
+footer{padding:22px 44px 30px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;line-height:1.6}
+footer a{color:#5e574c}
+
+@media (max-width:760px){
+  .frame{margin:0;border-radius:0;box-shadow:none}
+  .top{padding:14px 16px}
+  main{padding:30px 16px 24px}
+  footer{padding:20px 16px 30px}
+  .arrange{margin-left:0;width:100%;overflow-x:auto}
+  .search{max-width:none}
+  .row{padding:24px 2px 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .row::-webkit-scrollbar{display:none}
+  .spine,.bookend{flex:none}
+  .spine{--hs:.86}
+  .hint .keys{display:none}
+  .li{grid-template-columns:96px 1fr;gap:12px}
+  .li .len{display:none}
+  .li .ttl{font-size:16.5px}
+}
+@media (prefers-reduced-motion:reduce){.spine,.scrim{transition:none}}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="top">
+    <a class="logo" href="/"><i>NH</i>Nick Holzherr</a>
+    <span class="sep">/</span><b>Library</b>
+    <span class="spacer"></span>
+    <a class="home" href="/">Home</a>
+  </div>
+
+  <main>
+    <div class="eyebrow">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2.5v11M5.5 2.5v11M9 3l3.5 10.5"/></svg>
+      Books, talks and courses I recommend to founders
+    </div>
+    <h1>The founder's library</h1>
+    <div class="stats" id="stats"></div>
+
+    <div class="controls">
+      <div class="seg" id="view">
+        <button class="on" data-v="shelf"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 2.5v11M5.5 2.5v11M9 3l3.5 10.5"/></svg>Shelf</button>
+        <button data-v="list"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h12M2 12h12"/></svg>List</button>
+      </div>
+      <label class="search">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+        <input id="q" type="search" placeholder="Search the library" autocomplete="off"><kbd>/</kbd>
+      </label>
+      <div class="arrange"><span class="lbl">Arrange by</span>
+        <div class="seg" id="arr">
+          <button class="on" data-a="shelf">Shelf</button>
+          <button data-a="topic">Topic</button>
+          <button data-a="name">Name</button>
+          <button data-a="year">Newest</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="seg rooms" id="rooms"></div>
+    <div class="chips" id="chips"></div>
+    <div id="shelves"></div>
+    <div class="list" id="list"></div>
+  </main>
+
+  <footer>
+    Sources: my old <a href="https://web.archive.org/web/20160213034416/http://nickholzherr.com/tools-and-reading" target="_blank" rel="noopener">tools &amp; reading page</a> and <a href="https://web.archive.org/web/20160329122838/http://nickholzherr.com/post/137884033880/become-a-better-startup-founder-blogs-and-courses" target="_blank" rel="noopener">2016 founder resources post</a> (gold ribbons) ·
+    David Rodríguez's <a href="https://www.linkedin.com/posts/davidars_if-i-only-had-10-hours-to-learn-how-growth-activity-7511458945199321088-YPbx/" target="_blank" rel="noopener">growth</a> and <a href="https://www.linkedin.com/posts/davidars_if-i-only-had-10-hours-to-learn-how-gtm-really-share-7514381975613272065-PlXA/" target="_blank" rel="noopener">GTM</a> lists (red ribbon = on both) ·
+    <a href="https://www.youtube.com/@ycombinator" target="_blank" rel="noopener">YC Startup School</a>. Covers from Open Library. Click a spine to take it down. Shelf style after Hassan El Mghari's Gloss library.
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="stage" id="stage"></div>
+<div class="hint" id="hint">Click outside to put it back<span class="keys"> · ← → walk the shelf</span></div>
+
+<script>
+// shelf → sub-shelves → items. `subs` places an item on one or more sub-shelves;
+// `note` is my own line about it from the old reading list.
+const SHELVES = {
+  books:  {name:"Books", sub:"What I tell founders to read"},
+  gtm:    {name:"GTM & growth", sub:"Talks on growing and selling"},
+  yc:     {name:"YC Startup School", sub:"Early-stage fundamentals"},
+  courses:{name:"Courses & reading", sub:"Longer-form learning, free"},
+};
+const SUBS = {
+  nick:   {shelf:"books", name:"My picks", sub:"From my 2013–16 reading list", pal:["#1f4d3f","#2e6b57","#3f8a70","#173b30","#7fb59d"]},
+  classic:{shelf:"books", name:"Classics I'd add", sub:"The ones I now send first", pal:["#7a4a1e","#a0652a","#5c3816","#8c5a24","#d8b06a"]},
+  now:    {shelf:"books", name:"Read now", sub:"Newer books that matter today", pal:["#1f3a5f","#2f5687","#4a75ad","#16294a","#8fb0d9"]},
+  growth: {shelf:"gtm", name:"Growth", sub:"David Rodríguez's 10 hours on growth", pal:["#3f3182","#5a47a8","#7a66c4","#a594dc","#2f2566","#6b55b8","#8f7fd2"]},
+  gtm:    {shelf:"gtm", name:"GTM", sub:"His 10 hours on GTM", pal:["#7d2433","#a8394b","#c9586a","#5e1a26","#b5475f","#d27a86","#8e2d4a"]},
+  yc:     {shelf:"yc", name:"Startup School", sub:"YC's best early-stage talks", pal:["#c2410c","#9a3412","#ea580c","#b4410f","#f08a4b"]},
+  courses:{shelf:"courses", name:"Courses & reading", sub:"From my 2016 founder resources post", pal:["#3d4a3a","#56664f","#2c3529","#6b7a5f","#a9b79c"]},
+};
+const LIGHTS = new Set(["#7fb59d","#d8b06a","#8fb0d9","#a594dc","#8f7fd2","#d27a86","#c9586a","#f08a4b","#a9b79c"]);
+
+const BOOKS = [
+  {subs:["nick"], t:"The Lean Startup", who:"Eric Ries", y:2011, isbn:"9780307887894", tags:["Founder","Ideas & MVP"],
+   note:"Great book covering the basics of 'lean'.", noteY:2013,
+   why:"Build–measure–learn and the MVP: the vocabulary every startup still runs on."},
+  {subs:["nick"], t:"The Entrepreneur's Guide to Customer Development", who:"Brant Cooper & Patrick Vlaskovits", y:2010, cover:8645498, tags:["Customer discovery"],
+   note:"Definitely required reading for any entrepreneur.", noteY:2013,
+   why:"A short, practical take on Steve Blank's customer development. Get out of the building, fast."},
+  {subs:["nick"], t:"Making Ideas Happen", who:"Scott Belsky", y:2010, cover:10286626, tags:["Founder"],
+   note:"How to stop procrastinating and start doing.", noteY:2013,
+   why:"Execution beats ideas: how creative teams organise, ship and keep momentum."},
+  {subs:["nick"], t:"Web Analytics 2.0", who:"Avinash Kaushik", y:2009, isbn:"9780470529393", tags:["Metrics"],
+   note:"Running a business by metrics is vital in my opinion.", noteY:2013,
+   why:"How to measure what matters online. The data habits behind metric-driven companies."},
+  {subs:["nick"], t:"The Startup Owner's Manual", who:"Steve Blank & Bob Dorf", y:2012, isbn:"9780984999309", tags:["Customer discovery"], noteY:2016,
+   why:"The step-by-step customer development handbook. Dense, but the reference."},
+  {subs:["nick"], t:"Business Model Generation", who:"Alexander Osterwalder & Yves Pigneur", y:2010, cover:6675500, tags:["Founder"], noteY:2016,
+   why:"The Business Model Canvas: how you create, deliver and capture value, on one page."},
+
+  {subs:["classic"], t:"Zero to One", who:"Peter Thiel", y:2014, isbn:"9780804139298", tags:["Founder","Positioning"],
+   why:"Build something new, own a small market, then expand. The case against competing."},
+  {subs:["classic"], t:"The Hard Thing About Hard Things", who:"Ben Horowitz", y:2014, isbn:"9780062273208", tags:["Management","Founder"],
+   why:"The honest CEO manual for when it goes wrong: layoffs, wartime, the calls nobody else makes."},
+  {subs:["classic"], t:"The Mom Test", who:"Rob Fitzpatrick", y:2013, isbn:"9781492180746", tags:["Customer discovery"],
+   why:"How to ask customers questions they can't lie to you about. Read before your next interview."},
+  {subs:["classic"], t:"High Output Management", who:"Andy Grove", y:1983, isbn:"9780679762881", tags:["Management"],
+   why:"Management as a production line: leverage, 1:1s, meetings and output. Still the best."},
+  {subs:["classic"], t:"Crossing the Chasm", who:"Geoffrey Moore", y:1991, isbn:"9780062292988", tags:["Positioning","Sales"],
+   why:"Why early adopters don't lead to the mainstream, and the beachhead that gets you across."},
+  {subs:["classic"], t:"Obviously Awesome", who:"April Dunford", y:2019, isbn:"9781999023003", tags:["Positioning"],
+   why:"Positioning in ten steps, so buyers get what you are in seconds."},
+  {subs:["classic"], t:"Inspired", who:"Marty Cagan", y:2017, isbn:"9781119387503", tags:["Product"],
+   why:"How the best product teams discover and build what customers love. The PM default."},
+  {subs:["classic"], t:"Traction", who:"Gabriel Weinberg & Justin Mares", y:2015, isbn:"9781591848363", tags:["Channels"],
+   why:"Nineteen channels and the Bullseye method for finding the one that works."},
+
+  {subs:["now"], t:"The Cold Start Problem", who:"Andrew Chen", y:2021, isbn:"9780062969743", tags:["Channels"],
+   why:"Network effects decoded: how products get from zero to self-sustaining. From the blogger I recommended in 2016."},
+  {subs:["now"], t:"Build", who:"Tony Fadell", y:2022, cover:14816611, tags:["Founder","Product"],
+   why:"The iPod and Nest founder's blunt mentor-in-a-book on product, hiring and leading."},
+  {subs:["now"], t:"Working Backwards", who:"Colin Bryar & Bill Carr", y:2021, isbn:"9781250788054", tags:["Product","Management"],
+   why:"Amazon's PR/FAQ and single-threaded leaders, now copied by startups everywhere."},
+  {subs:["now"], t:"The Messy Middle", who:"Scott Belsky", y:2018, isbn:"9780241981436", tags:["Founder"],
+   why:"Belsky's follow-up: surviving the long, volatile stretch between launch and outcome."},
+  {subs:["now"], t:"Continuous Discovery Habits", who:"Teresa Torres", y:2021, isbn:"9781736633304", tags:["Product","Customer discovery"],
+   why:"Talk to customers every week, as a habit. Customer development for product teams."},
+  {subs:["now"], t:"Shape Up", who:"Ryan Singer", y:2019, cover:12600273, free:"https://basecamp.com/shapeup", tags:["Product"],
+   why:"Six-week cycles and appetite-based scoping for small teams. Free to read online."},
+  {subs:["now"], t:"Monetizing Innovation", who:"Madhavan Ramanujam & Georg Tacke", y:2016, isbn:"9781119240860", tags:["Pricing"],
+   why:"Design the product around the price. Urgent now AI pricing is moving to usage and outcomes."},
+  {subs:["now"], t:"Venture Deals", who:"Brad Feld & Jason Mendelson", y:2019, isbn:"9781118443613", tags:["Fundraising"],
+   why:"The term-sheet bible. Read it before you sign anything."},
+  {subs:["now"], t:"Founder vs Investor", who:"Elizabeth Zalman & Jerry Neumann", y:2023, isbn:"9781400242764", tags:["Fundraising"],
+   why:"The founder–VC relationship told honestly from both sides, including when it sours."},
+  {subs:["now"], t:"Scaling People", who:"Claire Hughes Johnson", y:2022, isbn:"9781953953216", tags:["Management"],
+   why:"Stripe's operating manual for goals, hiring, feedback and growing a team."},
+  {subs:["now"], t:"The Great CEO Within", who:"Matt Mochary", y:2019, isbn:"9780578599281", tags:["Management"],
+   why:"Concrete systems for meetings, decisions and accountability from the coach to top founders."},
+  {subs:["now"], t:"Co-Intelligence", who:"Ethan Mollick", y:2024, isbn:"9780593716717", tags:["AI"],
+   why:"The clearest practical model for working alongside AI every day."},
+  {subs:["now"], t:"AI Engineering", who:"Chip Huyen", y:2025, isbn:"9781098166304", tags:["AI","Product"],
+   why:"How AI products get built: evals, RAG, agents, cost and latency trade-offs."},
+];
+
+const GTM = [
+  {id:"n_yHZ_vKjno", t:"Why Retention Comes Before Growth", who:"Alex Schultz", org:"Facebook", src:"YC Startup School", s:2847, y:2014, subs:["growth"], tags:["Retention & PMF"],
+   why:"Facebook's growth lead on the one curve that matters before you spend on acquisition: does retention flatten out?"},
+  {id:"0igjSRZyX-w", t:"How to Measure Product-Market Fit", who:"Rahul Vohra", org:"Superhuman", src:"Lenny's Podcast", s:5108, y:2025, subs:["growth"], tags:["Retention & PMF"],
+   why:"The \"how disappointed would you be\" survey and the loop Superhuman used to push its PMF score up."},
+  {id:"6qAB6aUMIeA", t:"What Still Works in AI-Era Growth", who:"Elena Verna", org:"Lovable", src:"Lenny's Podcast", s:5515, y:2025, subs:["growth"], tags:["Channels","AI"],
+   why:"Which parts of the classic growth playbook survive AI, from inside Lovable's run to $200M ARR."},
+  {id:"hdjlCLb9Hl8", t:"How to Position Your Product", who:"April Dunford", org:"Obviously Awesome", src:"Lenny's Podcast", s:3939, y:2023, subs:["growth","gtm"], tags:["Positioning"],
+   why:"Positioning as a repeatable process: competitive alternatives, unique value, best-fit customers. On both lists — in the GTM list as \"Why Great Products Still Don't Sell\"."},
+  {id:"6lY9CYIY4pQ", t:"How to Pick Your Growth Channels", who:"Gustaf Alströmer", org:"Y Combinator", src:"YC Startup School", s:2330, y:2019, subs:["growth"], tags:["Channels"],
+   why:"YC's framework for testing channels early and doubling down on the one that works."},
+  {id:"2BKmNmnEj9w", t:"How to Find Hidden Growth Opportunities", who:"Albert Cheng", org:"Duolingo · Grammarly · Chess.com", src:"Lenny's Podcast", s:5125, y:2025, subs:["growth"], tags:["Retention & PMF"],
+   why:"Finding the levers already inside your product, from someone who ran growth at three consumer giants."},
+  {id:"cX4cL6B-_aU", t:"How New Distribution Platforms Open (and Close)", who:"Brian Balfour", org:"Reforge", src:"Lenny's Podcast", s:5352, y:2025, subs:["growth"], tags:["Channels","AI"],
+   why:"Platform shifts open a window for distribution, then shut it. Why ChatGPT is the next one."},
+  {key:"clay-live", url:"https://www.clay.com/livestreams/behind-the-scenes-of-clays-marketing-growth", t:"How Clay Turned LinkedIn Into a Growth Engine", who:"Bruno Estrella & Davide Grieco", org:"Clay", src:"Clay livestream", y:null, subs:["growth"], tags:["Marketing","Clay"],
+   why:"Clay's marketing team on the LinkedIn content machine behind its growth."},
+  {id:"Pdhgu9U4g_I", t:"How Clay Won Its Market with Storytelling", who:"Peter Kang", org:"Clay", src:"YouTube", s:651, y:2026, subs:["growth"], tags:["Marketing","Clay"],
+   why:"Short and sharp: how Clay used narrative to own its category."},
+  {id:"k-H4nsOTuxU", t:"How Anthropic Grew from $1B to $19B ARR", who:"Amol Avasare", org:"Anthropic", src:"Lenny's Podcast", s:6769, y:2026, subs:["growth"], tags:["AI"],
+   why:"Anthropic's head of growth on automating growth work itself during a 19x run."},
+  {id:"DHNcr5kd6FE", t:"The Unconventional GTM Behind Clay's $1.25B", who:"Varun Anand", org:"Clay", src:"First Round", s:3751, y:2025, subs:["gtm"], tags:["Sales","Pricing","Clay"],
+   why:"Clay's co-founder on rethinking GTM, pricing and enterprise sales from first principles."},
+  {id:"RmnWHz8HD74", t:"What World-Class GTM Looks Like in 2026", who:"Jeanne DeWitt Grosser", org:"Vercel · Stripe · Google", src:"Lenny's Podcast", s:5162, y:2025, subs:["gtm"], tags:["Sales"],
+   why:"How the best GTM orgs are structured now, from the person who built them at Stripe and Vercel."},
+  {id:"RBbINB5HSHk", t:"Win One Small Market Before You Chase the Big One", who:"Geoffrey Moore", org:"Crossing the Chasm", src:"Lenny's Podcast", s:5089, y:2024, subs:["gtm"], tags:["Positioning"],
+   why:"The beachhead argument from the man who wrote it: dominate a niche, then expand."},
+  {id:"dr7gKuKc234", t:"The Narrowing That Took Clay from $1M to $100M ARR", who:"Kareem Amin", org:"Clay", src:"First Round", s:3257, y:2024, subs:["gtm"], tags:["Retention & PMF","Clay"],
+   why:"Clay's long road to PMF and the decision to narrow down to power users."},
+  {id:"NR85H55eYkM", t:"Why 95% of AI Startups Get Pricing Wrong", who:"Madhavan Ramanujam", org:"Simon-Kucher", src:"Lenny's Podcast", s:4303, y:2025, subs:["gtm"], tags:["Pricing","AI"],
+   why:"Pricing lessons from 400+ companies, applied to AI products and outcome-based models."},
+  {id:"0fKYVl12VTA", t:"Your First Salesperson Should Be You", who:"Pete Koomen", org:"Y Combinator", src:"YC Startup School", s:1387, y:2024, subs:["gtm"], tags:["Sales"],
+   why:"Founder-led enterprise sales: why you can't hand it off early, and how to run it."},
+  {id:"YS9In813jJ0", t:"How to Close a $100K Enterprise Deal, Step by Step", who:"Jen Abel", org:"Enterprise sales advisor", src:"Lenny's Podcast", s:5097, y:2026, subs:["gtm"], tags:["Sales"],
+   why:"The step-by-step for six- and seven-figure deals, aimed at founders selling upmarket."},
+  {id:"RG_eyn0fRXs", t:"The Formula Behind HubSpot's 6,000% Revenue Growth", who:"Mark Roberge", org:"HubSpot", src:"Talks at Google", s:3380, y:2015, subs:["gtm"], tags:["Sales"],
+   why:"The Sales Acceleration Formula: hiring, training and managing sales like an engineer."},
+  {id:"gzs61z9Fekw", t:"How to Build a Powerful Marketing Machine", who:"Emily Kramer", org:"MKT1 · Asana · Carta", src:"Lenny's Podcast", s:4254, y:2022, subs:["gtm"], tags:["Marketing"],
+   why:"How to structure B2B marketing from the first hire to a full team."},
+];
+
+const YC = [
+  {id:"CBYhVcO4WgI", t:"How to Start a Startup", who:"Sam Altman & Dustin Moskovitz", org:"Y Combinator · Asana", src:"Stanford CS183B", s:2633, y:2014, tags:["Founder","Ideas & MVP"],
+   why:"The opener of the Stanford class: idea, product, team, execution. Start here."},
+  {id:"ii1jcLg-eIQ", t:"Before the Startup", who:"Paul Graham", org:"Y Combinator", src:"Stanford CS183B", s:2887, y:2014, tags:["Founder"],
+   why:"PG's counterintuitive truths about starting up. You can't game it; make something people want."},
+  {id:"5_0dVHMpJlo", t:"Competition is for Losers", who:"Peter Thiel", org:"Founders Fund", src:"Stanford CS183B", s:3016, y:2014, tags:["Positioning","Founder"],
+   why:"Zero to One, live: monopoly, small markets first, durable advantage."},
+  {id:"yP176MBG9Tk", t:"Building Product, Talking to Users, Growing", who:"Adora Cheung", org:"Homejoy", src:"Stanford CS183B", s:3142, y:2014, tags:["Product","Customer discovery"],
+   why:"Tactical deep dive on user research, metrics and growth from Homejoy's founder."},
+  {id:"Th8JoIan4dg", t:"How to Get and Evaluate Startup Ideas", who:"Jared Friedman", org:"Y Combinator", src:"YC Startup School", s:1941, y:2022, tags:["Ideas & MVP"],
+   why:"Where good ideas come from and how to tell them apart. Startup School's most-watched talk."},
+  {id:"DOtCl5PU8F0", t:"How to Evaluate Startup Ideas", who:"Kevin Hale", org:"Y Combinator", src:"YC Startup School", s:1598, y:2019, tags:["Ideas & MVP"],
+   why:"A scorecard for ideas: founder–market fit, market size, how acute the problem is."},
+  {id:"MT4Ig2uqjTc", t:"How to Talk to Users", who:"Eric Migicovsky", org:"Y Combinator · Pebble", src:"YC Startup School", s:1897, y:2019, tags:["Customer discovery"],
+   why:"The Pebble founder's script for interviews that get you truth, not compliments."},
+  {id:"1hHMwLxN6EM", t:"How to Plan an MVP", who:"Michael Seibel", org:"Y Combinator", src:"YC Startup School", s:830, y:2019, tags:["Ideas & MVP"],
+   why:"Launch fast, scope ruthlessly, and treat the MVP as the start of learning."},
+  {id:"hyYCn_kAngI", t:"How to Get Your First Customers", who:"Gustaf Alströmer", org:"Y Combinator", src:"YC Startup School", s:1373, y:2022, tags:["Sales","Channels"],
+   why:"Do things that don't scale: landing your first ten customers by hand."},
+  {id:"u36A-YTxiOw", t:"The Best Way to Launch Your Startup", who:"Jared Friedman", org:"Y Combinator", src:"YC Startup School", s:1267, y:2023, tags:["Channels"],
+   why:"Launch early and often. The one big launch day is a myth."},
+  {id:"lL6GdUHIBsM", t:"How to Set KPIs and Goals", who:"Adora Cheung", org:"Y Combinator", src:"YC Startup School", s:1411, y:2019, tags:["Metrics"],
+   why:"Pick one primary metric, set weekly growth targets, track them honestly."},
+  {id:"zBUhQPPS9AY", t:"How Startup Fundraising Works", who:"Brad Flora", org:"Y Combinator", src:"YC Startup School", s:1691, y:2023, tags:["Fundraising"],
+   why:"Seed mechanics without the mystique: SAFEs, dilution, process and investor psychology."},
+];
+
+const COURSES = [
+  {key:"cs183b", playlist:"PL5q_lef6zVkaTY_cT1k7qFNF2TidHCe-1", poster:"CBYhVcO4WgI", t:"How to Start a Startup (Stanford CS183B)", who:"Sam Altman & guests", org:"Stanford · Y Combinator", y:2014, tags:["Founder"], noteY:2016,
+   url:"https://www.youtube.com/playlist?list=PL5q_lef6zVkaTY_cT1k7qFNF2TidHCe-1",
+   why:"Sam Altman's Stanford class: twenty lectures from YC partners and founders. Four of the best sit on the YC shelf."},
+  {key:"udacity-blank", t:"How to Build a Startup", who:"Steve Blank", org:"Udacity", y:2012, tags:["Customer discovery"], noteY:2016,
+   url:"https://www.udacity.com/course/how-to-build-a-startup--ep245",
+   why:"Steve Blank's free course on customer development: the Lean LaunchPad in short videos."},
+  {key:"pg-essays", t:"Paul Graham's essays", who:"Paul Graham", org:"paulgraham.com", y:2001, tags:["Founder"], noteY:2016,
+   url:"https://paulgraham.com/articles.html",
+   why:"Still the best free writing on startups. Start with \"Do Things That Don't Scale\" and \"How to Get Startup Ideas\"."},
+  {key:"andrewchen", t:"Andrew Chen's essays", who:"Andrew Chen", org:"andrewchen.com", y:2007, tags:["Channels","Metrics"], noteY:2016,
+   note:"Very articulate and likes numbers.",
+   url:"https://andrewchen.com/",
+   why:"Growth, network effects and marketplaces, written with the numbers shown."},
+  {key:"avc", t:"AVC", who:"Fred Wilson", org:"Union Square Ventures", y:2003, tags:["Fundraising","Management"], noteY:2016,
+   url:"https://avc.xyz/",
+   why:"Two decades of daily posts from a top VC on fundraising, boards and running a company."},
+];
+
+const V = [
+  ...BOOKS.map(v=>({...v, kind:"book"})),
+  ...GTM.map(v=>({...v, kind:"video"})),
+  ...YC.map(v=>({...v, kind:"video", subs:["yc"]})),
+  ...COURSES.map(v=>({...v, kind:"course", subs:["courses"]})),
+];
+
+const TOPIC_DOT = {"Founder":"#1d1a16","Ideas & MVP":"#c2410c","Customer discovery":"#2e6b57","Product":"#2f5687","Retention & PMF":"#5a47a8","Positioning":"#c0874a",
+  "Channels":"#3f8f7a","Sales":"#a8394b","Pricing":"#c9a227","Marketing":"#b5475f","Metrics":"#5e6f9e","Fundraising":"#7a4a1e","Management":"#56664f","AI":"#2f2566","Clay":"#8a8275"};
+
+const hash = s => [...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+V.forEach(v=>{
+  const h = hash(v.t);
+  const pal = SUBS[v.subs[0]].pal;
+  v.shelf = SUBS[v.subs[0]].shelf;
+  v.c = pal[h % pal.length];
+  v.light = LIGHTS.has(v.c);
+  v.style = ["label","label","plain","caps"][h % 4];
+  v.pick = !!v.noteY;
+  if(v.kind==="book"){ v.ht = 248 + (h % 8) * 10; v.wd = 36 + (h % 6) * 4; }
+  else if(v.kind==="course"){ v.ht = 300 + (h % 3) * 8; v.wd = 52; }
+  else { v.ht = 262 + (h % 7) * 11; v.wd = v.s ? Math.round(Math.min(50, Math.max(42, 24 + v.s/60/3.6))) : 46; }
+  v.min = v.s ? Math.round(v.s/60) : null;
+  v.key = v.key || v.id || slug(v.t);
+  v.img = v.kind==="book" ? `/library/covers/${v.key}.jpg` : null;   // from Open Library (isbn / cover id), stored locally
+  v.href = v.id ? `https://www.youtube.com/watch?v=${v.id}` : v.kind==="book" ? (v.free || `https://uk.bookshop.org/search?keywords=${encodeURIComponent(v.isbn || v.t+" "+v.who)}`) : v.url;
+  v.thumb = v.img || ((v.id||v.poster) ? `https://i.ytimg.com/vi/${v.id||v.poster}/mqdefault.jpg` : null);
+});
+const embedSrc = v => v.id ? `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1`
+  : v.playlist ? `https://www.youtube-nocookie.com/embed/videoseries?list=${v.playlist}&autoplay=1&rel=0&playsinline=1` : null;
+
+const fmt = m => m==null ? "Livestream" : m < 60 ? `${m} min` : `${Math.floor(m/60)}h ${String(m%60).padStart(2,"0")}m`;
+const meta = v => v.kind==="book" ? "Book" : v.kind==="course" ? (v.playlist ? "Video course" : "Course & reading") : fmt(v.min);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const surname = w => w.includes("&") ? w.split("&").map(p=>p.trim().split(" ").pop()).join(" & ") : w.split(" ").pop();
+const plural = (n,w) => `${n} ${w}${n===1?"":"s"}`;
+
+const params = new URLSearchParams(location.search);
+let state = {room: SHELVES[params.get("room")] ? params.get("room") : "all", chip:"all", q:"", arr:"shelf", view:"shelf"};
+
+// stats
+const count = k => V.filter(v=>v.kind===k).length;
+const totalMin = V.reduce((a,v)=>a+(v.min||0),0);
+document.getElementById("stats").innerHTML =
+  `<span><b>${count("book")}</b> books</span><span><b>${count("video")}</b> talks</span><span><b>${count("course")}</b> courses</span><span><b>${Math.round(totalMin/60)}</b> hours of video</span><span><b>${V.filter(v=>v.pick).length}</b> from my old reading list</span>`;
+
+// rooms (shelves) and topic chips
+function renderRooms(){
+  const rooms = [["all","Everything",V.length], ...Object.entries(SHELVES).map(([k,s])=>[k,s.name,V.filter(v=>v.shelf===k).length])];
+  document.getElementById("rooms").innerHTML = rooms.map(([k,n,c])=>`<button class="${state.room===k?"on":""}" data-r="${k}">${esc(n)}<span class="n">${c}</span></button>`).join("");
+}
+document.getElementById("rooms").addEventListener("click",e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.room = b.dataset.r; state.chip = "all";
+  const u = new URL(location); state.room==="all" ? u.searchParams.delete("room") : u.searchParams.set("room", state.room); history.replaceState(null,"",u);
+  renderRooms(); renderChips(); render();
+});
+const inRoom = v => state.room==="all" || v.shelf===state.room;
+function chips(){
+  const pool = V.filter(inRoom);
+  const topics = Object.keys(TOPIC_DOT).filter(t=>pool.some(v=>v.tags.includes(t)));
+  return [
+    {k:"all", n:"All", f:()=>true},
+    {k:"pick", n:"My picks", dot:"#d4a72c", f:v=>v.pick},
+    ...topics.map(t=>({k:t, n:t, dot:TOPIC_DOT[t], f:v=>v.tags.includes(t)})),
+    {k:"short", n:"Under an hour", dot:"#c9a227", f:v=>v.min!=null && v.min<60},
+  ].filter(c=>c.k==="all" || pool.some(c.f));
+}
+function renderChips(){
+  const pool = V.filter(inRoom);
+  document.getElementById("chips").innerHTML = chips().map(c=>{
+    const n = pool.filter(c.f).length;
+    return `<button class="chip ${state.chip===c.k?"on":""}" data-k="${esc(c.k)}">${c.dot?`<span class="dot" style="background:${c.dot}"></span>`:""}${esc(c.n)} <span class="n">${n}</span></button>`;
+  }).join("");
+}
+document.getElementById("chips").addEventListener("click",e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  state.chip = b.dataset.k; renderChips(); render();
+});
+
+function visible(){
+  const chip = chips().find(c=>c.k===state.chip) || {f:()=>true};
+  const q = state.q.trim().toLowerCase();
+  return V.filter(v=>inRoom(v) && chip.f(v) && (!q || [v.t,v.who,v.org||"",v.src||"",...v.tags].join(" ").toLowerCase().includes(q)));
+}
+
+function spine(v, sub){
+  const ribbon = (v.subs.length>1 && sub) ? '<span class="both"></span>' : v.pick ? '<span class="both pick"></span>' : "";
+  return `<button class="spine ${v.style==="plain"?"plain":""} ${v.style==="caps"?"caps":""}"
+    style="--c:${v.c};--h:${v.ht}px;--w:${v.wd}px;${v.light?"--fg:#2a1f4a;":""}"
+    data-k="${v.key}" title="${esc(v.t)} — ${esc(v.who)}" aria-label="${esc(v.t)} by ${esc(v.who)}, ${esc(meta(v))}">
+    ${ribbon}
+    <span class="band"></span>
+    <span class="label"><span>${esc(v.t)}</span></span>
+    <span class="who">${esc(surname(v.who))}</span>
+  </button>`;
+}
+
+const tally = items => {
+  const b = items.filter(v=>v.kind==="book").length, t = items.filter(v=>v.kind==="video").length, c = items.filter(v=>v.kind==="course").length;
+  const m = items.reduce((a,v)=>a+(v.min||0),0);
+  return [b&&plural(b,"book"), t&&plural(t,"talk"), c&&plural(c,"course"), m&&`${(m/60).toFixed(1)} h`].filter(Boolean).join(" · ");
+};
+const chunk = (items, n=16) => { const out=[]; for(let i=0;i<items.length;i+=n) out.push(items.slice(i,i+n)); return out; };
+
+function groups(items){
+  if(state.arr==="topic")
+    return Object.keys(TOPIC_DOT).map(t=>({h:t, items:items.filter(v=>v.tags.includes(t))})).filter(g=>g.items.length);
+  if(state.arr==="name")
+    return chunk([...items].sort((a,b)=>a.t.localeCompare(b.t))).map((c,i)=>({h:i?"":"A–Z", items:c}));
+  if(state.arr==="year")
+    return chunk([...items].sort((a,b)=>(b.y||2026)-(a.y||2026))).map((c,i)=>({h:i?"":"Newest first", items:c}));
+  const out = [];
+  for(const [sk, sh] of Object.entries(SHELVES)){
+    const subs = Object.entries(SUBS).filter(([,s])=>s.shelf===sk)
+      .map(([k,s])=>({h:s.name, sub:s.sub, key:k, items:items.filter(v=>v.subs.includes(k))})).filter(g=>g.items.length);
+    if(!subs.length) continue;
+    if(state.room==="all") out.push({room:sh, items:items.filter(v=>v.shelf===sk)});
+    if(subs.length===1 && state.room==="all"){ subs[0].h = ""; out.push(subs[0], {spacer:true}); }
+    else out.push(...subs);
+  }
+  return out;
+}
+
+function render(){
+  const items = visible();
+  const sh = document.getElementById("shelves"), li = document.getElementById("list");
+  sh.style.display = state.view==="shelf" ? "" : "none";
+  li.classList.toggle("on", state.view==="list");
+  if(!items.length){
+    sh.innerHTML = li.innerHTML = `<div class="empty">Nothing on the shelf matches that.</div>`;
+    return;
+  }
+  const gs = groups(items);
+  sh.classList.toggle("one", gs.filter(g=>!g.room && !g.spacer).length===1);
+  sh.innerHTML = gs.map(g=> g.spacer ? `<div class="spacer-cell"></div>` : g.room
+    ? `<div class="room-head"><h2>${esc(g.room.name)}</h2><span>${esc(g.room.sub)} · ${tally(g.items)}</span></div>`
+    : `<section class="shelf ${g.items.length>11?"wide":""}">
+      ${g.h?`<div class="shelf-head"><h3>${esc(g.h)}</h3><span>${g.sub?esc(g.sub)+" · ":""}${tally(g.items)}</span></div>`:""}
+      <div class="row">${g.items.map(v=>spine(v, g.key)).join("")}<span class="bookend"></span></div>
+      <div class="ledge"></div>
+    </section>`).join("");
+  li.innerHTML = gs.filter(g=>g.items && !g.room).flatMap(g=>g.items).filter((v,i,a)=>a.indexOf(v)===i).map(v=>`
+    <div class="li" data-k="${v.key}" role="button" tabindex="0">
+      <div class="th" style="--c:${v.c};${v.thumb?`background:var(--c) url(${v.thumb}) center/${v.kind==="book"?"contain no-repeat":"cover"}`:""}"></div>
+      <div><div class="ttl">${esc(v.t)}</div><div class="sub">${esc(v.who)}${v.org?" · "+esc(v.org):""} · ${esc(SHELVES[v.shelf].name)}</div></div>
+      <div class="len">${v.kind==="book"?v.y:esc(meta(v))}</div>
+    </div>`).join("");
+}
+
+// taking a book down: lift off the shelf → turn to the cover → open
+const stage = document.getElementById("stage"), scrim = document.getElementById("scrim"), hint = document.getElementById("hint");
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ms = n => calm ? 1 : n;
+const EASE = "cubic-bezier(.2,.8,.2,1)";
+let cur = null, busy = false;
+const SHELVED = new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+const pose = p => `translate(${p.x}px,${p.y}px) translate(-50%,-50%) scale(${p.s}) rotateX(${p.rx||0}deg) rotateY(${p.ry||0}deg)`;
+const play = (el, frames, dur, easing=EASE) => el.animate(frames,{duration:ms(dur),easing,fill:"forwards"}).finished;
+
+function bookHTML(v, src, narrow){
+  const emb = embedSrc(v);
+  const poster = v.id || v.poster;
+  const vid = emb ? `<button class="vid" data-act="play" style="background-image:url(https://i.ytimg.com/vi/${poster}/hqdefault.jpg)" aria-label="Play ${esc(v.t)}"><i><svg width="18" height="18" viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="#1d1a16"/></svg></i><span>${v.playlist ? "Playlist" : fmt(v.min)}</span></button>` : "";
+  const note = v.note ? `<div class="note"><b>My note</b>“${esc(v.note)}”<span>— on my reading list, ${v.noteY}</span></div>`
+    : v.pick ? `<div class="note"><b>My pick</b>On my reading list since ${v.noteY}.</div>` : "";
+  const topic = v.tags[0];
+  const no = String(V.indexOf(v)+1).padStart(2,"0");
+  const spCls = src.classList.contains("spine") ? [...src.classList].filter(c=>c==="plain"||c==="caps").join(" ") : "";
+  const host = (() => { try { return new URL(v.href).hostname.replace("www.",""); } catch { return ""; } })();
+  const primary = emb ? `<button class="go" data-act="play">▶ ${v.playlist ? "Play the course" : "Play video"}</button>`
+    : v.kind==="book" ? `<a class="go" href="${v.href}" target="_blank" rel="noopener">${v.free ? "Read it free online" : "Find the book"} <span>→</span></a>`
+    : `<a class="go" href="${v.href}" target="_blank" rel="noopener">${v.kind==="course" ? "Open" : "Open the livestream"} <span>→</span></a>`;
+  const subNames = v.subs.map(s=>SUBS[s].name).join(" + ");
+  const cover = v.kind==="book"
+    ? `<div class="face cv photo"><div class="ey">${esc(v.y)}</div><h4>${esc(v.t)}</h4><div class="au">${esc(v.who)}</div><img class="cimg" src="${v.img}" alt="" onerror="this.remove()"></div>`
+    : `<div class="face cv">
+        ${poster ? `<div class="art" style="background-image:url(https://i.ytimg.com/vi/${poster}/hqdefault.jpg)"></div>`
+          : `<svg class="orn" width="64" height="30" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 24h46M8 24V6h5v18M14 24V3h5v21M20 24V8h4v16M27 24l4-17 4.5 1-4 16M38 24V5h5v19"/></svg>`}
+        <div class="ey">${esc(SHELVES[v.shelf].name)} · ${esc(v.y||"Livestream")}</div>
+        <h4>${esc(v.t)}</h4>
+        <div class="au">${esc(v.who)}</div>
+      </div>`;
+  return `
+  <div class="face sp ${spCls}"><span class="band"></span><span class="label"><span>${esc(v.t)}</span></span><span class="who">${esc(surname(v.who))}</span></div>
+  <div class="face edge"></div><div class="face tp"></div>
+  <div class="face back"></div>
+  <div class="page">
+    ${narrow ? vid : ""}
+    <div class="tagrow"><span class="tag"><i></i>${esc(topic)}</span><span>${esc(v.y||"Live")} · ${esc(meta(v))}</span></div>
+    <h3>${esc(v.t)}</h3>
+    <div class="au">${esc(v.who)}</div>
+    ${v.org ? `<div class="org">${esc(v.org)}</div>` : ""}
+    <hr>
+    <p>${esc(v.why)}</p>
+    ${narrow ? note : ""}
+    <div class="status">${esc(SHELVES[v.shelf].name)} · ${esc(subNames)}${v.src ? " · "+esc(v.src) : ""}</div>
+    ${primary}
+    <div class="foot"><a href="${v.href}" target="_blank" rel="noopener" style="color:inherit">${esc(host)} ↗</a><button data-act="back">Put it back</button></div>
+  </div>
+  <div class="front">
+    ${cover}
+    <div class="face inside">
+      ${narrow ? "" : (vid || note)}
+      <div class="plate">
+        <div class="xl">EX LIBRIS</div>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 24h46M8 24V6h5v18M14 24V3h5v21M20 24V8h4v16M27 24l4-17 4.5 1-4 16M38 24V5h5v19"/></svg>
+        <div class="nm">Nick Holzherr's shelf</div>
+        <div class="no">No. ${no} · shelved ${SHELVED}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+
+async function open(key, src){
+  if(busy) return;
+  if(cur){ await close(); }
+  const v = V.find(x=>x.key===key); if(!v) return;
+  busy = true;
+  const r = src.getBoundingClientRect();
+  const narrow = innerWidth < 700;
+  const H = narrow ? Math.min(620, innerHeight - 60) : Math.min(470, innerHeight - 70);
+  const P = narrow ? Math.min(380, innerWidth - 36) : H*0.74;
+  const fromSpine = src.classList.contains("spine");
+  const s0 = fromSpine ? r.height/H : r.width/P;
+  const D = fromSpine ? Math.max(24, r.width/s0) : 34;
+  const b = document.createElement("div");
+  b.className = "book";
+  b.style.cssText = `--P:${P}px;--H:${H}px;--D:${D}px;--k:${(1/s0).toFixed(3)};--c:${v.c};--fg:${v.light?"#2a1f4a":"#f5efe0"};--label:#f5efe0`;
+  b.innerHTML = bookHTML(v, src, narrow);
+  b.setAttribute("role","dialog"); b.setAttribute("aria-label", v.t);
+  stage.appendChild(b);
+  const front = b.querySelector(".front"), inside = b.querySelector(".inside");
+  const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  const mid = {x:innerWidth/2, y:innerHeight/2};
+  const shelf = {x:cx, y:cy, s:s0, ry: fromSpine ? 90 : 0};
+  const lifted = {...shelf, y: cy - (fromSpine ? 34 : 0)};
+  const facing = {...mid, s:1, ry:16, rx:3};
+  const spread = {x: mid.x + (narrow ? 0 : P/2), y: mid.y, s:1, ry:0};
+  cur = {v, b, src, front, inside, poses:[shelf, lifted, facing, spread], narrow};
+  if(fromSpine) src.classList.add("out");
+  scrim.classList.add("on"); hint.classList.add("on");
+  b.style.transform = pose(shelf);
+  if(!fromSpine) b.style.opacity = 0;
+  if(fromSpine) await play(b, [{transform:pose(shelf)},{transform:pose(lifted)}], 240, "cubic-bezier(.3,0,.2,1)");
+  await play(b, [{transform:pose(lifted), opacity:1},{transform:pose(facing), opacity:1}], 720);
+  await Promise.all([
+    play(b, [{transform:pose(facing)},{transform:pose(spread)}], 820),
+    play(front, [{transform:"translateZ(calc(var(--D)/2)) rotateY(0deg)"},{transform:"translateZ(calc(var(--D)/2)) rotateY(-180deg)"}], 900, "cubic-bezier(.45,.05,.2,1)"),
+    narrow ? play(front, [{opacity:1},{opacity:1, offset:.6},{opacity:0}], 900) : null,
+  ]);
+  if(narrow) front.style.pointerEvents = "none";
+  busy = false;
+}
+
+async function close(){
+  if(!cur || busy) return;
+  busy = true;
+  const {b, src, front, poses:[shelf, lifted, facing, spread], narrow} = cur;
+  const fromSpine = src.classList.contains("spine");
+  hint.classList.remove("on");
+  await Promise.all([
+    play(b, [{transform:pose(spread)},{transform:pose(facing)}], 620),
+    play(front, [{transform:"translateZ(calc(var(--D)/2)) rotateY(-180deg)", opacity:narrow?0:1},{transform:"translateZ(calc(var(--D)/2)) rotateY(0deg)", opacity:1}], 620, "cubic-bezier(.45,.05,.2,1)"),
+  ]);
+  scrim.classList.remove("on");
+  await play(b, [{transform:pose(facing), opacity:1},{transform:pose(lifted), opacity:fromSpine?1:0}], 560);
+  if(fromSpine) await play(b, [{transform:pose(lifted)},{transform:pose(shelf)}], 200, "cubic-bezier(.5,0,.7,1)");
+  src.classList.remove("out");
+  b.remove(); cur = null; busy = false;
+}
+
+function walk(dir){
+  if(!cur || busy || !cur.src.classList.contains("spine")) return;
+  const all = [...document.querySelectorAll(".spine")];
+  const next = all[all.indexOf(cur.src) + dir];
+  if(next) open(next.dataset.k, next);
+}
+
+stage.addEventListener("click", e=>{
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if(act==="back") return close();
+  if(act==="play" && cur && embedSrc(cur.v)){
+    const box = cur.b.querySelector(".vid");
+    if(!box.classList.contains("on")){
+      box.classList.add("on");
+      box.innerHTML = `<iframe src="${embedSrc(cur.v)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(cur.v.t)}"></iframe>`;
+    }
+  }
+});
+scrim.addEventListener("click", close);
+document.addEventListener("click",e=>{
+  const t = e.target.closest(".spine[data-k], .li");
+  if(t && !cur) open(t.dataset.k, t.classList.contains("li") ? t.querySelector(".th") : t);
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") close();
+  if(cur && e.key==="ArrowRight") walk(1);
+  if(cur && e.key==="ArrowLeft") walk(-1);
+  if(e.key==="/" && document.activeElement.tagName!=="INPUT"){ e.preventDefault(); document.getElementById("q").focus(); }
+  if(e.key==="Enter" && e.target.classList?.contains("li") && !cur) open(e.target.dataset.k, e.target.querySelector(".th"));
+});
+
+// controls
+document.getElementById("q").addEventListener("input",e=>{ state.q = e.target.value; render(); });
+document.getElementById("view").addEventListener("click",e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.view = b.dataset.v;
+  document.querySelectorAll("#view button").forEach(x=>x.classList.toggle("on", x===b));
+  render();
+});
+document.getElementById("arr").addEventListener("click",e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.arr = b.dataset.a;
+  document.querySelectorAll("#arr button").forEach(x=>x.classList.toggle("on", x===b));
+  render();
+});
+
+renderRooms(); renderChips(); render();
+// warm the cover images so they're ready when a book turns
+addEventListener("load", ()=>V.forEach(v=>{ if(v.img) new Image().src = v.img; }));
+</script>
+</body>
+</html>
