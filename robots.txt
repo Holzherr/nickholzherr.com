@@ -3,3 +3,5 @@ Disallow: /tara/
 Disallow: /taravideos/
 Disallow: /sloth/
 Disallow: /travel/
+
+Sitemap: https://nickholzherr.com/sitemap.xml
