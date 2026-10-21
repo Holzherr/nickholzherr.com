@@ -47,6 +47,8 @@ function clean(s) {
   if (!s || typeof s !== 'object') return f;
   const isNum = v => typeof v === 'number' && Number.isFinite(v);
   const num = (v, d) => (isNum(v) ? v : d);
+  // The games only have levels 1 to MAX_LEVEL; any other number makes a question throw.
+  const isLevel = v => Number.isInteger(v) && v >= 1 && v <= MAX_LEVEL;
   const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
   const perGame = (o, d, ok) => Object.fromEntries(GAMES.map(g => [g.id, obj(o)[g.id]])
     .filter(([id, v]) => ok(v) || id in d).map(([id, v]) => [id, ok(v) ? v : d[id]]));
@@ -60,8 +62,8 @@ function clean(s) {
     started: s.started === true, sound: s.sound !== false,
     coins: num(s.coins, 0), earned: num(s.earned, 0), spent: num(s.spent, 0), stars: num(s.stars, 0),
     caught: num(s.caught, 0), missed: num(s.missed, 0),
-    levels: perGame(s.levels, f.levels, isNum), good: perGame(s.good, f.good, isNum),
-    streak: perGame(s.streak, {}, isNum), gardenSeen: perGame(s.gardenSeen, {}, isNum), shown: perGame(s.shown, {}, v => v === true),
+    levels: perGame(s.levels, f.levels, isLevel), good: perGame(s.good, f.good, isNum),
+    streak: perGame(s.streak, {}, isNum), gardenSeen: perGame(s.gardenSeen, {}, isLevel), shown: perGame(s.shown, {}, v => v === true),
     items: pieces(s.items, itemById, false), friends: pieces(s.friends, friendById, true),
     wish: typeof s.wish === 'string' && defOf(s.wish) ? s.wish : null,
     seenRooms: Array.isArray(s.seenRooms) ? s.seenRooms.filter(id => roomById[id]) : f.seenRooms,
